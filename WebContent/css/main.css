@@ -1,0 +1,11 @@
+.upload-box { min-height: 230px; padding: 0; margin:auto; top:10px; left:0; b0ttom:0; right:0; position: fixed; overflow: hidden; width: 720px; z-index:300; }
+ .box-header { background-color: #129aee; border-radius: 10px 10px 0 0; padding: 10px 0; text-align: center; }
+ .box-body { color: #000; overflow: hidden; padding-bottom: 20px; text-align: center;  background: -moz-linear-gradient(#ffffff, #f2f2f2); background: -ms-linear-gradient(#ffffff, #f2f2f2); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(100%, #f2f2f2)); background: -webkit-linear-gradient(#ffffff, #f2f2f2); background: -o-linear-gradient(#ffffff, #f2f2f2); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f2f2f2'); -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f2f2f2')"; background: linear-gradient(#ffffff, #f2f2f2); }
+ .box-body h2, .info, .error { margin: 10px 0; }
+ .step2, .error { display: none; }
+ .error { font-size: 18px; font-weight: bold; color: red; }
+ .info { font-size: 14px; }
+ .file-info { border: 1px solid #129aee; border-radius: 10px; padding: 4px 8px; text-align: center; width: 70px; }
+ .jcrop-holder { display: inline-block; }
+ #image_file { border: 1px solid #CCCCCC; border-radius: 10px; padding: 4px 8px; text-align: center; width: 70px; }
+ .upload-btn { background: #129aee; color: #fff; border: none; border-radius: 3px; width: 119px; height: 36px; line-height: 36px; text-align: center; cursor: pointer; }
