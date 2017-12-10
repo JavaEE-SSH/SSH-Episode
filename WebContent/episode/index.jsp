@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"
-	import="com.ads.bean.User,java.util.Enumeration,com.ads.bean.Episode,java.util.List,java.util.ArrayList"%>
+	import="com.ads.pojo.TUser,java.util.Enumeration,com.ads.pojo.TEpisode,java.util.List,java.util.ArrayList"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -12,15 +12,15 @@
 	}
 	//----获取用户数据
 	int flag = session.getAttribute("flag")==null?0:(Integer)session.getAttribute("flag");
-	User user = new User();
+	TUser user = new TUser();
 	if (flag == 1 && request.getAttribute("flag")==null) {
-		user = (User)session.getAttribute("user");
+		user = (TUser)session.getAttribute("user");
 	}
 	else {
 		//登录操作获取用户数据
 		flag = request.getAttribute("flag")==null?0:1;
 		if (flag == 1) {
-			user = (User)request.getAttribute("user");
+			user = (TUser)request.getAttribute("user");
 			session.setAttribute("user", user);
 		}
 		session.setAttribute("flag", flag);
@@ -58,8 +58,8 @@
 				<!-- 登陆成功，个人信息 -->
 				<div class="user-info-box" style="display: <%= flag==1?"block":"none"%>;">
 					<a class="user-info">
-						<img src="images/<%= user.getUser_image()==null?"she.png":user.getUser_image()%>" class="profile"/>
-						<span class="nickname"><%= user.getUser_nickname()==null?"":user.getUser_nickname()%></span>
+						<img src="images/<%= user.getUserImage()==null?"she.png":user.getUserImage()%>" class="profile"/>
+						<span class="nickname"><%= user.getUserNickname()==null?"":user.getUserNickname()%></span>
 						<span class="iconfont icon-down"></span>
 					</a>
 					<div class="user-info-menu" style="display: none;">
@@ -80,9 +80,9 @@
 			</div> -->
 			<a href="<%= flag==1?"episode/personal_center.jsp":"episode/index.jsp"%>">
 				<div class="profile-wrapper">
-					<img src="images/<%= user.getUser_image()==null?"she.png":user.getUser_image()%>" />
-					<p id="p-nick" class="nickname"><%= user.getUser_nickname()==null?"":user.getUser_nickname()%></p>
-					<p><%= user.getUser_id()==null?"":user.getUser_id()%></p>
+					<img src="images/<%= user.getUserImage()==null?"she.png":user.getUserImage()%>" />
+					<p id="p-nick" class="nickname"><%= user.getUserNickname()==null?"":user.getUserNickname()%></p>
+					<p><%= user.getUserId()==0?"":user.getUserId()%></p>
 				</div>
 			</a>
 			<div class="advertisement">

@@ -32,7 +32,7 @@ class SpiderMain(object):
                 self.urls.add_new_urls(new_urls)  # 保存新的url
                 self.outputer.collect_data(new_data)  # 保存新的数据
                 
-                if count == 10:
+                if count == 100:#限定爬取数量
                     break
                 count += 1
         except:  # 异常处理

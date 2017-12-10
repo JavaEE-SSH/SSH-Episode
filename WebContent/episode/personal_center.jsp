@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.ads.bean.User, java.util.Enumeration"%>
+    pageEncoding="UTF-8" import="com.ads.pojo.TUser, java.util.Enumeration"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 	//----获取用户数据
 	int flag = session.getAttribute("flag")==null?0:(Integer)session.getAttribute("flag");
-	User user = new User();
+	TUser user = new TUser();
 	if (flag == 1 && request.getAttribute("flag")==null) {
-		user = (User)session.getAttribute("user");
+		user = (TUser)session.getAttribute("user");
 		if (request.getAttribute("isUpload") != null) {
 			if ((Integer)request.getAttribute("isUpload") == 1) {
-				user.setUser_image(request.getAttribute("user_image").toString());
+				user.setUserImage(request.getAttribute("user_image").toString());
 			}
 			else {
 				out.println("<script>alert('上传失败');</script>");
@@ -22,7 +22,7 @@
 		//登录操作获取用户数据
 		flag = request.getAttribute("flag")==null?0:1;
 		if (flag == 1) {
-			user = (User)request.getAttribute("user");
+			user = (TUser)request.getAttribute("user");
 			session.setAttribute("user", user);
 		}
 		session.setAttribute("flag", flag);
@@ -62,9 +62,9 @@
 	<div class="main">
 		<div class="left-wrapper">
 			<div class="profile-wrapper">
-				<img src="images/<%= user.getUser_image()==null?"she.png":user.getUser_image()%>" />
-				<p id="p-nick" class="nickname"><%= user.getUser_nickname()==null?"":user.getUser_nickname()%></p>
-				<p><%= user.getUser_id()==null?"":user.getUser_id()%></p>
+				<img src="images/<%= user.getUserImage()==null?"she.png":user.getUserImage()%>" />
+				<p id="p-nick" class="nickname"><%= user.getUserNickname()==null?"":user.getUserNickname()%></p>
+				<p><%= user.getUserId()==0?"":user.getUserId()%></p>
 			</div>
 			<ul class="nav-list">
 				<li id="li-profile" class="active">账号信息</li>
@@ -80,7 +80,7 @@
 					<div class="account-box">
 						<label class="img-label">头像</label>
 						<div class="account-op">
-							<img id="profile_url" src="images/<%= user.getUser_image()==null?"she.png":user.getUser_image()%>" />
+							<img id="profile_url" src="images/<%= user.getUserImage()==null?"she.png":user.getUserImage()%>" />
 							<input id="js-to-upload" type="button" value="上传头像" class="btn" style="display:block;margin:0;margin-bottom: 20px;"/>
 							<p style="font-size: 12px;color: #999;line-height: 18px;">支持.jpg .jepg .png格式照片，大小不超过512K</p>
 						</div>
@@ -88,7 +88,7 @@
 					<div class="account-box">
 						<label>用户名</label>
 						<div class="account-op">
-							<span id="user-id"><%= user.getUser_id()==null?"":user.getUser_id()%></span>
+							<span id="user-id"><%= user.getUserId()==0?"":user.getUserId()%></span>
 						</div>
 					</div>
 					<div class="account-box">
@@ -96,7 +96,7 @@
 						<div class="account-op">
 							<form class="change-nickname">
 								<p>
-									<input id="input-nickname" type="text" value="<%= user.getUser_nickname()==null?"":user.getUser_nickname()%>" class="input user-name" />
+									<input id="input-nickname" type="text" value="<%= user.getUserNickname()==null?"":user.getUserNickname()%>" class="input user-name" />
 								</p>
 								<p class="hint">
 									<span class="icon-delete iconfont"></span>2-20个字符，支持汉字、数字、英文、“-”、“_”等
@@ -112,8 +112,8 @@
 						<div class="account-op">
 							<form class="change-gender">
 								<p>
-									<input id="input-man" type="radio" value="1" name="change_gender" class="radio-gender"  <%= user.getUser_gender()==1?"checked":""%>/>男
-									<input id="input-woman" type="radio" value="0" name="change_gender" class="radio-gender" <%= user.getUser_gender()==1?"":"checked"%>/>女
+									<input id="input-man" type="radio" value="1" name="change_gender" class="radio-gender"  <%= user.getUserGender()==1?"checked":""%>/>男
+									<input id="input-woman" type="radio" value="0" name="change_gender" class="radio-gender" <%= user.getUserGender()==1?"":"checked"%>/>女
 								</p>
 								<p class="save-name">
 									<button id="button-gender" type="button" class="btn" style="display: none;">保存</button>
@@ -126,7 +126,7 @@
 						<div class="account-op">
 							<form class="change-password">
 								<p>
-									<input id="input-password" type="password" value="<%= user.getUser_password()==null?"********":user.getUser_password()%>" class="input" />
+									<input id="input-password" type="password" value="<%= user.getUserPassword()==null?"********":user.getUserPassword()%>" class="input" />
 								</p>
 								<p class="hint">
 									<span class="icon-delete iconfont"></span>6-20个字符，支持数字、英文、“-”、“_”等
@@ -201,7 +201,7 @@
 						<label>高度</label>
 						<input type="text" id="h" name="h" class="file-info" />
 					</div>
-					<input type="hidden" value="<%= user.getUser_id()%>" name="user_id"/>
+					<input type="hidden" value="<%= user.getUserId()%>" name="user_id"/>
 					<input type="submit" class="upload-btn" value="上传" />
 				</div>
 			</form>
@@ -237,7 +237,7 @@
 				url : "episode/getEpisodeByUserId_ajax",
 				data : {
 					"page_num" : 1,
-					"user_id" : <%= user.getUser_id()%>
+					"user_id" : <%= user.getUserId()%>
 				},
 				dataType:"json",
 				success : function(data) {
@@ -294,7 +294,7 @@
 					type : "post",
 					url : "episode/removeCollectEpisode_ajax",
 					data : {
-						"user_id" : "<%= user.getUser_id()%>",
+						"user_id" : "<%= user.getUserId()%>",
 						"episode_id" : episode_id
 					},
 					dataType:"json"
@@ -333,7 +333,7 @@
 		if (data.flag == 1) {
 			alert("修改成功！");
 			$("input[name='username']").val($("#user-id").html());
-			$("input[name='password']").val(""+<%= user.getUser_password()%>);
+			$("input[name='password']").val(""+<%= user.getUserPassword()%>);
 			$(".login-form").submit();
 		}
 		else {

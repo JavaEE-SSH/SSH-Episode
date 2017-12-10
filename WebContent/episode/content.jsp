@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" import="com.ads.bean.User,com.ads.bean.Episode"%>
+	pageEncoding="UTF-8" import="com.ads.pojo.TUser,com.ads.pojo.TEpisode"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
 	//----获取用户数据
 	int flag = session.getAttribute("flag")==null?0:(Integer)session.getAttribute("flag");
-	User user = new User();
+	TUser user = new TUser();
 	if (flag == 1 && request.getAttribute("flag")==null) {
-		user = (User)session.getAttribute("user");
+		user = (TUser)session.getAttribute("user");
 	}
 	else {
 		//登录操作获取用户数据
 		flag = request.getAttribute("flag")==null?0:1;
 		if (flag == 1) {
-			user = (User)request.getAttribute("user");
+			user = (TUser)request.getAttribute("user");
 			session.setAttribute("user", user);
 		}
 		session.setAttribute("flag", flag);
 	}
 	//----获取段子信息
-	Episode episode = (Episode)request.getAttribute("episode");
+	TEpisode episode = (TEpisode)request.getAttribute("episode");
 	if (episode != null) {//第一次正常进入次段子信息界面
-		session.setAttribute("episode_id", episode.getEpisode_id());
+		session.setAttribute("episode_id", episode.getEpisodeId());
 	}
 	else if (session.getAttribute("episode_id") != null) {//已经进入过此段子信息界面（段子信息界面登录后）
-		episode = new Episode();//防止异常
+		episode = new TEpisode();//防止异常
 		response.sendRedirect("/Episode/episode/getEpisodeById?episode_id="+session.getAttribute("episode_id").toString());
 	}
 	else {//异常
-		episode = new Episode();
+		episode = new TEpisode();
 		out.print("<script>alert('数据异常！');</script>");
 	}
 %>
@@ -59,10 +59,10 @@
 	<div class="main">
 		<div class="left-wrapper">
 			<h2 class="joke-title">爆笑段子</h2>
-			<div class="content-bd"><%= episode.getEpisode_content()%></div>
+			<div class="content-bd"><%= episode.getEpisodeContent()%></div>
 			
 			<div class="interact">
-				<a class="article-like"><%= episode.getEpisode_good()%>赞</a>
+				<a class="article-like"><%= episode.getEpisodeGood()%>赞</a>
 				<span class="line"></span>
 				<a class="article-report">收藏</a>
 			</div>
@@ -70,7 +70,7 @@
 			<div class="comments">
 				<div class="hd-comment">
 					<a href="<%= flag==1?"episode/personal_center.jsp":"javascript:void(0)"%>">
-						<img src="images/<%= user.getUser_image()==null?"she.png":user.getUser_image()%>" />
+						<img src="images/<%= user.getUserImage()==null?"she.png":user.getUserImage()%>" />
 					</a>
 					<textarea placeholder="发表你的精彩评论，还可以输入200字" maxlength="140" class="comment-input"></textarea>
 					<a class="add-comment-btn">发表</a>
@@ -149,7 +149,7 @@
 			type : "post",
 			url : "comment/getCommentsAndUsersByEpisodeId_ajax",
 			data : {
-				"episode_id" : "<%= episode.getEpisode_id()%>",
+				"episode_id" : "<%= episode.getEpisodeId()%>",
 				"page_num" : 1
 			},
 			dataType:"json",
@@ -177,7 +177,7 @@
             			type : "post",
             			url : "comment/getCommentsAndUsersByEpisodeId_ajax",
             			data : {
-            				"episode_id" : "<%= episode.getEpisode_id()%>",
+            				"episode_id" : "<%= episode.getEpisodeId()%>",
             				"page_num" : page_comments.nextPage
             			},
             			dataType:"json",
@@ -203,8 +203,8 @@
 				type : "post",
 				url : "episode/getGoodEpisodeAndCollect_ajax",
 				data : {
-					"episode_id" : "<%= episode.getEpisode_id()%>",
-					"user_id" : "<%= user.getUser_id()%>"
+					"episode_id" : "<%= episode.getEpisodeId()%>",
+					"user_id" : "<%= user.getUserId()%>"
 				},
 				dataType:"json",
 				success : function(data) {
@@ -233,12 +233,12 @@
 					type : "post",
 					url : "episode/addEpisodeGood_ajax",
 					data : {
-						"user_id" : "<%= user.getUser_id()%>",
-						"episode_id" : "<%= episode.getEpisode_id()%>"
+						"user_id" : "<%= user.getUserId()%>",
+						"episode_id" : "<%= episode.getEpisodeId()%>"
 					},
 					dataType:"json"
 				});
-				$(".article-like").html("<%= episode.getEpisode_good()+1%>赞");
+				$(".article-like").html("<%= episode.getEpisodeGood()+1%>赞");
 				$(".article-like").addClass("hasliked");
 			}
 		})
@@ -250,8 +250,8 @@
 						type : "post",
 						url : "episode/removeCollectEpisode_ajax",
 						data : {
-							"user_id" : "<%= user.getUser_id()%>",
-							"episode_id" : "<%= episode.getEpisode_id()%>"
+							"user_id" : "<%= user.getUserId()%>",
+							"episode_id" : "<%= episode.getEpisodeId()%>"
 						},
 						dataType:"json"
 					});
@@ -263,8 +263,8 @@
 						type : "post",
 						url : "episode/addCollectEpisode_ajax",
 						data : {
-							"user_id" : "<%= user.getUser_id()%>",
-							"episode_id" : "<%= episode.getEpisode_id()%>"
+							"user_id" : "<%= user.getUserId()%>",
+							"episode_id" : "<%= episode.getEpisodeId()%>"
 						},
 						dataType:"json"
 					});
@@ -288,8 +288,8 @@
 				else {
 					var comment = new Object();
 					comment.comment_content = text;
-					comment.user_id = '<%= user.getUser_id()%>';
-					comment.episode_id = '<%= episode.getEpisode_id()%>';
+					comment.user_id = '<%= user.getUserId()%>';
+					comment.episode_id = '<%= episode.getEpisodeId()%>';
 					
 					$.ajax({
 						type : "post",
@@ -307,9 +307,9 @@
 								$(".no-comment").css("display", "none");
 								$(".no-more-comments").css("display", "inline-block");
 							}
-							$(".comments-list").prepend('<li><img src="images/<%= user.getUser_image()%>" />'
+							$(".comments-list").prepend('<li><img src="images/<%= user.getUserImage()%>" />'
 									+'<div class="comment-box">'
-									+'<span class="comment-nickname"><%= user.getUser_nickname()%></span>'
+									+'<span class="comment-nickname"><%= user.getUserNickname()%></span>'
 									+'<a class="float-right comment-delete">删除</a>'
 									+'<a class="float-right comment-like"><p style="display:none;">'+data.comment_id+'</p>0赞</a>'
 									+'</div><p>'+comment.comment_content+'</p></li>');
@@ -356,7 +356,7 @@
 					url : "comment/addGoodComment_ajax",
 					data : {
 						"comment_id" : $(this).find("p").html(),
-						"user_id" : "<%= user.getUser_id()%>"
+						"user_id" : "<%= user.getUserId()%>"
 					},
 					dataType:"json"
 				});
@@ -394,7 +394,7 @@
 					dataType:"json",
 					data : {
 						"comment_ids" : comment_ids,
-						"user_id" : "<%= user.getUser_id()%>"
+						"user_id" : "<%= user.getUserId()%>"
 					},
 					success : function(data) {//不能访问list_comments和users
 						var hasliked = new Array();
@@ -407,7 +407,7 @@
 							else {
 								hasliked[i] = "";
 							}
-							if (<%= user.getUser_id()%> == users[i].user_id) {
+							if (<%= user.getUserId()%> == users[i].user_id) {
 								textDelete[i] = '<a class="float-right comment-delete">删除</a>';
 							}
 							else {
