@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated 2017-12-10 14:50:02 by Hibernate Tools 5.2.3.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
+    <class dynamic-insert="false" dynamic-update="false" mutable="true" name="com.ads.pojo.TEpisode" optimistic-lock="version" polymorphism="implicit" select-before-update="false" table="t_episode">
+        <id name="episodeId" type="int">
+            <column name="episode_id"/>
+            <generator class="assigned"/>
+        </id>
+        <property generated="never" lazy="false" name="episodeContent" optimistic-lock="true" type="string" unique="false">
+            <column length="1000" name="episode_content" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="episodeGood" optimistic-lock="true" type="int" unique="false">
+            <column name="episode_good" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="addDate" optimistic-lock="true" type="date" unique="false">
+            <column length="10" name="add_date" not-null="true"/>
+        </property>
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="TUsers" optimistic-lock="true" sort="unsorted" table="t_good_episode">
+            <key on-delete="noaction">
+                <column name="episode_id" not-null="true"/>
+            </key>
+            <many-to-many embed-xml="true" entity-name="com.ads.pojo.TUser" not-found="exception" unique="false">
+                <column name="user_id" not-null="true"/>
+            </many-to-many>
+        </set>
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="TComments" optimistic-lock="true" sort="unsorted" table="t_comment">
+            <key on-delete="noaction">
+                <column name="episode_id" not-null="true"/>
+            </key>
+            <one-to-many class="com.ads.pojo.TComment" embed-xml="true" not-found="exception"/>
+        </set>
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="TUsers_1" optimistic-lock="true" sort="unsorted" table="t_collect">
+            <key on-delete="noaction">
+                <column name="episode_id" not-null="true"/>
+            </key>
+            <many-to-many embed-xml="true" entity-name="com.ads.pojo.TUser" not-found="exception" unique="false">
+                <column name="user_id" not-null="true"/>
+            </many-to-many>
+        </set>
+    </class>
+</hibernate-mapping>

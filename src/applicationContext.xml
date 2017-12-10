@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+	<!-- 自动扫描的包 -->
+	<context:component-scan base-package="com.ads.pojo"></context:component-scan>
+
+	<!-- 添加外部属性文件引用 -->
+	<!-- <context:property-placeholder location="classpath:dataSourceConfig.properties"/> -->
+	<!-- 数据源 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<!-- 指定连接数据库的驱动-->
+		<property name="driverClass" value="com.mysql.jdbc.Driver"/>
+		<!-- 指定连接数据库的URL -->
+		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/episode"/>
+		<!-- 指定连接数据库的用户名-->
+		<property name="user" value="root"/>
+		<!-- 指定连接数据库的密码-->
+		<property name="password" value="959389"/>
+		<!-- 指定连接数据库连接池的最大连接数-->
+		<property name="maxPoolSize" value="40"/>
+		<!-- 指定连接数据库连接池的最小连接数-->
+		<property name="minPoolSize" value="1"/>
+		<!-- 指定连接数据库连接池的初始化连接数-->
+		<property name="initialPoolSize" value="1"/>
+		<!-- 指定连接数据库连接池的连接的最大空闲时间-->
+		<property name="maxIdleTime" value="20"/>
+	</bean>
+	
+	<!-- 配置Hibernate -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<!-- 依赖注入数据源，注入正是上面定义的dataSource -->
+		<property name="dataSource" ref="dataSource"/>
+		<!-- mappingResouces属性用来列出全部映射文件-->
+		<property name="mappingResources">
+			<list>
+				<!-- 以下用来列出Hibernate映射文件-->
+				<value>com/ads/pojo/TComment.hbm.xml</value>
+				<value>com/ads/pojo/TEpisode.hbm.xml</value>
+				<value>com/ads/pojo/TUser.hbm.xml</value>
+			</list>
+		</property>
+		<!-- 定义Hibernate的SessionFactory的属性-->
+		<property name="hibernateProperties">
+			<!-- 配置Hibernate属性-->
+			<value>
+			hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
+			hibernate.hbm2ddl.auto=update
+			hibernate.show_sql=true
+			hibernate.format_sql=true;
+			</value>
+		</property>
+	</bean>
+	
+	
+	<!-- 添加事务处理 -->
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<!-- 启用事务注解 -->
+	<tx:annotation-driven transaction-manager="txManager" />
+
+	<!-- 配置文件上传 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="utf-8"></property>
+		<property name="maxUploadSize" value="1024000000"/>
+		<property name="maxInMemorySize" value="4096"></property>
+	</bean>
+</beans>

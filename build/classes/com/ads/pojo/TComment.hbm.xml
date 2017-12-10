@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated 2017-12-10 14:50:02 by Hibernate Tools 5.2.3.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
+    <class dynamic-insert="false" dynamic-update="false" mutable="true" name="com.ads.pojo.TComment" optimistic-lock="version" polymorphism="implicit" select-before-update="false" table="t_comment">
+        <id name="commentId" type="int">
+            <column name="comment_id"/>
+            <generator class="assigned"/>
+        </id>
+        <many-to-one class="com.ads.pojo.TEpisode" embed-xml="true" fetch="select" insert="true" name="TEpisode" not-found="exception" optimistic-lock="true" unique="false" update="true">
+            <column name="episode_id" not-null="true"/>
+        </many-to-one>
+        <many-to-one class="com.ads.pojo.TUser" embed-xml="true" fetch="select" insert="true" name="TUser" not-found="exception" optimistic-lock="true" unique="false" update="true">
+            <column name="user_id" not-null="true"/>
+        </many-to-one>
+        <property generated="never" lazy="false" name="commentContent" optimistic-lock="true" type="string" unique="false">
+            <column length="1000" name="comment_content" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="commentGood" optimistic-lock="true" type="int" unique="false">
+            <column name="comment_good" not-null="true"/>
+        </property>
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="TUsers" optimistic-lock="true" sort="unsorted" table="t_good_comment">
+            <key on-delete="noaction">
+                <column name="comment_id" not-null="true"/>
+            </key>
+            <many-to-many embed-xml="true" entity-name="com.ads.pojo.TUser" not-found="exception" unique="false">
+                <column name="user_id" not-null="true"/>
+            </many-to-many>
+        </set>
+    </class>
+</hibernate-mapping>

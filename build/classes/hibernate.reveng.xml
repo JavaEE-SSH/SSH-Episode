@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+  <table-filter match-catalog="episode" match-name="t_collect"/>
+  <table-filter match-catalog="episode" match-name="t_comment"/>
+  <table-filter match-catalog="episode" match-name="t_episode"/>
+  <table-filter match-catalog="episode" match-name="t_good_comment"/>
+  <table-filter match-catalog="episode" match-name="t_good_episode"/>
+  <table-filter match-catalog="episode" match-name="t_user"/>
+</hibernate-reverse-engineering>
