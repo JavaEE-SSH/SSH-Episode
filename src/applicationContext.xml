@@ -17,11 +17,11 @@
 		<!-- 指定连接数据库的驱动-->
 		<property name="driverClass" value="com.mysql.jdbc.Driver"/>
 		<!-- 指定连接数据库的URL -->
-		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/episode"/>
+		<property name="jdbcUrl" value="jdbc:mysql://119.29.232.106:3306/episode"/>
 		<!-- 指定连接数据库的用户名-->
 		<property name="user" value="root"/>
 		<!-- 指定连接数据库的密码-->
-		<property name="password" value="959389"/>
+		<property name="password" value="liaol"/>
 		<!-- 指定连接数据库连接池的最大连接数-->
 		<property name="maxPoolSize" value="40"/>
 		<!-- 指定连接数据库连接池的最小连接数-->
