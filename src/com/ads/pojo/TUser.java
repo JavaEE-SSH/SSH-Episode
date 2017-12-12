@@ -27,16 +27,16 @@ public class TUser implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int userId;
-	private String userPassword;
-	private String userImage;
-	private int userGender;
-	private String userNickname;
-	private Date loginTime;
-	private Set<?> TComments = new HashSet<Object>(0);
-	private Set<?> TEpisodes = new HashSet<Object>(0);
-	private Set<?> TComments_1 = new HashSet<Object>(0);
-	private Set<?> TEpisodes_1 = new HashSet<Object>(0);
+	private int userId;//用户id-用户账户
+	private String userPassword;//用户密码
+	private String userImage;//用户头像路径
+	private int userGender;//用户性别
+	private String userNickname;//用户昵称
+	private Date loginTime;//最近登录时间
+	private Set<?> TComments = new HashSet<Object>(0);//用户点赞过的评论
+	private Set<?> TEpisodes = new HashSet<Object>(0);//用户收藏的段子
+	private Set<?> TComments_1 = new HashSet<Object>(0);//用户发表过的评论
+	private Set<?> TEpisodes_1 = new HashSet<Object>(0);//用户点赞过的段子
 
 	public TUser() {
 	}
@@ -122,6 +122,10 @@ public class TUser implements java.io.Serializable {
 		this.loginTime = loginTime;
 	}
 
+	/**
+	 * 用户点赞过的评论集合
+	 * @return Set<?> TComments
+	 */
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "t_good_comment", joinColumns = {
 			@JoinColumn(name = "user_id", nullable = false, updatable = false) }, inverseJoinColumns = {
@@ -134,6 +138,10 @@ public class TUser implements java.io.Serializable {
 		this.TComments = TComments;
 	}
 
+	/**
+	 * 用户收藏的段子
+	 * @return Set<?> TEpisode
+	 */
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "t_collect", joinColumns = {
 			@JoinColumn(name = "user_id", nullable = false, updatable = false) }, inverseJoinColumns = {
@@ -146,6 +154,10 @@ public class TUser implements java.io.Serializable {
 		this.TEpisodes = TEpisodes;
 	}
 
+	/**
+	 * 用户发表过的评论集合
+	 * @return Set<?> TComments
+	 */
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "TUser")
 	public Set<?> getTComments_1() {
 		return this.TComments_1;
@@ -155,6 +167,10 @@ public class TUser implements java.io.Serializable {
 		this.TComments_1 = TComments_1;
 	}
 
+	/**
+	 * 用户点赞过的段子
+	 * @return Set<?> TEpisode
+	 */
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "t_good_episode", joinColumns = {
 			@JoinColumn(name = "user_id", nullable = false, updatable = false) }, inverseJoinColumns = {

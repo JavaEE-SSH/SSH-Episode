@@ -25,13 +25,13 @@ public class TEpisode implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int episodeId;
-	private String episodeContent;
-	private int episodeGood;
-	private Date addDate;
-	private Set<?> TUsers = new HashSet<Object>(0);
-	private Set<?> TComments = new HashSet<Object>(0);
-	private Set<?> TUsers_1 = new HashSet<Object>(0);
+	private int episodeId;//段子id
+	private String episodeContent;//段子内容
+	private int episodeGood;//段子点赞数
+	private Date addDate;//段子添加日期
+	private Set<?> TUsers = new HashSet<Object>(0);//点赞此段子的用户
+	private Set<?> TComments = new HashSet<Object>(0);//此段子的所有评论
+	private Set<?> TUsers_1 = new HashSet<Object>(0);//收藏此段子的用户
 
 	public TEpisode() {
 	}

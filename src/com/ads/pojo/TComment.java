@@ -23,12 +23,12 @@ public class TComment implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int commentId;
-	private TEpisode TEpisode;
-	private TUser TUser;
-	private String commentContent;
-	private int commentGood;
-	private Set<?> TUsers = new HashSet<Object>(0);
+	private int commentId;//评论id
+	private TEpisode TEpisode;//被评论的段子
+	private TUser TUser;//评论的用户
+	private String commentContent;//评论的内容
+	private int commentGood;//评论的点赞数
+	private Set<?> TUsers = new HashSet<Object>(0);//点赞此评论的用户
 
 	public TComment() {
 	}
