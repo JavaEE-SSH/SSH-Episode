@@ -7,7 +7,7 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 
 	<!-- 自动扫描的包 -->
-	<context:component-scan base-package="com.ads.pojo"></context:component-scan>
+	<context:component-scan base-package="com.ads"></context:component-scan>
 
 	<!-- 添加外部属性文件引用 -->
 	<!-- <context:property-placeholder location="classpath:dataSourceConfig.properties"/> -->
@@ -37,6 +37,13 @@
 		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
 		<!-- 依赖注入数据源，注入正是上面定义的dataSource -->
 		<property name="dataSource" ref="dataSource"/>
+		<!-- <property name="annotatedClasses">
+            <list>
+                <value>com.ads.pojo.TComment</value>
+                <value>com.ads.pojo.TEpisode</value>
+                <value>com.ads.pojo.TUser</value>
+            </list>
+        </property> -->
 		<!-- mappingResouces属性用来列出全部映射文件-->
 		<property name="mappingResources">
 			<list>
@@ -58,11 +65,13 @@
 		</property>
 	</bean>
 	
-	
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
 	<!-- 添加事务处理 -->
 	<bean id="txManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource" />
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 	<!-- 启用事务注解 -->
 	<tx:annotation-driven transaction-manager="txManager" />
