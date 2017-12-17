@@ -22,11 +22,11 @@
 	//----获取段子信息
 	TEpisode episode = (TEpisode)request.getAttribute("episode");
 	if (episode != null) {//第一次正常进入次段子信息界面
-		session.setAttribute("episode_id", episode.getEpisodeId());
+		session.setAttribute("episodeId", episode.getEpisodeId());
 	}
-	else if (session.getAttribute("episode_id") != null) {//已经进入过此段子信息界面（段子信息界面登录后）
+	else if (session.getAttribute("episodeId") != null) {//已经进入过此段子信息界面（段子信息界面登录后）
 		episode = new TEpisode();//防止异常
-		response.sendRedirect("/Episode/episode/getEpisodeById?episode_id="+session.getAttribute("episode_id").toString());
+		response.sendRedirect("/Episode/episode/getEpisodeById?episodeId="+session.getAttribute("episodeId").toString());
 	}
 	else {//异常
 		episode = new TEpisode();
@@ -69,7 +69,7 @@
 			
 			<div class="comments">
 				<div class="hd-comment">
-					<a href="<%= flag==1?"episode/personal_center.jsp":"javascript:void(0)"%>">
+					<a href="<%= flag==1?"episode/personalCenter.jsp":"javascript:void(0)"%>">
 						<img src="images/<%= user.getUserImage()==null?"she.png":user.getUserImage()%>" />
 					</a>
 					<textarea placeholder="发表你的精彩评论，还可以输入200字" maxlength="140" class="comment-input"></textarea>
@@ -85,7 +85,7 @@
 				</ul>
 				
 				<div class="no-comment">
-					<img src="images/no_comment.png" />
+					<img src="images/noComment.png" />
 					<p>暂无评论，快来抢沙发！</p>
 				</div>
 				
@@ -140,7 +140,7 @@
 	</div>
 <script type="text/javascript">
 	$(document).ready(function () {
-		var page_comments = null;
+		var pageComments = null;
 		var users = null;
 		var total = 0;//评论总数
 		var loading = false;
@@ -149,15 +149,15 @@
 			type : "post",
 			url : "comment/getCommentsAndUsersByEpisodeId_ajax",
 			data : {
-				"episode_id" : "<%= episode.getEpisodeId()%>",
+				"episodeId" : "<%= episode.getEpisodeId()%>",
 				"page_num" : 1
 			},
 			dataType:"json",
 			success : function(data) {
-				page_comments = data.comments;
+				pageComments = data.comments;
 				users = data.users;
-				total = page_comments.total;//保存评论总数
-				fnCallback_comment(page_comments, users);
+				total = pageComments.total;//保存评论总数
+				fnCallbackComment(pageComments, users);
 			},
 			error : function(msg) {
 				alert("请求失败！");
@@ -170,21 +170,21 @@
             var content = $(".comments-list");
             
             if(($(document).height()) <= totalheight) {//执行添加一页数据!!滚动过快重复加载数据
-            	if (page_comments != null && page_comments.hasNextPage) {//有下一页
+            	if (pageComments != null && pageComments.hasNextPage) {//有下一页
             		loading = true;
             		//获取下一页段子数据
             		$.ajax({
             			type : "post",
             			url : "comment/getCommentsAndUsersByEpisodeId_ajax",
             			data : {
-            				"episode_id" : "<%= episode.getEpisodeId()%>",
-            				"page_num" : page_comments.nextPage
+            				"episodeId" : "<%= episode.getEpisodeId()%>",
+            				"page_num" : pageComments.nextPage
             			},
             			dataType:"json",
             			success : function(data) {
-            				page_comments = data.comments;
+            				pageComments = data.comments;
             				users = data.users;
-            				fnCallback_comment(page_comments, users);
+            				fnCallbackComment(pageComments, users);
             			},
             			error : function(msg) {
             				alert("请求失败！");
@@ -203,8 +203,8 @@
 				type : "post",
 				url : "episode/getGoodEpisodeAndCollect_ajax",
 				data : {
-					"episode_id" : "<%= episode.getEpisodeId()%>",
-					"user_id" : "<%= user.getUserId()%>"
+					"episodeId" : "<%= episode.getEpisodeId()%>",
+					"userId" : "<%= user.getUserId()%>"
 				},
 				dataType:"json",
 				success : function(data) {
@@ -233,8 +233,8 @@
 					type : "post",
 					url : "episode/addEpisodeGood_ajax",
 					data : {
-						"user_id" : "<%= user.getUserId()%>",
-						"episode_id" : "<%= episode.getEpisodeId()%>"
+						"userId" : "<%= user.getUserId()%>",
+						"episodeId" : "<%= episode.getEpisodeId()%>"
 					},
 					dataType:"json"
 				});
@@ -250,8 +250,8 @@
 						type : "post",
 						url : "episode/removeCollectEpisode_ajax",
 						data : {
-							"user_id" : "<%= user.getUserId()%>",
-							"episode_id" : "<%= episode.getEpisodeId()%>"
+							"userId" : "<%= user.getUserId()%>",
+							"episodeId" : "<%= episode.getEpisodeId()%>"
 						},
 						dataType:"json"
 					});
@@ -263,8 +263,8 @@
 						type : "post",
 						url : "episode/addCollectEpisode_ajax",
 						data : {
-							"user_id" : "<%= user.getUserId()%>",
-							"episode_id" : "<%= episode.getEpisodeId()%>"
+							"userId" : "<%= user.getUserId()%>",
+							"episodeId" : "<%= episode.getEpisodeId()%>"
 						},
 						dataType:"json"
 					});
@@ -287,17 +287,17 @@
 				}
 				else {
 					var comment = new Object();
-					comment.comment_content = text;
-					comment.user_id = '<%= user.getUserId()%>';
-					comment.episode_id = '<%= episode.getEpisodeId()%>';
+					comment.commentContent = text;
+					comment.userId = '<%= user.getUserId()%>';
+					comment.episodeId = '<%= episode.getEpisodeId()%>';
 					
 					$.ajax({
 						type : "post",
 						url : "comment/addComment_ajax",
 						data : {
-							"comment_content" : comment.comment_content,
-							"user_id" : comment.user_id,
-							"episode_id" : comment.episode_id
+							"commentContent" : comment.commentContent,
+							"userId" : comment.userId,
+							"episodeId" : comment.episodeId
 						},
 						dataType:"json",
 						success : function(data) {
@@ -311,8 +311,8 @@
 									+'<div class="comment-box">'
 									+'<span class="comment-nickname"><%= user.getUserNickname()%></span>'
 									+'<a class="float-right comment-delete">删除</a>'
-									+'<a class="float-right comment-like"><p style="display:none;">'+data.comment_id+'</p>0赞</a>'
-									+'</div><p>'+comment.comment_content+'</p></li>');
+									+'<a class="float-right comment-like"><p style="display:none;">'+data.commentId+'</p>0赞</a>'
+									+'</div><p>'+comment.commentContent+'</p></li>');
 						},
 						error : function() {
 							alert("请求失败！");
@@ -330,7 +330,7 @@
 				type : "post",
 				url : "comment/removeComment_ajax",
 				data : {
-					"comment_id" : $(this).next().find("p").html()
+					"commentId" : $(this).next().find("p").html()
 				},
 				dataType:"json"
 			}); 
@@ -355,8 +355,8 @@
 					type : "post",
 					url : "comment/addGoodComment_ajax",
 					data : {
-						"comment_id" : $(this).find("p").html(),
-						"user_id" : "<%= user.getUserId()%>"
+						"commentId" : $(this).find("p").html(),
+						"userId" : "<%= user.getUserId()%>"
 					},
 					dataType:"json"
 				});
@@ -368,24 +368,24 @@
 	})
 	
 	//***************
-	function fnCallback_comment(page_comments, users) {//评论回调函数
-		if (page_comments == null || users == null) {
+	function fnCallbackComment(pageComments, users) {//评论回调函数
+		if (pageComments == null || users == null) {
 			alert('数据异常,请稍后重试！');
 		}
-		else if (page_comments.total == 0) {
+		else if (pageComments.total == 0) {
 			$(".no-comment").css("display", "block");
 			$(".no-more-comments").css("display", "none");
 		}
 		else {
-			var list_comments = page_comments.list;
+			var listComments = pageComments.list;
 			var content = $(".comments-list");
 			
 			//已经登录获取点赞评论数据
 			if (<%=flag%> == 1) {
-				var comment_ids = "";
+				var commentIds = "";
 				
-				for (var i=0; i<list_comments.length; i++) {//保存评论id
-					comment_ids += list_comments[i].comment_id+',';
+				for (var i=0; i<listComments.length; i++) {//保存评论id
+					commentIds += listComments[i].commentId+',';
 				}
 				
 				$.ajax({//异步获取点赞段子信息
@@ -393,10 +393,10 @@
 					url : "comment/getGoodComment_ajax",
 					dataType:"json",
 					data : {
-						"comment_ids" : comment_ids,
-						"user_id" : "<%= user.getUserId()%>"
+						"commentIds" : commentIds,
+						"userId" : "<%= user.getUserId()%>"
 					},
-					success : function(data) {//不能访问list_comments和users
+					success : function(data) {//不能访问listComments和users
 						var hasliked = new Array();
 						var textDelete = new Array();
 						
@@ -407,7 +407,7 @@
 							else {
 								hasliked[i] = "";
 							}
-							if (<%= user.getUserId()%> == users[i].user_id) {
+							if (<%= user.getUserId()%> == users[i].userId) {
 								textDelete[i] = '<a class="float-right comment-delete">删除</a>';
 							}
 							else {
@@ -415,14 +415,14 @@
 							}
 						}
 						
-						for (var i=0; i<list_comments.length; i++) {//遍历添加组件
-							content.append('<li><img src="images/'+users[i].user_image+'" />'
+						for (var i=0; i<listComments.length; i++) {//遍历添加组件
+							content.append('<li><img src="images/'+users[i].userImage+'" />'
 									+'<div class="comment-box">'
 									+'<span class="comment-nickname">'+users[i].user_nickname+'</span>'
 									+textDelete[i]
-									+'<a class="float-right comment-like '+hasliked[i]+'"><p style="display:none;">'+list_comments[i].comment_id+'</p>'
-									+list_comments[i].comment_good+'赞</a>'
-									+'</div><p>'+list_comments[i].comment_content+'</p></li>');
+									+'<a class="float-right comment-like '+hasliked[i]+'"><p style="display:none;">'+listComments[i].commentId+'</p>'
+									+listComments[i].comment_good+'赞</a>'
+									+'</div><p>'+listComments[i].commentContent+'</p></li>');
 						}
 					},
 					error : function(msg) {
@@ -431,13 +431,13 @@
 				});
 			}
 			else {//没有登录
-				for (var i=0; i<list_comments.length; i++) {
-					content.append('<li><img src="images/'+users[i].user_image+'" />'
+				for (var i=0; i<listComments.length; i++) {
+					content.append('<li><img src="images/'+users[i].userImage+'" />'
 							+'<div class="comment-box">'
 							+'<span class="comment-nickname">'+users[i].user_nickname+'</span>'
-							+'<a class="float-right comment-like"><p style="display:none;">'+list_comments[i].comment_id+'</p>'
-							+list_comments[i].comment_good+'赞</a>'
-							+'</div><p>'+list_comments[i].comment_content+'</p></li>');
+							+'<a class="float-right comment-like"><p style="display:none;">'+listComments[i].commentId+'</p>'
+							+listComments[i].comment_good+'赞</a>'
+							+'</div><p>'+listComments[i].commentContent+'</p></li>');
 				}
 			}
 		}

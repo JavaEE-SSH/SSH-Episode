@@ -1,4 +1,4 @@
-@font-face{font-family:iconfont;src:url(/Episode/font/iconfont-56dd286b.woff) format("woff"),url(/Episode/font/iconfont-86217a0b.ttf) format("truetype")}
+@font-face{font-family:iconfont;src:url(/SSH-Episode/font/iconfont-56dd286b.woff) format("woff"),url(/SSH-Episode/font/iconfont-86217a0b.ttf) format("truetype")}
 .iconfont{font-family:iconfont!important;font-size:16px;font-style:normal;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 .icon-weibo:before{content:"\E655"}
 .icon-bofang:before{content:"\E63D"}
@@ -523,8 +523,8 @@ html .widget-about-yidian .official-info>*{font-size:14px}
 html .widget-about-yidian .qrcode-download .logo{line-height:32px\9\0}
 .user-info{float:left;width:350px;text-align:center;height:32px;line-height:32px;}
 .register-ok-dialog{width:300px;background:#fff;position:fixed;left:50%;top:200px;margin-left:-217px;z-index:201;padding:50px 52px;}
-.no-more-episodes{display:none;width:664px;text-align:center;line-height:40px;font-size:14px;color:#999}
+.no-more-SSH-Episodes{display:none;width:664px;text-align:center;line-height:40px;font-size:14px;color:#999}
 .footer-mini-wrapper{width:100%;display:inline-block;margin:60px 0 20px}
 .footer-mini-wrapper .footer-mini{width:1080px;margin:0 auto;text-align:center}
 .footer-mini-wrapper .footer-mini a,.footer-mini-wrapper .footer-mini span{display:inline-block;color:#999;font-size:13px;margin-right:10px}
-.footer-mini-wrapper .footer-mini .icon-jgw{width:20px;height:29px;margin-right:5px;background:url(/Episode/images/jgw.png) no-repeat 50%;vertical-align:middle}
+.footer-mini-wrapper .footer-mini .icon-jgw{width:20px;height:29px;margin-right:5px;background:url(/SSH-Episode/images/jgw.png) no-repeat 50%;vertical-align:middle}

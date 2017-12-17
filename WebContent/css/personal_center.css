@@ -1,4 +1,4 @@
-@font-face{font-family:iconfont;src:url(/Episode/font/iconfont-56dd286b.woff) format("woff"),url(/Episode/font/iconfont-86217a0b.ttf) format("truetype")}
+@font-face{font-family:iconfont;src:url(/SSH-Episode/font/iconfont-56dd286b.woff) format("woff"),url(/SSH-Episode/font/iconfont-86217a0b.ttf) format("truetype")}
 .iconfont{font-family:iconfont!important;font-size:16px;font-style:normal;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 .icon-weibo:before{content:"\E655"}
 .icon-bofang:before{content:"\E63D"}

@@ -1,4 +1,4 @@
-@font-face{font-family:iconfont;src:url(/Episode/font/iconfont-56dd286b.woff) format("woff"),url(/Episode/font/iconfont-86217a0b.ttf) format("truetype")}
+@font-face{font-family:iconfont;src:url(/SSH-Episode/font/iconfont-56dd286b.woff) format("woff"),url(/SSH-Episode/font/iconfont-86217a0b.ttf) format("truetype")}
 .iconfont{font-family:iconfont!important;font-size:16px;font-style:normal;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 .icon-weibo:before{content:"\E655"}
 .icon-bofang:before{content:"\E63D"}
@@ -432,6 +432,6 @@ span.icon-plus.icon-plus-4{color:#fb0!important}
  .footer-mini-wrapper{width:100%;display:inline-block;margin:60px 0 20px}
  .footer-mini-wrapper .footer-mini{width:1080px;margin:0 auto;text-align:center}
  .footer-mini-wrapper .footer-mini a,.footer-mini-wrapper .footer-mini span{display:inline-block;color:#999;font-size:13px;margin-right:10px}
- .footer-mini-wrapper .footer-mini .icon-jgw{width:20px;height:29px;margin-right:5px;background:url(/Episode/images/jgw.png) no-repeat 50%;vertical-align:middle}
+ .footer-mini-wrapper .footer-mini .icon-jgw{width:20px;height:29px;margin-right:5px;background:url(/SSH-Episode/images/jgw.png) no-repeat 50%;vertical-align:middle}
  .login-register-dialog .error-msg-inner{display:none;margin-top:10px;padding:0 10px;line-height:38px;background-color:#fff5f5;border:1px solid #ff5a35;border-radius:3px}
  .login-register-dialog .error-msg{margin:0;color:#413b3a}
