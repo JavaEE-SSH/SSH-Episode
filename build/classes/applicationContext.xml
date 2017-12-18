@@ -9,7 +9,8 @@
 	<!-- 启用注解 -->
 	<context:annotation-config />
 	<!-- 自动扫描的包 -->
-	<context:component-scan base-package="com.ads" />
+	<context:component-scan base-package="com.ads" >
+	</context:component-scan>
 
 	<!-- 添加外部属性文件引用 -->
 	<!-- <context:property-placeholder location="classpath:dataSourceConfig.properties"/> -->
@@ -19,7 +20,7 @@
 		<!-- 指定连接数据库的驱动-->
 		<property name="driverClass" value="com.mysql.jdbc.Driver"/>
 		<!-- 指定连接数据库的URL -->
-		<property name="jdbcUrl" value="jdbc:mysql://119.29.232.106:3306/episode"/>
+		<property name="jdbcUrl" value="jdbc:mysql://119.29.232.106:3306/episode?useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false"/>
 		<!-- 指定连接数据库的用户名-->
 		<property name="user" value="root"/>
 		<!-- 指定连接数据库的密码-->
@@ -36,35 +37,25 @@
 	
 	<!-- 配置Hibernate -->
 	<bean id="sessionFactory"
-		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"><!-- 3和4/5的差别 -->
 		<!-- 依赖注入数据源，注入正是上面定义的dataSource -->
 		<property name="dataSource" ref="dataSource"/>
-		<!-- <property name="annotatedClasses">
-            <list>
-                <value>com.ads.pojo.TComment</value>
-                <value>com.ads.pojo.TEpisode</value>
-                <value>com.ads.pojo.TUser</value>
-            </list>
-        </property> -->
 		<!-- mappingResouces属性用来列出全部映射文件-->
-		<property name="mappingResources">
-			<list>
-				<!-- 以下用来列出Hibernate映射文件-->
-				<value>com/ads/pojo/TComment.hbm.xml</value>
-				<value>com/ads/pojo/TEpisode.hbm.xml</value>
-				<value>com/ads/pojo/TUser.hbm.xml</value>
-			</list>
+		<!-- <property name="mappingLocations">
+			<value>classpath:com/ads/pojo/*.hbm.xml</value>
+		</property> -->
+		<property name="packagesToScan">
+			<value>com.ads.pojo</value>
 		</property>
 		<!-- 定义Hibernate的SessionFactory的属性-->
-		<property name="hibernateProperties">
-			<!-- 配置Hibernate属性-->
-			<value>
-			hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
-			hibernate.hbm2ddl.auto=update
-			hibernate.show_sql=true
-			hibernate.format_sql=true;
-			</value>
-		</property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+            </props>
+        </property>
 	</bean>
 	
 	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">

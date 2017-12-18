@@ -14,7 +14,7 @@
     <constant name="struts.objectFactory" value="spring" />
     <!-- 约定Action包位置：可以使用的Action的祖包，默认为没有， 
     	设置为 cn.javass.ssh 就可以读取这个包及其子包的所有头上注册了【 @Action 】 的类。-->  
-    <constant name="struts.convention.action.packages" value="com.ads.test" />
+    <constant name="struts.convention.action.packages" value="com.ads.action" />
     <!-- 默认配置包路径包含action,actions,struts,struts2的所有包都会被struts作为含有Action类的路径来搜索。
     	通过设置struts.convention.package.locators属性来修改这个配置。 -->
     <!-- <constant name="struts.convention.package.locators"  value="action,actions,struts,struts2,test" /> -->

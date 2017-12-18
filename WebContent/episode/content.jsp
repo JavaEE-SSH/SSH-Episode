@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<%@page import="com.ads.pojo.*"%>
+<%@page import="java.util.Set"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" import="com.ads.pojo.TUser,com.ads.pojo.TEpisode"%>
 <%
@@ -6,7 +8,7 @@
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
 	//----获取用户数据
 	int flag = session.getAttribute("flag")==null?0:(Integer)session.getAttribute("flag");
-	TUser user = new TUser();
+	TUser user = null;//
 	if (flag == 1 && request.getAttribute("flag")==null) {
 		user = (TUser)session.getAttribute("user");
 	}
@@ -31,6 +33,24 @@
 	else {//异常
 		episode = new TEpisode();
 		out.print("<script>alert('数据异常！');</script>");
+	}
+	
+	//分解episode，获取相关信息
+	Set<TComment> comments = (Set<TComment>)episode.getTComments();//评论
+	Set<TUser> usersOfGood = (Set<TUser>)episode.getTUsers();//点赞的用户
+	Set<TUser> usersOfCollect = (Set<TUser>)episode.getTUsers_1();//收藏的用户
+	int goodFlag = 0;
+	int collectFlag = 0;
+	if (user == null) {
+		user = new TUser();
+	}
+	else {
+		if (usersOfGood.contains(user)) {
+			goodFlag = 1;
+		}
+		if (usersOfCollect.contains(user)) {
+			collectFlag = 1;
+		}
 	}
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -145,7 +165,7 @@
 		var total = 0;//评论总数
 		var loading = false;
 		//--获取评论及用户信息
-		$.ajax({
+		<%-- $.ajax({
 			type : "post",
 			url : "comment/getCommentsAndUsersByEpisodeId_ajax",
 			data : {
@@ -194,8 +214,17 @@
             		});
             	}
             }
-        });
+        }); --%>
 		
+        
+        //测试
+        if (<%= goodFlag%> == 1) {
+			$(".article-like").addClass("hasliked");
+		}
+		if (<%= collectFlag%> == 1) {
+			$(".article-report").html("已收藏");
+			$(".article-report").addClass("article-hasliked");
+		}
 		//--处理点赞收藏评论
 		//----如果已经登录获取点赞段子数据
 		if (<%=flag%> == 1) {

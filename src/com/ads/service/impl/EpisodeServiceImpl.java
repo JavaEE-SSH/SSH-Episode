@@ -2,11 +2,17 @@ package com.ads.service.impl;
 
 import java.util.Set;
 
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
 import com.ads.dao.EpisodeDao;
 import com.ads.pojo.TEpisode;
 import com.ads.service.EpisodeService;
 
+@Service("episodeService")
 public class EpisodeServiceImpl implements EpisodeService {
+	@Resource
 	private EpisodeDao episodeDao;
 	
 	@Override
@@ -15,37 +21,37 @@ public class EpisodeServiceImpl implements EpisodeService {
 	}
 
 	@Override
-	public TEpisode getEpisodeById(String episodeId) {
+	public TEpisode getEpisodeById(int episodeId) {
+		return episodeDao.getEpisodeById(episodeId);
+	}
+
+	@Override
+	public Set<TEpisode> getEpisodeByUserId(int userId) {
 		return null;
 	}
 
 	@Override
-	public Set<TEpisode> getEpisodeByUserId(String userId) {
-		return null;
-	}
-
-	@Override
-	public int addEpisodeGood(String userId, String episodeId) {
+	public int addEpisodeGood(int userId, int episodeId) {
 		return 0;
 	}
 
 	@Override
-	public int getGoodEpisode(String episodeId, String userId) {
+	public int getGoodEpisode(int episodeId, int userId) {
 		return 0;
 	}
 
 	@Override
-	public int getCollect(String episodeId, String userId) {
+	public int getCollect(int episodeId, int userId) {
 		return 0;
 	}
 
 	@Override
-	public void insertCollectEpisode(String userId, String episodeId) {
+	public void insertCollectEpisode(int userId, int episodeId) {
 		
 	}
 
 	@Override
-	public void deleteCollectEpisode(String userId, String episodeId) {
+	public void deleteCollectEpisode(int userId, int episodeId) {
 		
 	}
 

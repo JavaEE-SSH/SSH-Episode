@@ -15,14 +15,14 @@ public interface EpisodeService {
 	 * @param episodeId 段子id
 	 * @return Episode 单个段子信息
 	 */
-	public TEpisode getEpisodeById(String episodeId);
+	public TEpisode getEpisodeById(int episodeId);
 	
 	/**
 	 * 通过用户编号获取个人收藏的段子
 	 * @param userId 用户编号
 	 * @return 段子信息
 	 */
-	public Set<TEpisode> getEpisodeByUserId(String userId);
+	public Set<TEpisode> getEpisodeByUserId(int userId);
 	
 	/**
 	 * 通过用户id和段子id处理点赞
@@ -30,7 +30,7 @@ public interface EpisodeService {
 	 * @param episodeId 段子编号
 	 * @return 是否操作成功 1-是，0-否
 	 */
-	public int addEpisodeGood(String userId, String episodeId);
+	public int addEpisodeGood(int userId, int episodeId);
 	
 	/**
 	 * 通过段子编号和用户编号查询点赞段子表中是否有数据
@@ -38,7 +38,7 @@ public interface EpisodeService {
 	 * @param userId 用户编号
 	 * @return 是否有数据，1-是，0-否
 	 */
-	public int getGoodEpisode(String episodeId, String userId);
+	public int getGoodEpisode(int episodeId, int userId);
 	
 	/**
 	 * 通过段子编号和用户编号查询收藏表中是否有数据
@@ -46,21 +46,21 @@ public interface EpisodeService {
 	 * @param userId 用户编号
 	 * @return 是否有数据，1-是，0-否
 	 */
-	public int getCollect(String episodeId, String userId);
+	public int getCollect(int episodeId, int userId);
 	
 	/**
 	 * 增加指定用户id和段子id的收藏信息
 	 * @param userId 用户编号
 	 * @param episodeId 段子编号
 	 */
-	public void insertCollectEpisode(String userId, String episodeId);
+	public void insertCollectEpisode(int userId, int episodeId);
 	
 	/**
 	 * 删除指定用户id和段子id的收藏信息
 	 * @param userId 用户编号
 	 * @param episodeId 段子编号
 	 */
-	public void deleteCollectEpisode(String userId, String episodeId);
+	public void deleteCollectEpisode(int userId, int episodeId);
 	
 	/**
 	 * 删除指定时间前的段子
