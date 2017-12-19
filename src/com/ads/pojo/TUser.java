@@ -1,5 +1,5 @@
 package com.ads.pojo;
-// Generated 2017-12-18 22:17:33 by Hibernate Tools 5.0.6.Final
+// Generated 2017-12-19 12:16:26 by Hibernate Tools 5.0.6.Final
 
 import java.util.Date;
 import java.util.HashSet;
@@ -28,51 +28,41 @@ public class TUser implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private int userId;
-	private String userPassword;//用户密码
-	private String userImage;//用户头像
-	private int userGender;//用户性别
-	private String userNickname;//用户昵称
-	private Date loginTime;//最近登录时间
+	private Date loginTime;
+	private int userGender;
+	private String userImage;
+	private String userNickname;
+	private String userPassword;
 	private Set<TEpisode> TEpisodes = new HashSet<TEpisode>(0);
 	private Set<TComment> TComments = new HashSet<TComment>(0);
 	private Set<TComment> TComments_1 = new HashSet<TComment>(0);
 	private Set<TEpisode> TEpisodes_1 = new HashSet<TEpisode>(0);
-	private Set<TComment> TComments_2 = new HashSet<TComment>(0);
-	private Set<TEpisode> TEpisodes_2 = new HashSet<TEpisode>(0);
-	private Set<TComment> TComments_3 = new HashSet<TComment>(0);
-	private Set<TEpisode> TEpisodes_3 = new HashSet<TEpisode>(0);
 
 	public TUser() {
 	}
 
-	public TUser(int userId, String userPassword, String userImage, int userGender, String userNickname,
-			Date loginTime) {
+	public TUser(int userId, Date loginTime, int userGender, String userImage, String userNickname,
+			String userPassword) {
 		this.userId = userId;
-		this.userPassword = userPassword;
-		this.userImage = userImage;
-		this.userGender = userGender;
-		this.userNickname = userNickname;
 		this.loginTime = loginTime;
+		this.userGender = userGender;
+		this.userImage = userImage;
+		this.userNickname = userNickname;
+		this.userPassword = userPassword;
 	}
 
-	public TUser(int userId, String userPassword, String userImage, int userGender, String userNickname, Date loginTime,
-			Set<TEpisode> TEpisodes, Set<TComment> TComments, Set<TComment> TComments_1, Set<TEpisode> TEpisodes_1,
-			Set<TComment> TComments_2, Set<TEpisode> TEpisodes_2, Set<TComment> TComments_3,
-			Set<TEpisode> TEpisodes_3) {
+	public TUser(int userId, Date loginTime, int userGender, String userImage, String userNickname, String userPassword,
+			Set<TEpisode> TEpisodes, Set<TComment> TComments, Set<TComment> TComments_1, Set<TEpisode> TEpisodes_1) {
 		this.userId = userId;
-		this.userPassword = userPassword;
-		this.userImage = userImage;
-		this.userGender = userGender;
-		this.userNickname = userNickname;
 		this.loginTime = loginTime;
+		this.userGender = userGender;
+		this.userImage = userImage;
+		this.userNickname = userNickname;
+		this.userPassword = userPassword;
 		this.TEpisodes = TEpisodes;
 		this.TComments = TComments;
 		this.TComments_1 = TComments_1;
 		this.TEpisodes_1 = TEpisodes_1;
-		this.TComments_2 = TComments_2;
-		this.TEpisodes_2 = TEpisodes_2;
-		this.TComments_3 = TComments_3;
-		this.TEpisodes_3 = TEpisodes_3;
 	}
 
 	@Id
@@ -86,22 +76,14 @@ public class TUser implements java.io.Serializable {
 		this.userId = userId;
 	}
 
-	@Column(name = "user_password", nullable = false, length = 20)
-	public String getUserPassword() {
-		return this.userPassword;
+	@Temporal(TemporalType.DATE)
+	@Column(name = "login_time", nullable = false, length = 10)
+	public Date getLoginTime() {
+		return this.loginTime;
 	}
 
-	public void setUserPassword(String userPassword) {
-		this.userPassword = userPassword;
-	}
-
-	@Column(name = "user_image", nullable = false, length = 100)
-	public String getUserImage() {
-		return this.userImage;
-	}
-
-	public void setUserImage(String userImage) {
-		this.userImage = userImage;
+	public void setLoginTime(Date loginTime) {
+		this.loginTime = loginTime;
 	}
 
 	@Column(name = "user_gender", nullable = false)
@@ -113,6 +95,15 @@ public class TUser implements java.io.Serializable {
 		this.userGender = userGender;
 	}
 
+	@Column(name = "user_image", nullable = false, length = 100)
+	public String getUserImage() {
+		return this.userImage;
+	}
+
+	public void setUserImage(String userImage) {
+		this.userImage = userImage;
+	}
+
 	@Column(name = "user_nickname", nullable = false, length = 20)
 	public String getUserNickname() {
 		return this.userNickname;
@@ -122,14 +113,13 @@ public class TUser implements java.io.Serializable {
 		this.userNickname = userNickname;
 	}
 
-	@Temporal(TemporalType.DATE)
-	@Column(name = "login_time", nullable = false, length = 10)
-	public Date getLoginTime() {
-		return this.loginTime;
+	@Column(name = "user_password", nullable = false, length = 20)
+	public String getUserPassword() {
+		return this.userPassword;
 	}
 
-	public void setLoginTime(Date loginTime) {
-		this.loginTime = loginTime;
+	public void setUserPassword(String userPassword) {
+		this.userPassword = userPassword;
 	}
 
 	/**
@@ -149,7 +139,7 @@ public class TUser implements java.io.Serializable {
 	}
 
 	/**
-	 * 获取此用户点赞过的评论
+	 * 获取此用户点赞的评论
 	 * @return Set<TComment>
 	 */
 	@ManyToMany(fetch = FetchType.LAZY)
@@ -164,6 +154,10 @@ public class TUser implements java.io.Serializable {
 		this.TComments = TComments;
 	}
 
+	/**
+	 * 获取此用户发表的评论
+	 * @return Set<TComment>
+	 */
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "TUser")
 	public Set<TComment> getTComments_1() {
 		return this.TComments_1;
@@ -174,7 +168,7 @@ public class TUser implements java.io.Serializable {
 	}
 
 	/**
-	 * 获取此用户点赞过的段子
+	 * 获取此用户点赞的段子
 	 * @return Set<TEpisode>
 	 */
 	@ManyToMany(fetch = FetchType.LAZY)
@@ -187,51 +181,6 @@ public class TUser implements java.io.Serializable {
 
 	public void setTEpisodes_1(Set<TEpisode> TEpisodes_1) {
 		this.TEpisodes_1 = TEpisodes_1;
-	}
-
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "t_good_comment", catalog = "episode", joinColumns = {
-			@JoinColumn(name = "user_id", nullable = false, updatable = false) }, inverseJoinColumns = {
-					@JoinColumn(name = "comment_id", nullable = false, updatable = false) })
-	public Set<TComment> getTComments_2() {
-		return this.TComments_2;
-	}
-
-	public void setTComments_2(Set<TComment> TComments_2) {
-		this.TComments_2 = TComments_2;
-	}
-
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "t_collect", catalog = "episode", joinColumns = {
-			@JoinColumn(name = "user_id", nullable = false, updatable = false) }, inverseJoinColumns = {
-					@JoinColumn(name = "episode_id", nullable = false, updatable = false) })
-	public Set<TEpisode> getTEpisodes_2() {
-		return this.TEpisodes_2;
-	}
-
-	public void setTEpisodes_2(Set<TEpisode> TEpisodes_2) {
-		this.TEpisodes_2 = TEpisodes_2;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "TUser")
-	public Set<TComment> getTComments_3() {
-		return this.TComments_3;
-	}
-
-	public void setTComments_3(Set<TComment> TComments_3) {
-		this.TComments_3 = TComments_3;
-	}
-
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "t_good_episode", catalog = "episode", joinColumns = {
-			@JoinColumn(name = "user_id", nullable = false, updatable = false) }, inverseJoinColumns = {
-					@JoinColumn(name = "episode_id", nullable = false, updatable = false) })
-	public Set<TEpisode> getTEpisodes_3() {
-		return this.TEpisodes_3;
-	}
-
-	public void setTEpisodes_3(Set<TEpisode> TEpisodes_3) {
-		this.TEpisodes_3 = TEpisodes_3;
 	}
 
 }

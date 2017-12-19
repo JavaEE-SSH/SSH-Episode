@@ -1,5 +1,5 @@
 package com.ads.pojo;
-// Generated 2017-12-18 22:17:33 by Hibernate Tools 5.0.6.Final
+// Generated 2017-12-19 12:16:26 by Hibernate Tools 5.0.6.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -26,12 +26,11 @@ public class TComment implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Integer commentId;
-	private TEpisode TEpisode;//此评论所评论的段子
-	private TUser TUser;//此评论的发表者
-	private String commentContent;//评论内容
-	private int commentGood;//评论点赞数
+	private TEpisode TEpisode;
+	private TUser TUser;
+	private String commentContent;
+	private int commentGood;
 	private Set<TUser> TUsers = new HashSet<TUser>(0);
-	private Set<TUser> TUsers_1 = new HashSet<TUser>(0);
 
 	public TComment() {
 	}
@@ -43,14 +42,12 @@ public class TComment implements java.io.Serializable {
 		this.commentGood = commentGood;
 	}
 
-	public TComment(TEpisode TEpisode, TUser TUser, String commentContent, int commentGood, Set<TUser> TUsers,
-			Set<TUser> TUsers_1) {
+	public TComment(TEpisode TEpisode, TUser TUser, String commentContent, int commentGood, Set<TUser> TUsers) {
 		this.TEpisode = TEpisode;
 		this.TUser = TUser;
 		this.commentContent = commentContent;
 		this.commentGood = commentGood;
 		this.TUsers = TUsers;
-		this.TUsers_1 = TUsers_1;
 	}
 
 	@Id
@@ -80,7 +77,7 @@ public class TComment implements java.io.Serializable {
 	}
 
 	/**
-	 * 获取此评论的发表者
+	 * 获取此评论发表的用户
 	 * @return TUser
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -93,10 +90,6 @@ public class TComment implements java.io.Serializable {
 		this.TUser = TUser;
 	}
 
-	/**
-	 * 获取评论内容
-	 * @return String
-	 */
 	@Column(name = "comment_content", nullable = false, length = 1000)
 	public String getCommentContent() {
 		return this.commentContent;
@@ -106,10 +99,6 @@ public class TComment implements java.io.Serializable {
 		this.commentContent = commentContent;
 	}
 
-	/**
-	 * 获取评论点赞数
-	 * @return int
-	 */
 	@Column(name = "comment_good", nullable = false)
 	public int getCommentGood() {
 		return this.commentGood;
@@ -119,6 +108,10 @@ public class TComment implements java.io.Serializable {
 		this.commentGood = commentGood;
 	}
 
+	/**
+	 * 获取点赞此评论的用户
+	 * @return Set<TUser>
+	 */
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "TComments")
 	public Set<TUser> getTUsers() {
 		return this.TUsers;
@@ -126,15 +119,6 @@ public class TComment implements java.io.Serializable {
 
 	public void setTUsers(Set<TUser> TUsers) {
 		this.TUsers = TUsers;
-	}
-
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "TComments")
-	public Set<TUser> getTUsers_1() {
-		return this.TUsers_1;
-	}
-
-	public void setTUsers_1(Set<TUser> TUsers_1) {
-		this.TUsers_1 = TUsers_1;
 	}
 
 }

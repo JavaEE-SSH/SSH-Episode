@@ -41,12 +41,12 @@
 		<!-- 依赖注入数据源，注入正是上面定义的dataSource -->
 		<property name="dataSource" ref="dataSource"/>
 		<!-- mappingResouces属性用来列出全部映射文件-->
-		<!-- <property name="mappingLocations">
+		<property name="mappingLocations">
 			<value>classpath:com/ads/pojo/*.hbm.xml</value>
-		</property> -->
-		<property name="packagesToScan">
-			<value>com.ads.pojo</value>
 		</property>
+		<!-- <property name="packagesToScan">
+			<value>com.ads.pojo</value>
+		</property> -->
 		<!-- 定义Hibernate的SessionFactory的属性-->
         <property name="hibernateProperties">
             <props>

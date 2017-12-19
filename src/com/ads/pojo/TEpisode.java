@@ -1,5 +1,5 @@
 package com.ads.pojo;
-// Generated 2017-12-18 22:17:33 by Hibernate Tools 5.0.6.Final
+// Generated 2017-12-19 12:16:26 by Hibernate Tools 5.0.6.Final
 
 import java.util.Date;
 import java.util.HashSet;
@@ -28,36 +28,30 @@ public class TEpisode implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Integer episodeId;
-	private String episodeContent;//段子内容
-	private int episodeGood;//段子点赞数
-	private Date addDate;//段子添加日期
+	private Date addDate;
+	private String episodeContent;
+	private int episodeGood;
 	private Set<TUser> TUsers = new HashSet<TUser>(0);
-	private Set<TUser> TUsers_1 = new HashSet<TUser>(0);
 	private Set<TComment> TComments = new HashSet<TComment>(0);
-	private Set<TComment> TComments_1 = new HashSet<TComment>(0);
-	private Set<TUser> TUsers_2 = new HashSet<TUser>(0);
-	private Set<TUser> TUsers_3 = new HashSet<TUser>(0);
+	private Set<TUser> TUsers_1 = new HashSet<TUser>(0);
 
 	public TEpisode() {
 	}
 
-	public TEpisode(String episodeContent, int episodeGood, Date addDate) {
+	public TEpisode(Date addDate, String episodeContent, int episodeGood) {
+		this.addDate = addDate;
 		this.episodeContent = episodeContent;
 		this.episodeGood = episodeGood;
-		this.addDate = addDate;
 	}
 
-	public TEpisode(String episodeContent, int episodeGood, Date addDate, Set<TUser> TUsers, Set<TUser> TUsers_1,
-			Set<TComment> TComments, Set<TComment> TComments_1, Set<TUser> TUsers_2, Set<TUser> TUsers_3) {
+	public TEpisode(Date addDate, String episodeContent, int episodeGood, Set<TUser> TUsers, Set<TComment> TComments,
+			Set<TUser> TUsers_1) {
+		this.addDate = addDate;
 		this.episodeContent = episodeContent;
 		this.episodeGood = episodeGood;
-		this.addDate = addDate;
 		this.TUsers = TUsers;
-		this.TUsers_1 = TUsers_1;
 		this.TComments = TComments;
-		this.TComments_1 = TComments_1;
-		this.TUsers_2 = TUsers_2;
-		this.TUsers_3 = TUsers_3;
+		this.TUsers_1 = TUsers_1;
 	}
 
 	@Id
@@ -70,6 +64,16 @@ public class TEpisode implements java.io.Serializable {
 
 	public void setEpisodeId(Integer episodeId) {
 		this.episodeId = episodeId;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "add_date", nullable = false, length = 10)
+	public Date getAddDate() {
+		return this.addDate;
+	}
+
+	public void setAddDate(Date addDate) {
+		this.addDate = addDate;
 	}
 
 	@Column(name = "episode_content", nullable = false, length = 1000)
@@ -90,16 +94,10 @@ public class TEpisode implements java.io.Serializable {
 		this.episodeGood = episodeGood;
 	}
 
-	@Temporal(TemporalType.DATE)
-	@Column(name = "add_date", nullable = false, length = 10)
-	public Date getAddDate() {
-		return this.addDate;
-	}
-
-	public void setAddDate(Date addDate) {
-		this.addDate = addDate;
-	}
-
+	/**
+	 * 获取收藏次段子的用户
+	 * @return Set<TUser>
+	 */
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "TEpisodes")
 	public Set<TUser> getTUsers() {
 		return this.TUsers;
@@ -109,15 +107,10 @@ public class TEpisode implements java.io.Serializable {
 		this.TUsers = TUsers;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "TEpisodes")
-	public Set<TUser> getTUsers_1() {
-		return this.TUsers_1;
-	}
-
-	public void setTUsers_1(Set<TUser> TUsers_1) {
-		this.TUsers_1 = TUsers_1;
-	}
-
+	/**
+	 * 获取此段子的评论
+	 * @return Set<TComment>
+	 */
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "TEpisode")
 	public Set<TComment> getTComments() {
 		return this.TComments;
@@ -127,31 +120,24 @@ public class TEpisode implements java.io.Serializable {
 		this.TComments = TComments;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "TEpisode")
-	public Set<TComment> getTComments_1() {
-		return this.TComments_1;
-	}
-
-	public void setTComments_1(Set<TComment> TComments_1) {
-		this.TComments_1 = TComments_1;
-	}
-
+	/**
+	 * 获取点赞此段子的用户
+	 * @return Set<TUser>
+	 */
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "TEpisodes")
-	public Set<TUser> getTUsers_2() {
-		return this.TUsers_2;
+	public Set<TUser> getTUsers_1() {
+		return this.TUsers_1;
 	}
 
-	public void setTUsers_2(Set<TUser> TUsers_2) {
-		this.TUsers_2 = TUsers_2;
+	public void setTUsers_1(Set<TUser> TUsers_1) {
+		this.TUsers_1 = TUsers_1;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "TEpisodes")
-	public Set<TUser> getTUsers_3() {
-		return this.TUsers_3;
-	}
-
-	public void setTUsers_3(Set<TUser> TUsers_3) {
-		this.TUsers_3 = TUsers_3;
+	@Override
+	public String toString() {
+		return "TEpisode [episodeId=" + episodeId + ", addDate=" + addDate + ", episodeContent=" + episodeContent
+				+ ", episodeGood=" + episodeGood + ", TUsers=" + TUsers + ", TComments=" + TComments + ", TUsers_1="
+				+ TUsers_1 + "]";
 	}
 
 }

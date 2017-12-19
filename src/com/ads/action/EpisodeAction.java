@@ -48,6 +48,7 @@ public class EpisodeAction extends ActionSupport implements ModelDriven<TEpisode
 			})
 	public String getEpisodeById() {
 		TEpisode e = this.episodeService.getEpisodeById(this.episode.getEpisodeId());
+		System.out.println(e);
 		requestMap.put("episode", e);
 		
 		return SUCCESS;
