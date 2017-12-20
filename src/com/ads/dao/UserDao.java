@@ -8,7 +8,7 @@ public interface UserDao {
 	 * @param userId
 	 * @return TUser
 	 */
-	public TUser getUserById(String userId);
+	public TUser getUserById(int userId);
 	
 	/**提交用户昵称、用户密码增加用户
 	 * 
@@ -16,7 +16,7 @@ public interface UserDao {
 	 * @param userNickname
 	 * @param userPassword
 	 */
-	public void insertUser(String userId, String userNickname, String userPassword);
+	public void insertUser(int userId, String userNickname, String userPassword);
 	/**获取预新增用户id
 	 * 
 	 * @return 用户id
@@ -28,30 +28,30 @@ public interface UserDao {
 	 * @param userId
 	 * @param userNickname
 	 */
-	public void updateNicknameByUserId(String userId, String userNickname);
+	public void updateNicknameByUserId(int userId, String userNickname);
 	/**修改用户性别
 	 * 
 	 * @param userId
 	 * @param userGender
 	 */
-	public void updateGenderByUserId(String userId, String userGender);
+	public void updateGenderByUserId(int userId, int userGender);
 	/**修改用户密码
 	 * 
 	 * @param userId
 	 * @param userPassword
 	 */
-	public void updatePasswordByUserId(String userId, String userPassword);
+	public void updatePasswordByUserId(int userId, String userPassword);
 	/**修改头像
 	 * 
 	 * @param userId
 	 * @param userImage
 	 */
-	public void updateImageByUserId(String userId, String userImage);
+	public void updateImageByUserId(int userId, String userImage);
 	/**更新用户login_time
 	 * 
 	 * @param userId
 	 */
-	public void updateLoginTimeByUserId(String userId);
+	public void updateLoginTimeByUserId(int userId);
 	
 	/**删除长时间未登录的用户
 	 * 

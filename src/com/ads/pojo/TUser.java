@@ -123,7 +123,7 @@ public class TUser implements java.io.Serializable {
 	}
 
 	/**
-	 * »ñÈ¡´ËÓÃ»§ÊÕ²ØµÄ¶Î×Ó
+	 * è·å–æ­¤ç”¨æˆ·æ”¶è—çš„æ®µå­
 	 * @return Set<TEpisode>
 	 */
 	@ManyToMany(fetch = FetchType.LAZY)
@@ -139,7 +139,7 @@ public class TUser implements java.io.Serializable {
 	}
 
 	/**
-	 * »ñÈ¡´ËÓÃ»§µãÔŞµÄÆÀÂÛ
+	 * è·å–æ­¤ç”¨æˆ·ç‚¹èµè¿‡çš„è¯„è®º
 	 * @return Set<TComment>
 	 */
 	@ManyToMany(fetch = FetchType.LAZY)
@@ -155,7 +155,7 @@ public class TUser implements java.io.Serializable {
 	}
 
 	/**
-	 * »ñÈ¡´ËÓÃ»§·¢±íµÄÆÀÂÛ
+	 * è·å–æ­¤ç”¨æˆ·å‘è¡¨è¿‡çš„è¯„è®º
 	 * @return Set<TComment>
 	 */
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "TUser")
@@ -168,7 +168,7 @@ public class TUser implements java.io.Serializable {
 	}
 
 	/**
-	 * »ñÈ¡´ËÓÃ»§µãÔŞµÄ¶Î×Ó
+	 * è·å–æ­¤ç”¨æˆ·ç‚¹èµè¿‡çš„æ®µå­
 	 * @return Set<TEpisode>
 	 */
 	@ManyToMany(fetch = FetchType.LAZY)

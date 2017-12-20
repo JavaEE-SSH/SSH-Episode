@@ -15,15 +15,14 @@ import com.ads.pojo.TEpisode;
 
 @Repository("episodeDao")
 public class EpisodeDaoImpl extends HibernateDaoSupport implements EpisodeDao {
-
-	@Override
-	public Set<TEpisode> getEpisodes() {
-		return null;
-	}
-
 	@Resource
 	public void setSessionFactory0(SessionFactory sessionFactory){  
 		super.setSessionFactory(sessionFactory); 
+	}
+	
+	@Override
+	public Set<TEpisode> getEpisodes() {
+		return null;
 	}
 	
 	@Override

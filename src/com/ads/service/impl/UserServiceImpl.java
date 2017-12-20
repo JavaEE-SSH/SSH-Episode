@@ -1,15 +1,21 @@
 package com.ads.service.impl;
 
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
 import com.ads.dao.UserDao;
 import com.ads.pojo.TUser;
 import com.ads.service.UserService;
 
+@Service("userService")
 public class UserServiceImpl implements UserService {
+	@Resource
 	private UserDao userDao;
 	
 	@Override
-	public TUser getUserById(String userId) {
-		return null;
+	public TUser getUserById(int userId) {
+		return this.userDao.getUserById(userId);
 	}
 
 	@Override
@@ -18,27 +24,27 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updateNicknameByUserId(String userId, String userNickname) {
+	public void updateNicknameByUserId(int userId, String userNickname) {
 		
 	}
 
 	@Override
-	public void updateGenderByUserId(String userId, String userGender) {
+	public void updateGenderByUserId(int userId, int userGender) {
 		
 	}
 
 	@Override
-	public void updatePasswordByUserId(String userId, String userPassword) {
+	public void updatePasswordByUserId(int userId, String userPassword) {
 		
 	}
 
 	@Override
-	public void updateImageByUserId(String userId, String userImage) {
+	public void updateImageByUserId(int userId, String userImage) {
 		
 	}
 
 	@Override
-	public void updateLoginTimeByUserId(String userId) {
+	public void updateLoginTimeByUserId(int userId) {
 		
 	}
 

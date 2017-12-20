@@ -1,19 +1,34 @@
 package com.ads.dao.impl;
 
+import javax.annotation.Resource;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
+import org.springframework.stereotype.Repository;
 
 import com.ads.dao.UserDao;
 import com.ads.pojo.TUser;
 
+@Repository("userDao")
 public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
-
+	@Resource
+	public void setSessionFactory0(SessionFactory sessionFactory){  
+		super.setSessionFactory(sessionFactory); 
+	}
+	
+	/**
+	 * 通过用户id获取用户
+	 * @return TUser
+	 */
 	@Override
-	public TUser getUserById(String userId) {
-		return null;
+	public TUser getUserById(int userId) {
+		Session session = this.getSessionFactory().openSession();
+		return session.get(TUser.class, userId);
 	}
 
 	@Override
-	public void insertUser(String userId, String userNickname, String userPassword) {
+	public void insertUser(int userId, String userNickname, String userPassword) {
 		
 	}
 
@@ -23,27 +38,27 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
 	}
 
 	@Override
-	public void updateNicknameByUserId(String userId, String userNickname) {
+	public void updateNicknameByUserId(int userId, String userNickname) {
 		
 	}
 
 	@Override
-	public void updateGenderByUserId(String userId, String userGender) {
+	public void updateGenderByUserId(int userId, int userGender) {
 		
 	}
 
 	@Override
-	public void updatePasswordByUserId(String userId, String userPassword) {
+	public void updatePasswordByUserId(int userId, String userPassword) {
 		
 	}
 
 	@Override
-	public void updateImageByUserId(String userId, String userImage) {
+	public void updateImageByUserId(int userId, String userImage) {
 		
 	}
 
 	@Override
-	public void updateLoginTimeByUserId(String userId) {
+	public void updateLoginTimeByUserId(int userId) {
 		
 	}
 

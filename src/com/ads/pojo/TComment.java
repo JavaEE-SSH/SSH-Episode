@@ -63,7 +63,7 @@ public class TComment implements java.io.Serializable {
 	}
 
 	/**
-	 * »ñÈ¡´ËÆÀÂÛËùÆÀÂÛµÄ¶Î×Ó
+	 * è·å–è¯„è®ºçš„æ®µå­
 	 * @return TEpisode
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -77,7 +77,7 @@ public class TComment implements java.io.Serializable {
 	}
 
 	/**
-	 * »ñÈ¡´ËÆÀÂÛ·¢±íµÄÓÃ»§
+	 * è·å–å‘è¡¨è¯„è®ºçš„ç”¨æˆ·
 	 * @return TUser
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -109,7 +109,7 @@ public class TComment implements java.io.Serializable {
 	}
 
 	/**
-	 * »ñÈ¡µãÔŞ´ËÆÀÂÛµÄÓÃ»§
+	 * è·å–ç‚¹èµæ­¤è¯„è®ºçš„ç”¨æˆ·
 	 * @return Set<TUser>
 	 */
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "TComments")

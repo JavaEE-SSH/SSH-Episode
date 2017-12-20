@@ -9,6 +9,7 @@ import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.RequestAware;
+import org.apache.struts2.interceptor.SessionAware;
 import org.springframework.stereotype.Controller;
 
 import com.ads.pojo.TEpisode;
@@ -19,13 +20,15 @@ import com.opensymphony.xwork2.ModelDriven;
 @Controller
 @ParentPackage("json-default")
 @Namespace("/episode")
-public class EpisodeAction extends ActionSupport implements ModelDriven<TEpisode>, RequestAware{
+public class EpisodeAction extends ActionSupport implements ModelDriven<TEpisode>, RequestAware, SessionAware{
 	private static final long serialVersionUID = 1L;
 	@Resource
 	private EpisodeService episodeService;
 	private TEpisode episode;
 	private Map<String, Object> requestMap;
+	private Map<String, Object> sessionMap;
 	
+	//ÂÆûÁé∞Êé•Âè£ÊñπÊ≥ï
 	@Override
 	public TEpisode getModel() {
 		this.episode = new TEpisode();
@@ -37,18 +40,23 @@ public class EpisodeAction extends ActionSupport implements ModelDriven<TEpisode
 		this.requestMap = arg0;
 	}
 
-	//action ø™ º
+	@Override
+	public void setSession(Map<String, Object> arg0) {
+		this.sessionMap = arg0;
+	}
+
+	//action ÂºÄÂßã
 	/**
-	 * ¥´»Î∂Œ◊”id£¨ªÒ»°¥À∂Œ◊”œ‡πÿ–≈œ¢
+	 * Ê†πÊçÆ episodeId Ëé∑ÂèñÊÆµÂ≠ê‰ø°ÊÅØ
 	 * @return SUCCESS
 	 */
-	@Action(value="episodeInfo",
+	@Action(value="getEpisodeById",
 			results={
 					@Result(name=SUCCESS, location="/episode/content.jsp")
 			})
 	public String getEpisodeById() {
-		TEpisode e = this.episodeService.getEpisodeById(this.episode.getEpisodeId());
-		System.out.println(e);
+		Integer episodeId = this.episode.getEpisodeId();
+		TEpisode e = this.episodeService.getEpisodeById(episodeId);
 		requestMap.put("episode", e);
 		
 		return SUCCESS;

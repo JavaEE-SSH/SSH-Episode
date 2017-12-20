@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<%@taglib prefix="s" uri="/struts-tags"%>
 <%@page import="com.ads.pojo.*"%>
 <%@page import="java.util.Set"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -7,38 +8,19 @@
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
 	//----获取用户数据
-	int flag = session.getAttribute("flag")==null?0:(Integer)session.getAttribute("flag");
-	TUser user = null;//
-	if (flag == 1 && request.getAttribute("flag")==null) {
-		user = (TUser)session.getAttribute("user");
-	}
-	else {
-		//登录操作获取用户数据
-		flag = request.getAttribute("flag")==null?0:1;
-		if (flag == 1) {
-			user = (TUser)request.getAttribute("user");
-			session.setAttribute("user", user);
-		}
-		session.setAttribute("flag", flag);
+	TUser user = (TUser)session.getAttribute("user");
+	int flag = 0;
+	if (user != null) {
+		flag = 1;
 	}
 	//----获取段子信息
 	TEpisode episode = (TEpisode)request.getAttribute("episode");
-	if (episode != null) {//第一次正常进入次段子信息界面
-		session.setAttribute("episodeId", episode.getEpisodeId());
-	}
-	else if (session.getAttribute("episodeId") != null) {//已经进入过此段子信息界面（段子信息界面登录后）
-		episode = new TEpisode();//防止异常
-		response.sendRedirect("/Episode/episode/getEpisodeById?episodeId="+session.getAttribute("episodeId").toString());
-	}
-	else {//异常
-		episode = new TEpisode();
-		out.print("<script>alert('数据异常！');</script>");
-	}
-	
+	session.setAttribute("episodeId", episode.getEpisodeId());//保存段子id-给登录操作
+
 	//分解episode，获取相关信息
 	Set<TComment> comments = (Set<TComment>)episode.getTComments();//评论
-	Set<TUser> usersOfGood = (Set<TUser>)episode.getTUsers();//点赞的用户
-	Set<TUser> usersOfCollect = (Set<TUser>)episode.getTUsers_1();//收藏的用户
+	Set<TUser> usersOfCollect = (Set<TUser>)episode.getTUsers();//点赞的用户
+	Set<TUser> usersOfGood = (Set<TUser>)episode.getTUsers_1();//收藏的用户
 	int goodFlag = 0;
 	int collectFlag = 0;
 	if (user == null) {
@@ -139,12 +121,12 @@
 	<div class="dialog login-register-dialog login-dialog" style="display: none;">
 		<div class="close iconfont icon-close"></div>
 		<div class="logo iconfont icon-logo"></div>
-		<form name="login-form" class="login-form" action="user/userLogin" method="post">
+		<form name="login-form" class="login-form" action="user/userLogin_content" method="post">
 			<div class="input-box input-username-box">
-				<input type="text" class="input-username" name="username" placeholder="用户名" value="">
+				<input id="login-userId" type="text" class="input-username" name="userId" placeholder="用户名" value="">
 			</div>
 			<div class="input-box input-password-box">
-				<input type="password" class="input-password" name="password" placeholder="密码" value="">
+				<input id="login-userPassword" type="password" class="input-password" name="userPassword" placeholder="密码" value="">
 			</div>
 			<div class="error-msg-inner">
 				<p class="error-msg"></p>
@@ -227,7 +209,7 @@
 		}
 		//--处理点赞收藏评论
 		//----如果已经登录获取点赞段子数据
-		if (<%=flag%> == 1) {
+		<%-- if (<%=flag%> == 1) {
 			$.ajax({
 				type : "post",
 				url : "episode/getGoodEpisodeAndCollect_ajax",
@@ -249,7 +231,7 @@
 					alert("请求失败！");
 				}
 			});
-		}
+		} --%>
 		//----点赞段子ajax
 		$(".article-like").click(function () {
 			var flag = '<%= flag%>';
@@ -473,37 +455,37 @@
 	}
 	//登录回调函数
 	function fnCallback_login(data) {
-		if (data.flag == 1) {
-			$(".login-form").submit();
+		if (data == 0) {
+			$(".login-dialog .error-msg-inner").css("display", "block");
+			$(".login-dialog .error-msg").html('用户名或密码错误！');
 		}
 		else {
-			$(".login-dialog .error-msg-inner").css("display", "block");
- 			$(".login-dialog .error-msg").html('用户名或密码错误！');
+			window.location.reload();
 		}
 	}
 	//处理登录AJAX
  	$("#click-to-login").click(function() {
- 		if ($("input[name='username']").val() == ''
- 				|| $("input[name='password']").val() == '') {
+ 		if ($("#login-userId").val() == ''
+ 				|| $("#login-userPassword").val() == '') {
  			$(".login-dialog .error-msg-inner").css("display", "block");
  			$(".login-dialog .error-msg").html('用户名和密码不能为空！');
  		}
- 		else if ($("input[name='username']").val().length != 8) {
+ 		else if ($("#login-userId").val().length != 8) {
  			$(".login-dialog .error-msg-inner").css("display", "block");
  			$(".login-dialog .error-msg").html('用户名必须为8个字符！');
  		}
- 		else if ($("input[name='password']").val().length > 20
- 				|| $("input[name='password']").val().length < 6) {
+ 		else if ($("#login-userPassword").val().length > 20
+ 				|| $("#login-userPassword").val().length < 6) {
  			$(".login-dialog .error-msg-inner").css("display", "block");
  			$(".login-dialog .error-msg").html('密码必须为6-20个字符！');
  		}
  		else {
 			$.ajax({
 				type : "post",
-				url : "user/userLogin_ajax",
+				url : "user/userLogin_ajax_content",
 				data : {
-					"username" : $("input[name='username']").val(),
-					"password" : $("input[name='password']").val()
+					"userId" : $("#login-userId").val(),
+					"userPassword" : $("#login-userPassword").val()
 				},
 				dataType:"json",
 				success : function(data) {

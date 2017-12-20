@@ -11,19 +11,10 @@
 		session.removeAttribute("flag");
 	}
 	//----获取用户数据
-	int flag = session.getAttribute("flag")==null?0:(Integer)session.getAttribute("flag");
-	TUser user = new TUser();
-	if (flag == 1 && request.getAttribute("flag")==null) {
-		user = (TUser)session.getAttribute("user");
-	}
-	else {
-		//登录操作获取用户数据
-		flag = request.getAttribute("flag")==null?0:1;
-		if (flag == 1) {
-			user = (TUser)request.getAttribute("user");
-			session.setAttribute("user", user);
-		}
-		session.setAttribute("flag", flag);
+	TUser user = (TUser)session.getAttribute("user");
+	int flag = 0;
+	if (user != null) {
+		flag = 1;
 	}
 	//----注册处理
 	String user_id = null;
@@ -116,10 +107,10 @@
 		<div class="logo iconfont icon-logo"></div>
 		<form name="login-form" class="login-form" action="user/userLogin" method="post">
 			<div class="input-box input-username-box">
-				<input type="text" class="input-username" name="username" placeholder="用户名" value="">
+				<input id="login-userId" type="text" class="input-username" name="userId" placeholder="用户名" value="">
 			</div>
 			<div class="input-box input-password-box">
-				<input type="password" class="input-password" name="password" placeholder="密码" value="">
+				<input id="login-userPassword" type="password" class="input-password" name="userPassword" placeholder="密码" value="">
 			</div>
 			<div class="error-msg-inner">
 				<p class="error-msg"></p>
@@ -135,13 +126,13 @@
 		<div class="logo iconfont icon-logo"></div>
 		<form name="register-form" class="register-form" action="user/userRegister" method="post">
 			<div class="input-box input-username-box">
-				<input type="text" class="input-username" name="nickname" placeholder="给自己起一个昵称吧" value="">
+				<input id="register-userId" type="text" class="input-username" name="userNickname" placeholder="给自己起一个昵称吧" value="">
 			</div>
 			<div class="input-box input-password-box">
-				<input type="password" class="input-password" name="psw" placeholder="在这里输入您的密码" value="">
+				<input id="register-userPassword" type="password" class="input-password" name="userPassword" placeholder="在这里输入您的密码" value="">
 			</div>
 			<div class="input-box input-password-box">
-				<input type="password" class="input-password2" name="psw2" placeholder="请重新确认一遍密码" value="">
+				<input id="register-userPassword2" type="password" class="input-password2" name="userPassword2" placeholder="请重新确认一遍密码" value="">
 			</div>
 			<div class="error-msg-inner">
 				<p class="error-msg"></p>
@@ -231,38 +222,39 @@
 		}
 	}
 
- 	function fnCallback(data) {
-		if (data.flag == 1) {
-			$(".login-form").submit();
+	//登录回调函数
+	function fnCallback_login(data) {
+		if (data == 0) {
+			$(".login-dialog .error-msg-inner").css("display", "block");
+			$(".login-dialog .error-msg").html('用户名或密码错误！');
 		}
 		else {
-			$(".login-dialog .error-msg-inner").css("display", "block");
- 			$(".login-dialog .error-msg").html('用户名或密码错误！');
+			window.location.reload();
 		}
 	}
 	//处理登录AJAX
  	$("#click-to-login").click(function() {
- 		if ($("input[name='username']").val() == ''
- 				|| $("input[name='password']").val() == '') {
+ 		if ($("#login-userId").val() == ''
+ 				|| $("#login-userPassword").val() == '') {
  			$(".login-dialog .error-msg-inner").css("display", "block");
  			$(".login-dialog .error-msg").html('用户名和密码不能为空！');
  		}
- 		else if ($("input[name='username']").val().length != 8) {
+ 		else if ($("#login-userId").val().length != 8) {
  			$(".login-dialog .error-msg-inner").css("display", "block");
  			$(".login-dialog .error-msg").html('用户名必须为8个字符！');
  		}
- 		else if ($("input[name='password']").val().length > 20
- 				|| $("input[name='password']").val().length < 6) {
+ 		else if ($("#login-userPassword").val().length > 20
+ 				|| $("#login-userPassword").val().length < 6) {
  			$(".login-dialog .error-msg-inner").css("display", "block");
  			$(".login-dialog .error-msg").html('密码必须为6-20个字符！');
  		}
  		else {
 			$.ajax({
 				type : "post",
-				url : "user/userLogin_ajax",
+				url : "user/login_index",
 				data : {
-					"username" : $("input[name='username']").val(),
-					"password" : $("input[name='password']").val()
+					"userId" : $("#login-userId").val(),
+					"userPassword" : $("#login-userPassword").val()
 				},
 				dataType:"json",
 				success : function(data) {
@@ -280,17 +272,17 @@
 	})
 	//处理注册输入正确性
 	$("#click-to-register").click(function() {
-		if ($("input[name='nickname']").val().length < 2
-				|| $("input[name='nickname']").val().length > 10) {
+		if ($("#register-userId").val().length < 2
+				|| $("#register-userId").val().length > 10) {
  			$(".register-dialog .error-msg-inner").css("display", "block");
  			$(".register-dialog .error-msg").html('昵称必须为2-20个字符！');
 		}
-		else if ($("input[name='psw']").val().length < 6
-				|| $("input[name='psw']").val().length > 20) {
+		else if ($("#register-userPassword").val().length < 6
+				|| $("#register-userPassword").val().length > 20) {
 			$(".register-dialog .error-msg-inner").css("display", "block");
  			$(".register-dialog .error-msg").html('密码必须为6-20个字符！');
 		}
-		else if ($("input[name='psw']").val() != $("input[name='psw2']").val()) {
+		else if ($("#register-userPassword").val() != $("#register-userPassword2").val()) {
 			$(".register-dialog .error-msg-inner").css("display", "block");
  			$(".register-dialog .error-msg").html('两次密码输入不同，请重新确认！');
 		}

@@ -95,7 +95,7 @@ public class TEpisode implements java.io.Serializable {
 	}
 
 	/**
-	 * »ñÈ¡ÊÕ²Ø´Î¶Î×ÓµÄÓÃ»§
+	 * è·å–æ”¶è—æ­¤æ®µå­çš„ç”¨æˆ·
 	 * @return Set<TUser>
 	 */
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "TEpisodes")
@@ -108,7 +108,7 @@ public class TEpisode implements java.io.Serializable {
 	}
 
 	/**
-	 * »ñÈ¡´Ë¶Î×ÓµÄÆÀÂÛ
+	 * ç”¨æˆ·æ­¤æ®µå­ä¸‹çš„è¯„è®º
 	 * @return Set<TComment>
 	 */
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "TEpisode")
@@ -121,7 +121,7 @@ public class TEpisode implements java.io.Serializable {
 	}
 
 	/**
-	 * »ñÈ¡µãÔŞ´Ë¶Î×ÓµÄÓÃ»§
+	 * è·å–ç‚¹èµæ­¤æ®µå­çš„ç”¨æˆ·
 	 * @return Set<TUser>
 	 */
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "TEpisodes")
