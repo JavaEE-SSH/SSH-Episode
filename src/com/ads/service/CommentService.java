@@ -21,6 +21,13 @@ public interface CommentService {
 	public long getCommentNum(int episodeId);
 	
 	/**
+	 * 指定 userId 用户是否点赞 commentId 评论
+	 * @param userId
+	 * @param commentId
+	 * @return boolean
+	 */
+	public boolean isGoodComment(int userId, int commentId);
+	/**
 	 * 增加点赞评论数
 	 * @param commentId 评论编号
 	 * @param userId 用户编号

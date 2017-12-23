@@ -15,6 +15,14 @@ public interface CommentDao {
 	public List<TComment> getCommentsByEpisodeId(int pageNum, int episodeId);
 	
 	/**
+	 * 获取指定 userId 和 commentId 的点赞评论信息
+	 * @param userId
+	 * @param commentId
+	 * @return int 0/1
+	 */
+	public int getGoodComment(int userId, int commentId);
+	
+	/**
 	 * 获取评论数
 	 * @param episodeId
 	 */

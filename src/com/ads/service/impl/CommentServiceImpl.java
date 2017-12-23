@@ -25,6 +25,16 @@ public class CommentServiceImpl implements CommentService {
 	public long getCommentNum(int episodeId) {
 		return commentDao.getCommentNum(episodeId);
 	}
+
+	@Override
+	public boolean isGoodComment(int userId, int commentId) {
+		int count = commentDao.getGoodComment(userId, commentId);
+		
+		if (count != 0) {
+			return true;
+		}
+		return false;
+	}
 	
 	@Override
 	public void addGoodComment(String commentId, String userId) {

@@ -393,7 +393,7 @@
 			var content = $(".comments-list");
 			
 			//已经登录获取点赞评论数据
-			<%-- if (<%=flag%> == 1) {
+			if (<%=flag%> == 1) {
 				var commentIds = "";
 				
 				for (var i=0; i<comments.length; i++) {//保存评论id
@@ -402,38 +402,34 @@
 				
 				$.ajax({//异步获取点赞段子信息
 					type : "post",
-					url : "comment/getGoodComment_ajax",
+					url : "comment/getGoodCommentInfo_ajax",
 					dataType:"json",
 					data : {
 						"commentIds" : commentIds,
 						"userId" : "<%= user.getUserId()%>"
 					},
 					success : function(data) {//不能访问comments和users
-						var hasliked = new Array();
-						var textDelete = new Array();
-						
-						for (var i=0; i<data.good.length; i++) {//遍历保存点赞信息
-							if (data.good[i] ==1) {
-								hasliked[i] = "hasliked";
-							}
-							else {
-								hasliked[i] = "";
-							}
-							if (<%= user.getUserId()%> == users[i].userId) {
-								textDelete[i] = '<a class="float-right comment-delete">删除</a>';
-							}
-							else {
-								textDelete[i] = '';
-							}
-						}
+						var good = data;
 						
 						for (var i=0; i<comments.length; i++) {//遍历添加组件
-							content.append('<li><img src="images/'+users[i].userImage+'" />'
+							var hasLiked = "";
+							var textDelete = "";
+							var user = comments[i].TUser;
+							<%-- 设置点赞信息 --%>
+							if (good[i] ==1) {
+								hasLiked = "hasliked";
+							}
+							<%-- 设置删除信息 --%>
+							if (<%= user.getUserId()%> == user.userId) {
+								textDelete = '<a class="float-right comment-delete">删除</a>';
+							}
+							
+							content.append('<li><img src="images/'+user.userImage+'" />'
 									+'<div class="comment-box">'
-									+'<span class="comment-nickname">'+users[i].user_nickname+'</span>'
-									+textDelete[i]
-									+'<a class="float-right comment-like '+hasliked[i]+'"><p style="display:none;">'+comments[i].commentId+'</p>'
-									+comments[i].comment_good+'赞</a>'
+									+'<span class="comment-nickname">'+user.userNickname+'</span>'
+									+textDelete
+									+'<a class="float-right comment-like '+hasLiked+'"><p style="display:none;">'+comments[i].commentId+'</p>'
+									+comments[i].commentGood+'赞</a>'
 									+'</div><p>'+comments[i].commentContent+'</p></li>');
 						}
 					},
@@ -441,8 +437,8 @@
 						alert("请求失败！");
 					}
 				});
-			} --%>
-			/* else {//没有登录 */
+			}
+			else {//没有登录
 				for (var i=0; i<comments.length; i++) {
 					var user = comments[i].TUser;
 					content.append('<li><img src="images/'+user.userImage+'" />'
@@ -452,7 +448,7 @@
 							+comments[i].commentGood+'赞</a>'
 							+'</div><p>'+comments[i].commentContent+'</p></li>');
 				}
-			/* } */
+			}
 		}
 	}
 	//登录回调函数

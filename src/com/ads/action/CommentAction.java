@@ -1,5 +1,6 @@
 package com.ads.action;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,8 @@ public class CommentAction extends ActionSupport implements ModelDriven<Page> {
 	private UserService userService;
 	private Page page;
 	private int episodeId;
+	private String commentIds;
+	private int userId;
 	
 	//getter and setter
 	public int getEpisodeId() {
@@ -38,7 +41,18 @@ public class CommentAction extends ActionSupport implements ModelDriven<Page> {
 	public void setEpisodeId(int episodeId) {
 		this.episodeId = episodeId;
 	}
-
+	public String getCommentIds() {
+		return commentIds;
+	}
+	public void setCommentIds(String commentIds) {
+		this.commentIds = commentIds;
+	}
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 	//ModelDriven 
 	@Override
 	public Page getModel() {
@@ -48,6 +62,9 @@ public class CommentAction extends ActionSupport implements ModelDriven<Page> {
 	}
 
 	//Action 开始
+	/**
+	 * 加载评论分页及相应用户信息
+	 */
 	@Action(value="getCommentsAndUsersByEpisodeId_ajax",
 			results={
 					@Result(name=SUCCESS, type="json")
@@ -77,6 +94,31 @@ public class CommentAction extends ActionSupport implements ModelDriven<Page> {
 		data.put("page", page);
 		//将数据压入栈顶
 		ActionContext.getContext().getValueStack().push(data);
+		return SUCCESS;
+	}
+	
+	/**
+	 * 登录加载点赞评论数据
+	 */
+	@Action(value="getGoodCommentInfo_ajax",
+			results={
+					@Result(name=SUCCESS, type="json")
+			})
+	public String getGoodCommentInfo_ajax() {
+		String[] commentsId = this.commentIds.split(",");//评论id集合
+		List<Integer> good = new ArrayList<>(10);//点赞对应关系
+		
+		for (int i=0; i<commentsId.length; i++) {
+			if (commentService.isGoodComment(userId, Integer.parseInt(commentsId[i]))) {
+				good.add(1);
+			}
+			else {
+				good.add(0);
+			}
+		}
+		
+		//保存数据
+		ActionContext.getContext().getValueStack().push(good);
 		return SUCCESS;
 	}
 }

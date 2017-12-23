@@ -53,6 +53,18 @@ public class CommentDaoImpl extends HibernateDaoSupport implements CommentDao {
 		}
 		return 0;
 	}
+
+	@Override
+	public int getGoodComment(int userId, int commentId) {
+		Session session = this.getSessionFactory().getCurrentSession();
+		String hql = "SELECT count(*) FROM TComment c left outer join c.TUsers u "
+				+"WHERE u.userId = ? AND c.commentId = ?";
+		Query query = session.createQuery(hql);
+		query.setParameter(0, userId);
+		query.setParameter(1, commentId);
+		int count = ((Long) query.list().get(0)).intValue();
+		return count;
+	}
 	
 	@Override
 	public void insertGoodComment(String commentId, String userId) {
