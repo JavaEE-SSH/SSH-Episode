@@ -25,27 +25,6 @@ public interface EpisodeDao {
 	public void updateEpisode(TEpisode episode);
 	
 	/**
-	 * 向 good_episode 添加记录
-	 * 通过 episode.getUsers().add(user)
-	 * @param episode
-	 */
-//	public void insertGoodEpisode(TEpisode episode);
-	
-	/**
-	 * 向 collect 添加一条记录
-	 * @param userId
-	 * @param episodeId
-	 */
-	public void insertCollectEpisode(int userId, int episodeId);
-	
-	/**
-	 * 删除一条记录
-	 * @param userId
-	 * @param episodeId
-	 */
-	public void deleteCollectEpisode(int userId, int episodeId);
-	
-	/**
 	 * 根据添加时间删除段子
 	 * @param addTime
 	 */

@@ -8,5 +8,8 @@
 </head>
 <body>
 	<a href="episode/getEpisodeById?episodeId=1000000000">点击前往</a>
+	<br />
+	
+	<a href="comment/test?episodeId=1000000000">test</a>
 </body>
 </html>

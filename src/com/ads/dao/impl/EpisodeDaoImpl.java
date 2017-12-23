@@ -37,16 +37,6 @@ public class EpisodeDaoImpl extends HibernateDaoSupport implements EpisodeDao {
 	}
 
 	@Override
-	public void insertCollectEpisode(int userId, int episodeId) {
-		
-	}
-
-	@Override
-	public void deleteCollectEpisode(int userId, int episodeId) {
-		
-	}
-
-	@Override
 	public void deleteEpisode(String addTime) {
 		
 	}

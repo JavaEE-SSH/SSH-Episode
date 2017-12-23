@@ -21,38 +21,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int insertUser(String userNickname, String userPassword) {
-		return 0;
+	public TUser getUserByCommentId(int commentId) {
+		return userDao.getUserByCommentId(commentId);
 	}
-
-	@Override
-	public void updateNicknameByUserId(int userId, String userNickname) {
-		
-	}
-
-	@Override
-	public void updateGenderByUserId(int userId, int userGender) {
-		
-	}
-
-	@Override
-	public void updatePasswordByUserId(int userId, String userPassword) {
-		
-	}
-
-	@Override
-	public void updateImageByUserId(int userId, String userImage) {
-		
-	}
-
-	@Override
-	public void updateLoginTimeByUserId(int userId) {
-		
-	}
-
-	@Override
-	public void deleteUser(String loginTime) {
-		
-	}
-
 }

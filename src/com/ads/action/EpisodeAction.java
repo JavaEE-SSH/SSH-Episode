@@ -71,15 +71,38 @@ public class EpisodeAction extends ActionSupport implements ModelDriven<TEpisode
 	}
 	
 	/**
-	 * 点赞
+	 * 异步：点赞
 	 */
 	@Action(value="goodEpisode_ajax",
 			results={
 					@Result(name=SUCCESS, type="json")
 			})
 	public String goodEpisode_ajax() {
-		System.out.println("userId:"+userId+"|episodeId"+episode.getEpisodeId());
 		episodeService.insertGoodEpisode(userId, episode.getEpisodeId());
+		return SUCCESS;
+	}
+	
+	/**
+	 * 异步：添加收藏
+	 */
+	@Action(value="insertCollectEpisode_ajax",
+			results={
+					@Result(name=SUCCESS, type="json")
+			})
+	public String insertCollectEpisode_ajax() {
+		episodeService.insertCollectEpisode(userId, episode.getEpisodeId());
+		return SUCCESS;
+	}
+	
+	/**
+	 * 异步：取消收藏
+	 */
+	@Action(value="removeCollectEpisode_ajax",
+			results={
+					@Result(name=SUCCESS, type="json")
+			})
+	public String removeCollectEpisode_ajax() {
+		episodeService.deleteCollectEpisode(userId, episode.getEpisodeId());
 		return SUCCESS;
 	}
 }

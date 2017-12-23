@@ -143,24 +143,23 @@
 	</div>
 <script type="text/javascript">
 	$(document).ready(function () {
-		var pageComments = null;
-		var users = null;
+		var page = null;
 		var total = 0;//评论总数
 		var loading = false;
+		
 		//--获取评论及用户信息
-		<%-- $.ajax({
+		$.ajax({
 			type : "post",
 			url : "comment/getCommentsAndUsersByEpisodeId_ajax",
 			data : {
 				"episodeId" : "<%= episode.getEpisodeId()%>",
-				"page_num" : 1
+				"pageNum" : 1
 			},
 			dataType:"json",
 			success : function(data) {
-				pageComments = data.comments;
-				users = data.users;
-				total = pageComments.total;//保存评论总数
-				fnCallbackComment(pageComments, users);
+				page = data.page;
+				total = page.total;//保存评论总数
+				fnCallbackComment(data);
 			},
 			error : function(msg) {
 				alert("请求失败！");
@@ -173,7 +172,7 @@
             var content = $(".comments-list");
             
             if(($(document).height()) <= totalheight) {//执行添加一页数据!!滚动过快重复加载数据
-            	if (pageComments != null && pageComments.hasNextPage) {//有下一页
+            	if (page != null && page.hasNextPage) {//有下一页
             		loading = true;
             		//获取下一页段子数据
             		$.ajax({
@@ -181,13 +180,12 @@
             			url : "comment/getCommentsAndUsersByEpisodeId_ajax",
             			data : {
             				"episodeId" : "<%= episode.getEpisodeId()%>",
-            				"page_num" : pageComments.nextPage
+            				"pageNum" : page.pageNum+1
             			},
             			dataType:"json",
             			success : function(data) {
-            				pageComments = data.comments;
-            				users = data.users;
-            				fnCallbackComment(pageComments, users);
+            				page = data.page;
+            				fnCallbackComment(data);
             			},
             			error : function(msg) {
             				alert("请求失败！");
@@ -197,7 +195,7 @@
             		});
             	}
             }
-        }); --%>
+        });
 		
         
         //登录后点赞、收藏标志
@@ -273,7 +271,7 @@
 				else {
 					$.ajax({
 						type : "post",
-						url : "episode/addCollectEpisode_ajax",
+						url : "episode/insertCollectEpisode_ajax",
 						data : {
 							"userId" : "<%= user.getUserId()%>",
 							"episodeId" : "<%= episode.getEpisodeId()%>"
@@ -380,24 +378,26 @@
 	})
 	
 	//***************
-	function fnCallbackComment(pageComments, users) {//评论回调函数
-		if (pageComments == null || users == null) {
+	function fnCallbackComment(data) {//评论回调函数
+		var page = data.page;
+		
+		if (page == null) {
 			alert('数据异常,请稍后重试！');
 		}
-		else if (pageComments.total == 0) {
+		else if (page.total == 0) {
 			$(".no-comment").css("display", "block");
 			$(".no-more-comments").css("display", "none");
 		}
 		else {
-			var listComments = pageComments.list;
+			var comments = data.comments;
 			var content = $(".comments-list");
 			
 			//已经登录获取点赞评论数据
-			if (<%=flag%> == 1) {
+			<%-- if (<%=flag%> == 1) {
 				var commentIds = "";
 				
-				for (var i=0; i<listComments.length; i++) {//保存评论id
-					commentIds += listComments[i].commentId+',';
+				for (var i=0; i<comments.length; i++) {//保存评论id
+					commentIds += comments[i].commentId+',';
 				}
 				
 				$.ajax({//异步获取点赞段子信息
@@ -408,7 +408,7 @@
 						"commentIds" : commentIds,
 						"userId" : "<%= user.getUserId()%>"
 					},
-					success : function(data) {//不能访问listComments和users
+					success : function(data) {//不能访问comments和users
 						var hasliked = new Array();
 						var textDelete = new Array();
 						
@@ -427,31 +427,32 @@
 							}
 						}
 						
-						for (var i=0; i<listComments.length; i++) {//遍历添加组件
+						for (var i=0; i<comments.length; i++) {//遍历添加组件
 							content.append('<li><img src="images/'+users[i].userImage+'" />'
 									+'<div class="comment-box">'
 									+'<span class="comment-nickname">'+users[i].user_nickname+'</span>'
 									+textDelete[i]
-									+'<a class="float-right comment-like '+hasliked[i]+'"><p style="display:none;">'+listComments[i].commentId+'</p>'
-									+listComments[i].comment_good+'赞</a>'
-									+'</div><p>'+listComments[i].commentContent+'</p></li>');
+									+'<a class="float-right comment-like '+hasliked[i]+'"><p style="display:none;">'+comments[i].commentId+'</p>'
+									+comments[i].comment_good+'赞</a>'
+									+'</div><p>'+comments[i].commentContent+'</p></li>');
 						}
 					},
 					error : function(msg) {
 						alert("请求失败！");
 					}
 				});
-			}
-			else {//没有登录
-				for (var i=0; i<listComments.length; i++) {
-					content.append('<li><img src="images/'+users[i].userImage+'" />'
+			} --%>
+			/* else {//没有登录 */
+				for (var i=0; i<comments.length; i++) {
+					var user = comments[i].TUser;
+					content.append('<li><img src="images/'+user.userImage+'" />'
 							+'<div class="comment-box">'
-							+'<span class="comment-nickname">'+users[i].user_nickname+'</span>'
-							+'<a class="float-right comment-like"><p style="display:none;">'+listComments[i].commentId+'</p>'
-							+listComments[i].comment_good+'赞</a>'
-							+'</div><p>'+listComments[i].commentContent+'</p></li>');
+							+'<span class="comment-nickname">'+user.userNickname+'</span>'
+							+'<a class="float-right comment-like"><p style="display:none;">'+comments[i].commentId+'</p>'
+							+comments[i].commentGood+'赞</a>'
+							+'</div><p>'+comments[i].commentContent+'</p></li>');
 				}
-			}
+			/* } */
 		}
 	}
 	//登录回调函数

@@ -11,6 +11,13 @@ public interface UserDao {
 	public TUser getUserById(int userId);
 	
 	/**
+	 * 通过 commentId 获取用户
+	 * @param commentId
+	 * @return TUser
+	 */
+	public TUser getUserByCommentId(int commentId);
+	
+	/**
 	 * 添加用户
 	 * @param userId
 	 * @param userNickname

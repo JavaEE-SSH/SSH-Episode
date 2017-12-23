@@ -1,19 +1,31 @@
 package com.ads.service.impl;
 
-import java.util.Set;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
 
 import com.ads.dao.CommentDao;
 import com.ads.pojo.TComment;
 import com.ads.service.CommentService;
 
+@Service("commentService")
 public class CommentServiceImpl implements CommentService {
+	@Resource
 	private CommentDao commentDao;
 
 	@Override
-	public Set<TComment> getCommentsByEpisodeId(String episodeId) {
-		return null;
+	public List<TComment> getCommentsByEpisodeId(int pageNum, int episodeId) {
+		
+		return commentDao.getCommentsByEpisodeId(pageNum, episodeId);
 	}
 
+	@Override
+	public long getCommentNum(int episodeId) {
+		return commentDao.getCommentNum(episodeId);
+	}
+	
 	@Override
 	public void addGoodComment(String commentId, String userId) {
 		

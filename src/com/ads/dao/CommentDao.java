@@ -1,6 +1,24 @@
 package com.ads.dao;
 
+import java.util.List;
+
+import com.ads.pojo.TComment;
+
 public interface CommentDao {
+	
+	/**
+	 * 通过 episodeId 获取评论集
+	 * @param pageNum
+	 * @param episodeId
+	 * @return List<TComment>
+	 */
+	public List<TComment> getCommentsByEpisodeId(int pageNum, int episodeId);
+	
+	/**
+	 * 获取评论数
+	 * @param episodeId
+	 */
+	public long getCommentNum(int episodeId);
 	
 	/**
 	 * 点赞评论

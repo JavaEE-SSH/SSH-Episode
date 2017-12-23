@@ -47,12 +47,28 @@ public class EpisodeServiceImpl implements EpisodeService {
 
 	@Override
 	public void insertCollectEpisode(int userId, int episodeId) {
-		
+		//获取对应持久化对象
+		TEpisode episode = episodeDao.getEpisodeById(episodeId);
+		TUser user = userDao.getUserById(userId);
+		//多对多关联
+		episode.getTUsers().add(user);
+		user.getTEpisodes().add(episode);
+		//更新数据
+		episodeDao.updateEpisode(episode);
+		userDao.updateUser(user);
 	}
 
 	@Override
 	public void deleteCollectEpisode(int userId, int episodeId) {
-		
+		//获取对应持久化对象
+		TEpisode episode = episodeDao.getEpisodeById(episodeId);
+		TUser user = userDao.getUserById(userId);
+		//多对多关联
+		episode.getTUsers().remove(user);
+		user.getTEpisodes().remove(episode);
+		//更新数据
+		episodeDao.updateEpisode(episode);
+		userDao.updateUser(user);
 	}
 
 	@Override
