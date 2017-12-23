@@ -3,7 +3,9 @@ package com.ads.action;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
@@ -23,6 +25,7 @@ public class UserAction extends ActionSupport implements ModelDriven<TUser>, Req
 	private static final long serialVersionUID = 1L;
 	private Map<String, Object> requestMap;
 	private Map<String, Object> sessionMap;
+	private HttpServletRequest request;
 	@Resource
 	private UserService userSerivce;
 	private TUser user;
@@ -78,6 +81,26 @@ public class UserAction extends ActionSupport implements ModelDriven<TUser>, Req
 		}
 		else {//登录失败
 			ActionContext.getContext().getValueStack().push(0);// 在栈顶放一个 0, 标志登录失败
+		}
+		
+		return SUCCESS;
+	}
+	
+	@Action(value="updateUserInfo_ajax",
+			results={
+					@Result(name=SUCCESS, type="json")
+			})
+	public String updateUserInfo_ajax() {
+		
+		this.request = ServletActionContext.getRequest();
+		
+		String type = this.request.getParameter("type");
+		String user_id = this.request.getParameter("user_id");
+		String user_info = this.request.getParameter("user_info");
+		
+		if(type.equals("1")) {
+			this.userSerivce.upDateUserNicknameById(Integer.parseInt(user_id), user_info);
+			ActionContext.getContext().getValueStack().push(1);
 		}
 		
 		return SUCCESS;

@@ -30,4 +30,11 @@ public interface UserDao {
 	 * @param user
 	 */
 	public void updateUser(TUser user);
+	
+	/**
+	 * 更新用户昵称
+	 * @param userId
+	 * @param nickName
+	 */
+	public void upDateUserNicknameById(int userId,String nickName);
 }

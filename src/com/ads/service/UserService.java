@@ -16,4 +16,11 @@ public interface UserService {
 	 * @return TUser
 	 */
 	public TUser getUserByCommentId(int commentId);
+	
+	/**
+	 * 更新用户昵称
+	 * @param userId
+	 * @param nickName
+	 */
+	public void upDateUserNicknameById(int userId,String nickName);
 }

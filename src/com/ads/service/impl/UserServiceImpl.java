@@ -24,4 +24,9 @@ public class UserServiceImpl implements UserService {
 	public TUser getUserByCommentId(int commentId) {
 		return userDao.getUserByCommentId(commentId);
 	}
+
+	@Override
+	public void upDateUserNicknameById(int userId, String nickName) {
+		userDao.upDateUserNicknameById(userId, nickName);
+	}
 }

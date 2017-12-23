@@ -5,7 +5,12 @@
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 	//----获取用户数据
-	int flag = session.getAttribute("flag")==null?0:(Integer)session.getAttribute("flag");
+	TUser user = (TUser)session.getAttribute("user");
+	int flag = 0;
+	if (user != null) {
+		flag = 1;
+	}
+	/* int flag = session.getAttribute("flag")==null?0:(Integer)session.getAttribute("flag");
 	TUser user = new TUser();
 	if (flag == 1 && request.getAttribute("flag")==null) {
 		user = (TUser)session.getAttribute("user");
@@ -26,7 +31,7 @@
 			session.setAttribute("user", user);
 		}
 		session.setAttribute("flag", flag);
-	}
+	} */
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -359,10 +364,10 @@
 				},
 				dataType:"json",
 				success : function(data) {
-					fnCallback(data);
+					alert("修改昵称成功！");
 				},
 				error : function(msg) {
-					alert("请求失败！");
+					alert("修改昵称失败！");
 				}
 			});
  		}

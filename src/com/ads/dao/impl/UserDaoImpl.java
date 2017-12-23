@@ -50,4 +50,14 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
 		
 		session.merge(user);
 	}
+
+	@Override
+	public void upDateUserNicknameById(int userId, String nickName) {
+		Session session = this.getSessionFactory().getCurrentSession();
+		
+		TUser user = session.get(TUser.class, userId);
+		user.setUserNickname(nickName);
+		
+		session.merge(user);
+	}
 }
