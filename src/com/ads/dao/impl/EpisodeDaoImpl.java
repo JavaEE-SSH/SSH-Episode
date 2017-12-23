@@ -8,7 +8,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.ads.dao.EpisodeDao;
 import com.ads.pojo.TEpisode;
@@ -26,36 +25,15 @@ public class EpisodeDaoImpl extends HibernateDaoSupport implements EpisodeDao {
 	}
 	
 	@Override
-	@Transactional
 	public TEpisode getEpisodeById(int episodeId) {
-		//¿ªÆô»á»°
-		Session session = this.getSessionFactory().openSession();
+		Session session = this.getSessionFactory().getCurrentSession();
 		return session.get(TEpisode.class, episodeId);
 	}
 
 	@Override
-	public Set<TEpisode> getEpisodeByUserId(int userId) {
-		return null;
-	}
-
-	@Override
-	public void addEpisodeGoodById(int episodeId) {
-		
-	}
-
-	@Override
-	public void insertEpisode_Good(int userId, int episodeId) {
-		
-	}
-
-	@Override
-	public int getGoodEpisode(int episodeId, int userId) {
-		return 0;
-	}
-
-	@Override
-	public int getCollect(int episodeId, int userId) {
-		return 0;
+	public void updateEpisode(TEpisode episode) {
+		Session session = this.getSessionFactory().getCurrentSession();
+		session.merge(episode);
 	}
 
 	@Override

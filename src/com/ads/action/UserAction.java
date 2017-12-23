@@ -10,7 +10,6 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.RequestAware;
 import org.apache.struts2.interceptor.SessionAware;
-import org.springframework.stereotype.Controller;
 
 import com.ads.pojo.TUser;
 import com.ads.service.UserService;
@@ -18,7 +17,6 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 
-@Controller
 @Namespace("/user")
 @ParentPackage("json-default")
 public class UserAction extends ActionSupport implements ModelDriven<TUser>, RequestAware, SessionAware {

@@ -5,15 +5,21 @@ import java.util.Set;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ads.dao.EpisodeDao;
+import com.ads.dao.UserDao;
 import com.ads.pojo.TEpisode;
+import com.ads.pojo.TUser;
 import com.ads.service.EpisodeService;
 
+@Transactional
 @Service("episodeService")
 public class EpisodeServiceImpl implements EpisodeService {
 	@Resource
 	private EpisodeDao episodeDao;
+	@Resource
+	private UserDao userDao;
 	
 	@Override
 	public Set<TEpisode> getEpisodes() {
@@ -26,23 +32,17 @@ public class EpisodeServiceImpl implements EpisodeService {
 	}
 
 	@Override
-	public Set<TEpisode> getEpisodeByUserId(int userId) {
-		return null;
-	}
-
-	@Override
-	public int addEpisodeGood(int userId, int episodeId) {
-		return 0;
-	}
-
-	@Override
-	public int getGoodEpisode(int episodeId, int userId) {
-		return 0;
-	}
-
-	@Override
-	public int getCollect(int episodeId, int userId) {
-		return 0;
+	public void insertGoodEpisode(int userId, int episodeId) {
+		//更新段子信息——段子表点赞数+1
+		TEpisode episode = episodeDao.getEpisodeById(episodeId);
+		episode.setEpisodeGood(episode.getEpisodeGood()+1);
+		//添加点赞段子
+		TUser user = userDao.getUserById(userId);
+		episode.getTUsers_1().add(user);
+		user.getTEpisodes_1().add(episode);
+		//保存
+		episodeDao.updateEpisode(episode);
+		userDao.updateUser(user);
 	}
 
 	@Override

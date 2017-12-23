@@ -5,71 +5,54 @@ import java.util.Set;
 import com.ads.pojo.TEpisode;
 
 public interface EpisodeDao {
-	/**»ñÈ¡ËùÓĞ¶Î×ÓĞÅÏ¢
-	 * 
+	/**
+	 * è·å–æ®µå­é›†åˆ
 	 * @return Set<TEpisode>
 	 */
 	public Set<TEpisode> getEpisodes();
-	/**Í¨¹ı¶Î×Ó±àºÅ»ñÈ¡µ¥¸ö¶Î×ÓĞÅÏ¢
-	 * 
+	
+	/**Í¨
+	 * é€šè¿‡ episodeId è·å–æ®µå­
 	 * @param episodeId
 	 * @return TEpisode
 	 */
 	public TEpisode getEpisodeById(int episodeId);
-	/**Í¨¹ıÓÃ»§±àºÅ»ñÈ¡¸öÈËÊÕ²ØµÄ¶Î×Ó
-	 * 
-	 * @param userId
-	 * @return Set<TEpisode>¼¯ºÏ
-	 */
-	public Set<TEpisode> getEpisodeByUserId(int userId);
 	
-	/**Í¨¹ı¶Î×Ó±àºÅÔö¼Ó¶Î×ÓµãÔŞÊı
-	 * 
-	 * @param episodeId
+	/**Í¨
+	 * æ›´æ–° episode
+	 * @param episode
 	 */
-	public void addEpisodeGoodById(int episodeId);
-	/**½«ÓÃ»§idºÍ¶Î×Óid¹ØÁªµ½¶Î×ÓµãÔŞ±í
-	 * 
-	 * @param userId
-	 * @param episodeId
-	 */
-	public void insertEpisode_Good(int userId, int episodeId);
+	public void updateEpisode(TEpisode episode);
 	
-	/**Í¨¹ı¶Î×Ó±àºÅºÍÓÃ»§±àºÅ²éÑ¯µãÔŞ¶Î×Ó±íÖĞÊÇ·ñÓĞÊı¾İ
-	 * 
-	 * @param episodeId
-	 * @param userId
-	 * @return 0-Ã»ÓĞ
+	/**
+	 * å‘ good_episode æ·»åŠ è®°å½•
+	 * é€šè¿‡ episode.getUsers().add(user)
+	 * @param episode
 	 */
-	public int getGoodEpisode(int episodeId, int userId);
-	/**Í¨¹ı¶Î×Ó±àºÅºÍÓÃ»§±àºÅ²éÑ¯ÊÕ²Ø±íÖĞÊÇ·ñÓĞÊı¾İ
-	 * 
-	 * @param episodeId
-	 * @param userId
-	 * @return 0-Ã»ÓĞ
-	 */
-	public int getCollect(int episodeId, int userId);
+//	public void insertGoodEpisode(TEpisode episode);
 	
-	/**Ìí¼ÓÊÕ²Ø¶Î×Ó
-	 * 
+	/**
+	 * å‘ collect æ·»åŠ ä¸€æ¡è®°å½•
 	 * @param userId
 	 * @param episodeId
 	 */
 	public void insertCollectEpisode(int userId, int episodeId);
-	/**È¡ÏûÊÕ²Ø¶Î×Ó
-	 * 
+	
+	/**
+	 * åˆ é™¤ä¸€æ¡è®°å½•
 	 * @param userId
 	 * @param episodeId
 	 */
 	public void deleteCollectEpisode(int userId, int episodeId);
 	
-	/**É¾³ıÖ¸¶¨Ê±¼äÇ°µÄ¶Î×Ó
-	 * 
+	/**
+	 * æ ¹æ®æ·»åŠ æ—¶é—´åˆ é™¤æ®µå­
 	 * @param addTime
 	 */
 	public void deleteEpisode(String addTime);
-	/**Ìí¼Ó¶Î×Ó
-	 * 
+	
+	/**
+	 * ç”± episodeContent å‘æ•°æ®åº“æ·»åŠ ä¸€æ¡è®°å½•
 	 * @param episodeContent
 	 */
 	public void insertEpisode(String episodeContent);

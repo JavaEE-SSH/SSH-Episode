@@ -10,14 +10,12 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.RequestAware;
 import org.apache.struts2.interceptor.SessionAware;
-import org.springframework.stereotype.Controller;
 
 import com.ads.pojo.TEpisode;
 import com.ads.service.EpisodeService;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 
-@Controller
 @ParentPackage("json-default")
 @Namespace("/episode")
 public class EpisodeAction extends ActionSupport implements ModelDriven<TEpisode>, RequestAware, SessionAware{
@@ -27,7 +25,17 @@ public class EpisodeAction extends ActionSupport implements ModelDriven<TEpisode
 	private TEpisode episode;
 	private Map<String, Object> requestMap;
 	private Map<String, Object> sessionMap;
+	private int userId;
 	
+	//getter and setter
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
 	//实现接口方法
 	@Override
 	public TEpisode getModel() {
@@ -59,6 +67,19 @@ public class EpisodeAction extends ActionSupport implements ModelDriven<TEpisode
 		TEpisode e = this.episodeService.getEpisodeById(episodeId);
 		requestMap.put("episode", e);
 		
+		return SUCCESS;
+	}
+	
+	/**
+	 * 点赞
+	 */
+	@Action(value="goodEpisode_ajax",
+			results={
+					@Result(name=SUCCESS, type="json")
+			})
+	public String goodEpisode_ajax() {
+		System.out.println("userId:"+userId+"|episodeId"+episode.getEpisodeId());
+		episodeService.insertGoodEpisode(userId, episode.getEpisodeId());
 		return SUCCESS;
 	}
 }

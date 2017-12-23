@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<%@page import="com.ads.util.ManyHasOneUtil"%>
 <%@taglib prefix="s" uri="/struts-tags"%>
 <%@page import="com.ads.pojo.*"%>
 <%@page import="java.util.Set"%>
@@ -18,7 +19,7 @@
 	session.setAttribute("episodeId", episode.getEpisodeId());//保存段子id-给登录操作
 
 	//分解episode，获取相关信息
-	Set<TComment> comments = (Set<TComment>)episode.getTComments();//评论
+	//Set<TComment> comments = (Set<TComment>)episode.getTComments();//评论
 	Set<TUser> usersOfCollect = (Set<TUser>)episode.getTUsers();//点赞的用户
 	Set<TUser> usersOfGood = (Set<TUser>)episode.getTUsers_1();//收藏的用户
 	int goodFlag = 0;
@@ -27,10 +28,10 @@
 		user = new TUser();
 	}
 	else {
-		if (usersOfGood.contains(user)) {
+		if (ManyHasOneUtil.isContains(usersOfGood, user)) {
 			goodFlag = 1;
 		}
-		if (usersOfCollect.contains(user)) {
+		if (ManyHasOneUtil.isContains(usersOfCollect, user)) {
 			collectFlag = 1;
 		}
 	}
@@ -199,7 +200,7 @@
         }); --%>
 		
         
-        //测试
+        //登录后点赞、收藏标志
         if (<%= goodFlag%> == 1) {
 			$(".article-like").addClass("hasliked");
 		}
@@ -242,7 +243,7 @@
 			else if (!$(".article-like").hasClass("hasliked")) {
 				$.ajax({
 					type : "post",
-					url : "episode/addEpisodeGood_ajax",
+					url : "episode/goodEpisode_ajax",
 					data : {
 						"userId" : "<%= user.getUserId()%>",
 						"episodeId" : "<%= episode.getEpisodeId()%>"

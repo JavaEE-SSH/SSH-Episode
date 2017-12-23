@@ -54,6 +54,7 @@
                 <prop key="hibernate.show_sql">true</prop>
                 <prop key="hibernate.format_sql">true</prop>
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <!-- <prop key="current_session_context_class">thread</prop> -->
             </props>
         </property>
 	</bean>
@@ -67,7 +68,7 @@
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 	<!-- 启用事务注解 -->
-	<tx:annotation-driven transaction-manager="txManager" />
+	<tx:annotation-driven transaction-manager="txManager" proxy-target-class="true" />
 
 	<!-- 配置文件上传 -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

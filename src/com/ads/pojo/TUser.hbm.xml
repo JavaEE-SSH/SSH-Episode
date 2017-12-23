@@ -1,55 +1,60 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Generated 2017-12-19 12:16:28 by Hibernate Tools 5.0.6.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
-    <class catalog="episode" dynamic-insert="false" dynamic-update="false" mutable="true" name="com.ads.pojo.TUser" optimistic-lock="version" polymorphism="implicit" select-before-update="false" table="t_user">
-        <id name="userId" type="int">
-            <column name="user_id"/>
-            <generator class="assigned"/>
-        </id>
-        <property generated="never" lazy="false" name="loginTime" optimistic-lock="true" type="date" unique="false">
-            <column length="10" name="login_time" not-null="true"/>
-        </property>
-        <property generated="never" lazy="false" name="userGender" optimistic-lock="true" type="int" unique="false">
-            <column name="user_gender" not-null="true"/>
-        </property>
-        <property generated="never" lazy="false" name="userImage" optimistic-lock="true" type="string" unique="false">
-            <column length="100" name="user_image" not-null="true"/>
-        </property>
-        <property generated="never" lazy="false" name="userNickname" optimistic-lock="true" type="string" unique="false">
-            <column length="20" name="user_nickname" not-null="true"/>
-        </property>
-        <property generated="never" lazy="false" name="userPassword" optimistic-lock="true" type="string" unique="false">
-            <column length="20" name="user_password" not-null="true"/>
-        </property>
-        <set embed-xml="true" fetch="select" inverse="false" lazy="true" mutable="true" name="TEpisodes" optimistic-lock="true" sort="unsorted" table="t_collect">
-            <key on-delete="noaction">
-                <column name="user_id" not-null="true"/>
-            </key>
-            <many-to-many embed-xml="true" entity-name="com.ads.pojo.TEpisode" not-found="exception" unique="false">
-                <column name="episode_id" not-null="true"/>
-            </many-to-many>
-        </set>
-        <set embed-xml="true" fetch="select" inverse="false" lazy="true" mutable="true" name="TComments" optimistic-lock="true" sort="unsorted" table="t_good_comment">
-            <key on-delete="noaction">
-                <column name="user_id" not-null="true"/>
-            </key>
-            <many-to-many embed-xml="true" entity-name="com.ads.pojo.TComment" not-found="exception" unique="false">
-                <column name="comment_id" not-null="true"/>
-            </many-to-many>
-        </set>
-        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="TComments_1" optimistic-lock="true" sort="unsorted" table="t_comment">
-            <key on-delete="noaction">
-                <column name="user_id" not-null="true"/>
-            </key>
-            <one-to-many class="com.ads.pojo.TComment" embed-xml="true" not-found="exception"/>
-        </set>
-        <set embed-xml="true" fetch="select" inverse="false" lazy="true" mutable="true" name="TEpisodes_1" optimistic-lock="true" sort="unsorted" table="t_good_episode">
-            <key on-delete="noaction">
-                <column name="user_id" not-null="true"/>
-            </key>
-            <many-to-many embed-xml="true" entity-name="com.ads.pojo.TEpisode" not-found="exception" unique="false">
-                <column name="episode_id" not-null="true"/>
-            </many-to-many>
-        </set>
-    </class>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-12-19 12:16:28 by Hibernate Tools 5.0.6.Final -->
+<hibernate-mapping>
+ <class catalog="episode" name="com.ads.pojo.TUser" table="t_user">
+  <id name="userId" type="int">
+   <column name="user_id"/>
+   <generator class="assigned"/>
+  </id>
+  <property generated="never" lazy="false" name="loginTime" type="date">
+   <column length="10" name="login_time" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="userGender" type="int">
+   <column name="user_gender" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="userImage" type="string">
+   <column length="100" name="user_image" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="userNickname" type="string">
+   <column length="20" name="user_nickname" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="userPassword" type="string">
+   <column length="20" name="user_password" not-null="true"/>
+  </property>
+  <set cascade="save-update" fetch="select" inverse="true" lazy="true"
+   name="TEpisodes" sort="unsorted" table="t_collect">
+   <key>
+    <column name="user_id" not-null="true"/>
+   </key>
+   <many-to-many entity-name="com.ads.pojo.TEpisode" unique="false">
+    <column name="episode_id" not-null="true"/>
+   </many-to-many>
+  </set>
+  <set cascade="save-update" fetch="select" inverse="true" lazy="true"
+   name="TComments" sort="unsorted" table="t_good_comment">
+   <key>
+    <column name="user_id" not-null="true"/>
+   </key>
+   <many-to-many entity-name="com.ads.pojo.TComment" unique="false">
+    <column name="comment_id" not-null="true"/>
+   </many-to-many>
+  </set>
+  <set fetch="select" inverse="true" lazy="true" name="TComments_1"
+   sort="unsorted" table="t_comment">
+   <key>
+    <column name="user_id" not-null="true"/>
+   </key>
+   <one-to-many class="com.ads.pojo.TComment"/>
+  </set>
+  <set fetch="select" lazy="true" name="TEpisodes_1" sort="unsorted" table="t_good_episode">
+   <key>
+    <column name="user_id" not-null="true"/>
+   </key>
+   <many-to-many entity-name="com.ads.pojo.TEpisode" unique="false">
+    <column name="episode_id" not-null="true"/>
+   </many-to-many>
+  </set>
+ </class>
 </hibernate-mapping>
