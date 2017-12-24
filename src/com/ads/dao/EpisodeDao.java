@@ -1,38 +1,41 @@
 package com.ads.dao;
 
+import java.util.List;
 import java.util.Set;
 
 import com.ads.pojo.TEpisode;
 
 public interface EpisodeDao {
 	/**
-	 * 获取段子集合
+	 * 鑾峰彇娈靛瓙闆嗗悎
 	 * @return Set<TEpisode>
 	 */
-	public Set<TEpisode> getEpisodes();
+	public List<TEpisode> getEpisodes(int pageNum);
 	
-	/**ͨ
-	 * 通过 episodeId 获取段子
+	/**通
+	 * 閫氳繃 episodeId 鑾峰彇娈靛瓙
 	 * @param episodeId
 	 * @return TEpisode
 	 */
 	public TEpisode getEpisodeById(int episodeId);
 	
-	/**ͨ
-	 * 更新 episode
+	/**通
+	 * 鏇存柊 episode
 	 * @param episode
 	 */
 	public void updateEpisode(TEpisode episode);
 	
 	/**
-	 * 根据添加时间删除段子
+	 * 鏍规嵁娣诲姞鏃堕棿鍒犻櫎娈靛瓙
 	 * @param addTime
 	 */
 	public void deleteEpisode(String addTime);
 	
 	/**
-	 * 由 episodeContent 向数据库添加一条记录
+	 * 鐢� episodeContent 鍚戞暟鎹簱娣诲姞涓�鏉¤褰�
 	 * @param episodeContent
 	 */
 	public void insertEpisode(String episodeContent);
+	public long getEpisodeNum();
+
 }

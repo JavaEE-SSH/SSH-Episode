@@ -1,5 +1,7 @@
 package com.ads.action;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -11,8 +13,12 @@ import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.RequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 
+import com.ads.pojo.TComment;
 import com.ads.pojo.TEpisode;
 import com.ads.service.EpisodeService;
+import com.ads.util.Page;
+import com.ads.util.PageUtil;
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 
@@ -26,6 +32,7 @@ public class EpisodeAction extends ActionSupport implements ModelDriven<TEpisode
 	private Map<String, Object> requestMap;
 	private Map<String, Object> sessionMap;
 	private int userId;
+	private Page page;
 	
 	//getter and setter
 	public int getUserId() {
@@ -35,14 +42,17 @@ public class EpisodeAction extends ActionSupport implements ModelDriven<TEpisode
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-
-	//实现接口方法
+	
+	public void setPage(Page page) {
+		this.page = page;
+	}
+	//瀹炵幇鎺ュ彛鏂规硶
 	@Override
 	public TEpisode getModel() {
 		this.episode = new TEpisode();
 		return episode;
 	}
-
+	
 	@Override
 	public void setRequest(Map<String, Object> arg0) {
 		this.requestMap = arg0;
@@ -53,9 +63,9 @@ public class EpisodeAction extends ActionSupport implements ModelDriven<TEpisode
 		this.sessionMap = arg0;
 	}
 
-	//action 开始
+	//action 寮�濮�
 	/**
-	 * 根据 episodeId 获取段子信息
+	 * 鏍规嵁 episodeId 鑾峰彇娈靛瓙淇℃伅
 	 * @return SUCCESS
 	 */
 	@Action(value="getEpisodeById",
@@ -71,7 +81,7 @@ public class EpisodeAction extends ActionSupport implements ModelDriven<TEpisode
 	}
 	
 	/**
-	 * 异步：点赞
+	 * 寮傛锛氱偣璧�
 	 */
 	@Action(value="goodEpisode_ajax",
 			results={
@@ -83,7 +93,7 @@ public class EpisodeAction extends ActionSupport implements ModelDriven<TEpisode
 	}
 	
 	/**
-	 * 异步：添加收藏
+	 * 寮傛锛氭坊鍔犳敹钘�
 	 */
 	@Action(value="insertCollectEpisode_ajax",
 			results={
@@ -95,7 +105,7 @@ public class EpisodeAction extends ActionSupport implements ModelDriven<TEpisode
 	}
 	
 	/**
-	 * 异步：取消收藏
+	 * 寮傛锛氬彇娑堟敹钘�
 	 */
 	@Action(value="removeCollectEpisode_ajax",
 			results={
@@ -103,6 +113,46 @@ public class EpisodeAction extends ActionSupport implements ModelDriven<TEpisode
 			})
 	public String removeCollectEpisode_ajax() {
 		episodeService.deleteCollectEpisode(userId, episode.getEpisodeId());
+		return SUCCESS;
+	}
+	/**
+	 * 寮傛锛氬彇娑堟敹钘�
+	 */
+	@Action(value="getEpisodes_ajax",
+			results={
+					@Result(name=SUCCESS, type="json")
+			})
+	public String getEpisodes_ajax() {
+		System.out.println("Action");
+		System.out.println(page.getPageNum());
+		List<TEpisode> episodes = episodeService
+				.getEpisodes(page.getPageNum());//璇勮s
+		for(int i =0;i < episodes.size();i++){
+			System.out.println(episodes.get(i).getEpisodeContent());
+		}
+		long total = episodeService.getEpisodeNum();//璇勮鎬绘暟
+		System.out.println(total);
+		//璁剧疆page灞炴��
+		this.page.setHasNextPage(PageUtil.hasNextPage(page.getPageNum(), 10, total));
+		this.page.setTotal(total);
+		this.page.setPerPageNum(10);
+//		
+//		//闃叉鍔犺浇棰濆鏁版嵁
+//		for (int i=0; i<comments.size(); i++) {
+//			comments.get(i).setTEpisode(null);
+//			comments.get(i).setTUsers(null);
+//			comments.get(i).getTUser().setTComments(null);
+//			comments.get(i).getTUser().setTComments_1(null);
+//			comments.get(i).getTUser().setTEpisodes(null);
+//			comments.get(i).getTUser().setTEpisodes_1(null);
+//		}
+//		
+//		//灏嗛厤缃ソ鐨勬暟鎹墦鍖�
+		Map<String, Object> data = new HashMap<>();
+		data.put("episodes", episodes);
+		data.put("page", page);
+		//灏嗘暟鎹帇鍏ユ爤椤�
+		ActionContext.getContext().getValueStack().push(data);
 		return SUCCESS;
 	}
 }

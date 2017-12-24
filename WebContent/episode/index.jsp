@@ -45,14 +45,14 @@
 			</div>
 			<button class="btn btn-search"  onclick="javascript:alert('没实现，谢谢！');">搜  索</button>
 			<div class="float-right header-links">
-				<button class="btn btn-login js-to-login" style="display: <%= flag==0?"inline-block":"none"%>;">登录</button>
+				<button class="btn btn-login js-to-login" style="display: <%=flag==0?"inline-block":"none"%>;">登录</button>
 				<!-- 登陆成功，个人信息 -->
-				<div class="user-info-box" style="display: <%= flag==1?"block":"none"%>;">
-					<a class="user-info">
-						<img src="images/<%= user.getUserImage()==null?"she.png":user.getUserImage()%>" class="profile"/>
-						<span class="nickname"><%= user.getUserNickname()==null?"":user.getUserNickname()%></span>
-						<span class="iconfont icon-down"></span>
-					</a>
+				<div class="user-info-box" style="display: <%=flag==1?"block":"none"%>;">
+<!-- 					<a class="user-info"> -->
+<%-- 						<img src="images/<%= user.getUserImage()==null?"she.png":user.getUserImage()%>" class="profile"/> --%>
+<%-- 						<span class="nickname"><%= user.getUserNickname()==null?"":user.getUserNickname()%></span> --%>
+<!-- 						<span class="iconfont icon-down"></span> -->
+<!-- 					</a> -->
 					<div class="user-info-menu" style="display: none;">
 						<a href="episode/personal_center.jsp">个人中心</a>
 						<a class="logout-btn">退出</a>
@@ -69,13 +69,13 @@
 				<img src="images/she.png" alt="icon" class="channel-image"/>
 				<p class="user-info"></p>
 			</div> -->
-			<a href="<%= flag==1?"episode/personal_center.jsp":"episode/index.jsp"%>">
-				<div class="profile-wrapper">
-					<img src="images/<%= user.getUserImage()==null?"she.png":user.getUserImage()%>" />
-					<p id="p-nick" class="nickname"><%= user.getUserNickname()==null?"":user.getUserNickname()%></p>
-					<p><%= user.getUserId()==0?"":user.getUserId()%></p>
-				</div>
-			</a>
+<%-- 			<a href="<%= flag==1?"episode/personal_center.jsp":"episode/index.jsp"%>"> --%>
+<!-- 				<div class="profile-wrapper"> -->
+<%-- 					<img src="images/<%= user.getUserImage()==null?"she.png":user.getUserImage()%>" /> --%>
+<%-- 					<p id="p-nick" class="nickname"><%= user.getUserNickname()==null?"":user.getUserNickname()%></p> --%>
+<%-- 					<p><%= user.getUserId()==0?"":user.getUserId()%></p> --%>
+<!-- 				</div> -->
+<!-- 			</a> -->
 			<div class="advertisement">
 				<p>老<br />板<br />，<br />打<br />广<br />告<br />吗<br />？</p>
 			</div>
@@ -83,7 +83,7 @@
 		<!-- 左侧段子 -->
 		<div id="episode" class="channel-news channel-new-0">
 		</div>
-		<div class="no-more-episodes" style="display: inline-block;">加载数据中...</div>
+		<div class="no-more-episodes" style="display: inline-block;">已加载全部评论</div>
 	</div>
 	
 	<div class="footer-mini-wrapper">
@@ -154,19 +154,20 @@
 	
 <script type="text/javascript">
 	$(document).ready(function() {
-		var page_data = null;
+		var page = null;
         var loading = false;//标志未加载
+        
 		//获取段子数据
 		$.ajax({
 			type : "post",
 			url : "episode/getEpisodes_ajax",
 			data : {
-				"page_num" : 1
+				"page.pageNum" : 1
 			},
 			dataType:"json",
 			success : function(data) {
-				page_data = data.data;
-				fnCallback_episode(page_data);
+ 				page = data.page;
+				fnCallback_episode(data);
 			},
 			error : function(msg) {
 				alert("请求失败！");
@@ -178,19 +179,19 @@
             var totalheight = parseFloat($(window).height()) + parseFloat(srollPos);
             
             if(($(document).height()) <= totalheight + 50) {//执行添加一页数据!!滚动过快重复加载数据
-            	if (page_data.hasNextPage && !loading) {//有下一页,且没有加载
+            	if (page.hasNextPage && !loading) {//有下一页,且没有加载
             		loading = true;
             		//获取下一页段子数据
             		$.ajax({
             			type : "post",
             			url : "episode/getEpisodes_ajax",
             			data : {
-            				"page_num" : page_data.nextPage
+            				"page.pageNum" : page.pageNum+1
             			},
             			dataType:"json",
             			success : function(data) {
-            				page_data = data.data;//更新 page_data 数据
-            				fnCallback_episode(page_data);
+            				page = data.page;//更新 page_data 数据
+            				fnCallback_episode(data);
             			},
             			error : function(msg) {
             				alert("请求失败！");
@@ -199,22 +200,24 @@
             			loading = false;
             		})
             	}
-            	else if (!page_data.hasNextPage) {//数据加载完成
+            	else if (!data.hasNextPage) {//数据加载完成
             		$(".no-more-episodes").html("已加载全部内容");
             	}
             }
         });
 	})
-	function fnCallback_episode(page_data) {
-		var list = page_data.list;//段子分页数据
+	function fnCallback_episode(data) {
+
+		var list = data.episodes;//段子分页数据
 		var content = $("#episode");
 		
 		if (list != null) {
 			for (var i=0; i<list.length; i++) {
-				content.append('<a href="episode/getEpisodeById?episode_id='+list[i].episode_id+'" target="_blank" class="item doc doc-joke">'
-						+'<div class="doc-title">'+list[i].episode_content.substr(0,10)+'...</div>'
-						+'<h3 class="doc-summary">'+list[i].episode_content+'</h3>'
+				content.append('<a href="episode/getEpisodeById?episodeId='+list[i].episodeId+'" target="_blank" class="item doc doc-joke">'
+						+'<div class="doc-title">'+list[i].episodeContent.substr(0,10)+'...</div>'
+						+'<h3 class="doc-summary">'+list[i].episodeContent+'</h3>'
 						+'<div class="doc-info"></div></a>');
+
 			}
 		}
 		else {
@@ -251,14 +254,14 @@
  		else {
 			$.ajax({
 				type : "post",
-				url : "user/login_index",
+				url : "user/userLogin_ajax_Index",
 				data : {
 					"userId" : $("#login-userId").val(),
 					"userPassword" : $("#login-userPassword").val()
 				},
 				dataType:"json",
 				success : function(data) {
-					fnCallback(data);
+					fnCallback_login(data);
 				},
 				error : function(msg) {
 					alert("请求失败！");

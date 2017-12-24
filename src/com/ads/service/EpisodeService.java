@@ -1,7 +1,9 @@
 package com.ads.service;
 
+import java.util.List;
 import java.util.Set;
 
+import com.ads.pojo.TComment;
 import com.ads.pojo.TEpisode;
 
 public interface EpisodeService {
@@ -9,12 +11,16 @@ public interface EpisodeService {
 	 * 鑾峰彇娈靛瓙闆嗗悎
 	 * @return List<Episode> 
 	 */
-	public Set<TEpisode> getEpisodes();
+	public List<TEpisode> getEpisodes(int pageNum);
 	
 	/**
 	 * 閫氳繃 episodeId 鑾峰彇 Episode
 	 * @param episodeId 
 	 * @return Episode 
+	 */
+	public long getEpisodeNum();
+	/**
+	 * 获取段子总数
 	 */
 	public TEpisode getEpisodeById(int episodeId);
 	

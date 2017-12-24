@@ -20,7 +20,7 @@ import com.ads.pojo.TUser;
 
 @Repository("commentDao")
 public class CommentDaoImpl extends HibernateDaoSupport implements CommentDao {
-	//注入 sessionFactory
+	//娉ㄥ叆 sessionFactory
 	@Resource
 	public void setSessionFactory0(SessionFactory sessionFactory){  
 		super.setSessionFactory(sessionFactory); 
@@ -28,14 +28,14 @@ public class CommentDaoImpl extends HibernateDaoSupport implements CommentDao {
 	
 	@Override
 	public List<TComment> getCommentsByEpisodeId(int pageNum, int episodeId) {
-		//获取当前 session
+		//鑾峰彇褰撳墠 session
 		Session session = this.getSessionFactory().getCurrentSession();
-		//创建 criteria 对象
+		//鍒涘缓 criteria 瀵硅薄
 		Criteria criteria = session.createCriteria(TComment.class);
-		//设置查询条件
+		//璁剧疆鏌ヨ鏉′欢
 		Criterion criterion = Restrictions.eq("TEpisode.episodeId", episodeId);
 		criteria.add(criterion);
-		criteria.addOrder(Order.desc("commentGood"));//按点赞降序排列
+		criteria.addOrder(Order.desc("commentGood"));//鎸夌偣璧為檷搴忔帓鍒�
 		criteria.setFirstResult((pageNum-1) * 10);
 		criteria.setMaxResults(10);
 		
@@ -71,11 +71,11 @@ public class CommentDaoImpl extends HibernateDaoSupport implements CommentDao {
 	
 	@Override
 	public int getCommentIdByUserIdAndEpisodeId(int userId, int episodeId) {
-		//获取当前 session
+		//鑾峰彇褰撳墠 session
 		Session session = this.getSessionFactory().getCurrentSession();
-		//创建 criteria 对象
+		//鍒涘缓 criteria 瀵硅薄
 		Criteria criteria = session.createCriteria(TComment.class);
-		//设置查询条件
+		//璁剧疆鏌ヨ鏉′欢
 		Criterion criterion1 = Restrictions.eq("TEpisode.episodeId", episodeId);
 		Criterion criterion2 = Restrictions.eq("TUser.userId", userId);
 		criteria.add(criterion1);
@@ -90,13 +90,13 @@ public class CommentDaoImpl extends HibernateDaoSupport implements CommentDao {
 	@Override
 	public void insertGoodComment(int commentId, int userId) {
 		Session session = this.getSessionFactory().getCurrentSession();
-		TUser user = session.get(TUser.class, userId);//用户
-		TComment comment = session.get(TComment.class, commentId);//评论
-		//设置关联关系
+		TUser user = session.get(TUser.class, userId);//鐢ㄦ埛
+		TComment comment = session.get(TComment.class, commentId);//璇勮
+		//璁剧疆鍏宠仈鍏崇郴
 		user.getTComments().add(comment);
 		comment.getTUsers().add(user);
 		comment.setCommentGood(comment.getCommentGood()+1);
-		//保存数据
+		//淇濆瓨鏁版嵁
 		session.update(comment);
 		session.update(user);
 	}
