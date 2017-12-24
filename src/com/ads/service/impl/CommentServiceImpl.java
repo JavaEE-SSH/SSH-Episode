@@ -5,15 +5,25 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ads.dao.CommentDao;
+import com.ads.dao.EpisodeDao;
+import com.ads.dao.UserDao;
 import com.ads.pojo.TComment;
+import com.ads.pojo.TEpisode;
+import com.ads.pojo.TUser;
 import com.ads.service.CommentService;
 
 @Service("commentService")
+@Transactional
 public class CommentServiceImpl implements CommentService {
 	@Resource
 	private CommentDao commentDao;
+	@Resource
+	private UserDao userDao;
+	@Resource
+	private EpisodeDao episodeDao;
 
 	@Override
 	public List<TComment> getCommentsByEpisodeId(int pageNum, int episodeId) {
@@ -37,22 +47,22 @@ public class CommentServiceImpl implements CommentService {
 	}
 	
 	@Override
-	public void addGoodComment(String commentId, String userId) {
+	public void addGoodComment(int commentId, int userId) {
+		commentDao.insertGoodComment(commentId, userId);
+	}
+
+	@Override
+	public int insertComment(String commentContent, int userId, int episodeId) {
+		TUser user = userDao.getUserById(userId);
+		TEpisode episode = episodeDao.getEpisodeById(episodeId);
+		TComment comment = new TComment(episode, user, commentContent, 0);
+		commentDao.insertComment(comment);
 		
+		return commentDao.getCommentIdByUserIdAndEpisodeId(userId, episodeId);
 	}
 
 	@Override
-	public int getGoodComment(String commentId, String userId) {
-		return 0;
-	}
-
-	@Override
-	public String insertComment(String commentContent, String userId, String episodeId) {
-		return null;
-	}
-
-	@Override
-	public void deleteComment(String commentId) {
-		
+	public int deleteComment(int commentId) {
+		return commentDao.deleteComment(commentId);
 	}
 }

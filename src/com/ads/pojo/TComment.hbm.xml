@@ -20,7 +20,8 @@
   <property generated="never" lazy="false" name="commentGood" type="int">
    <column name="comment_good" not-null="true"/>
   </property>
-  <set fetch="select" lazy="true" name="TUsers" sort="unsorted" table="t_good_comment">
+  <set cascade="all" fetch="select" lazy="true" name="TUsers"
+   sort="unsorted" table="t_good_comment">
    <key>
     <column name="comment_id" not-null="true"/>
    </key>

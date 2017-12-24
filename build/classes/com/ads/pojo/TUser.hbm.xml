@@ -32,7 +32,7 @@
     <column name="episode_id" not-null="true"/>
    </many-to-many>
   </set>
-  <set cascade="save-update" fetch="select" inverse="true" lazy="true"
+  <set cascade="all" fetch="select" inverse="true" lazy="true"
    name="TComments" sort="unsorted" table="t_good_comment">
    <key>
     <column name="user_id" not-null="true"/>

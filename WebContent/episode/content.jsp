@@ -292,8 +292,10 @@
 		if (<%= flag%> == 1) {
 			$(".add-comment-btn").click(function() {
 				var text = $(".comment-input").val();
-				if (text.length == 0 || text.length > 200) {
-					alert("请输入200个字以内！");
+				var textLen = text.replace(/[\u0391-\uFFE5]/g,"aa").length;
+				$(".comment-input").val("");//清空输入
+				if (textLen == 0 || textLen > 280) {
+					alert("请输入140个字以内！");
 				}
 				else {
 					var comment = new Object();
@@ -311,6 +313,7 @@
 						},
 						dataType:"json",
 						success : function(data) {
+							alert("评论成功！");
 							total += 1;//新增一条评论
 							if ($(".no-comment").css("display") == "block") {//没有评论
 								$(".comments-list").css("display", "block");
@@ -321,7 +324,7 @@
 									+'<div class="comment-box">'
 									+'<span class="comment-nickname"><%= user.getUserNickname()%></span>'
 									+'<a class="float-right comment-delete">删除</a>'
-									+'<a class="float-right comment-like"><p style="display:none;">'+data.commentId+'</p>0赞</a>'
+									+'<a class="float-right comment-like"><p style="display:none;">'+data+'</p>0赞</a>'
 									+'</div><p>'+comment.commentContent+'</p></li>');
 						},
 						error : function() {
@@ -342,7 +345,18 @@
 				data : {
 					"commentId" : $(this).next().find("p").html()
 				},
-				dataType:"json"
+				dataType:"json",
+				success : function(data) {
+					if (data == 1) {
+						alert("删除成功！");
+					}
+					else {
+						alert("操作失败，请刷新后重试！");
+					}
+				},
+				error : function(msg) {
+					alert("请求失败，请稍后重试！");
+				}
 			}); 
 			 $(this).parent().parent().slideUp("fast");
 			 total -= 1;//减少一条评论

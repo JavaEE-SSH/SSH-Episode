@@ -29,23 +29,29 @@ public interface CommentDao {
 	public long getCommentNum(int episodeId);
 	
 	/**
+	 * 通过 userId 和 episodeId 获取评论id
+	 * @param userId
+	 * @param episodeId
+	 * @return int
+	 */
+	public int getCommentIdByUserIdAndEpisodeId(int userId, int episodeId);
+	/**
 	 * 点赞评论
 	 * @param commentId
 	 * @param userId
 	 */
-	public void insertGoodComment(String commentId, String userId);
+	public void insertGoodComment(int commentId, int userId);
 	
 	/**
 	 * 新增评论
-	 * @param commentContent
-	 * @param userId
-	 * @param episodeId
+	 * @param comment
 	 */
-	public void insertComment(String commentContent, String userId, String episodeId);
+	public void insertComment(TComment comment);
 	
 	/**
 	 * 删除评论
 	 * @param commentId
+	 * @return int 操作记录数
 	 */
-	public void deleteComment(String commentId);
+	public int deleteComment(int commentId);
 }

@@ -32,27 +32,20 @@ public interface CommentService {
 	 * @param commentId 评论编号
 	 * @param userId 用户编号
 	 */
-	public void addGoodComment(String commentId, String userId);
-	
-	/**
-	 * 获取点赞评论数据
-	 * @param commentId 评论编号
-	 * @param userId 用户编号
-	 * @return 是否查询到数据， 1-是，0-否
-	 */
-	public int getGoodComment(String commentId, String userId);
-	
+	public void addGoodComment(int commentId, int userId);
+
 	/**
 	 * 新增评论
 	 * @param Comment对象
 	 * @return 新增评论id
 	 */
-	public String insertComment(String commentContent, String userId, String episodeId);
+	public int insertComment(String commentContent, int userId, int episodeId);
 	
 	/**
 	 * 删除评论
 	 * @param userId 用户编号
 	 * @param episodeId 段字编号
+	 * @return int 操作记录数
 	 */
-	public void deleteComment(String commentId);
+	public int deleteComment(int commentId);
 }

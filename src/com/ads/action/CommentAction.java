@@ -33,6 +33,8 @@ public class CommentAction extends ActionSupport implements ModelDriven<Page> {
 	private int episodeId;
 	private String commentIds;
 	private int userId;
+	private int commentId;
+	private String commentContent;
 	
 	//getter and setter
 	public int getEpisodeId() {
@@ -52,6 +54,18 @@ public class CommentAction extends ActionSupport implements ModelDriven<Page> {
 	}
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+	public int getCommentId() {
+		return commentId;
+	}
+	public void setCommentId(int commentId) {
+		this.commentId = commentId;
+	}
+	public String getCommentContent() {
+		return commentContent;
+	}
+	public void setCommentContent(String commentContent) {
+		this.commentContent = commentContent;
 	}
 	//ModelDriven 
 	@Override
@@ -119,6 +133,51 @@ public class CommentAction extends ActionSupport implements ModelDriven<Page> {
 		
 		//保存数据
 		ActionContext.getContext().getValueStack().push(good);
+		return SUCCESS;
+	}
+	
+	/**
+	 * 异步：删除评论
+	 */
+	@Action(value="removeComment_ajax",
+			results={
+					@Result(name=SUCCESS, type="json")
+			})
+	public String removeComment_ajax() {
+		int record = commentService.deleteComment(commentId);
+		if (record == 0) {
+			ActionContext.getContext().getValueStack().push(0);
+		}
+		else {
+			ActionContext.getContext().getValueStack().push(1);
+		}
+		return SUCCESS;
+	}
+	
+	/**
+	 * 异步：点赞评论
+	 */
+	@Action(value="addGoodComment_ajax",
+			results={
+					@Result(name=SUCCESS, type="json")
+			})
+	public String addGoodComment_ajax() {
+		commentService.addGoodComment(commentId, userId);
+		return SUCCESS;
+	}
+	
+	/**
+	 * 异步：发表评论
+	 * @return
+	 */
+	@Action(value="addComment_ajax",
+			results={
+					@Result(name=SUCCESS, type="json")
+	})
+	public String addComment_ajax() {
+		int commentId = commentService.insertComment(commentContent, userId, episodeId);
+		System.out.println("--------------新增评论id:"+commentId+"---------------");
+		ActionContext.getContext().getValueStack().push(commentId);
 		return SUCCESS;
 	}
 }

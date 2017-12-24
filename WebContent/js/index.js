@@ -39,3 +39,28 @@ function scrollTop() {//实现回滚函数
 		var sc = $(window).scrollTop();
 		$('body,html').animate({scrollTop : 0}, 500);
 }
+
+/**
+ * 计算 text 的长度
+ * 汉字为2 ，字符为 1
+ * @param text
+ * @returns int 长度
+ */
+function textLength(text) {
+	if (text == null) {
+		return 0;
+	}
+	else {
+		var realLength = 0;
+		var len = text.length;
+		var charCode = -1;
+		for (var i = 0; i < len; i++) {
+		    charCode = text.charCodeAt(i);
+		    if (charCode >= 0 && charCode <= 128) 
+		       realLength += 1;
+		    else
+		       realLength += 2;
+		}
+		return realLength;
+	}
+}
