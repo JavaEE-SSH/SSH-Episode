@@ -185,7 +185,7 @@
 				<input type="hidden" id="y2" />
 
 				<div>
-					<input type="file" id="image_file" name="file" onchange="fileSelectHandler()" />
+					<input type="file" id="image_file" name="myFile" onchange="fileSelectHandler()" />
 				</div>
 
 				<div class="error"></div>
@@ -257,7 +257,7 @@
 					}
 				},
 				error : function(msg) {
-					alert("请求失败！");
+					alert("获取收藏段子失败！");
 				}
 			});
 			//滚动加载数据
@@ -384,10 +384,10 @@
 			},
 			dataType:"json",
 			success : function(data) {
-				fnCallback(data);
+				alert("修改性别成功！");
 			},
 			error : function(msg) {
-				alert("请求失败！");
+				alert("修改性别失败！");
 			}
 		});
 	})
@@ -410,10 +410,10 @@
 				},
 				dataType:"json",
 				success : function(data) {
-					fnCallback(data);
+					alert("修改密码成功！");
 				},
 				error : function(msg) {
-					alert("请求失败！");
+					alert("修改密码失败！");
 				}
 			});
  		}

@@ -136,17 +136,14 @@ public class EpisodeAction extends ActionSupport implements ModelDriven<TEpisode
 		this.page.setHasNextPage(PageUtil.hasNextPage(page.getPageNum(), 10, total));
 		this.page.setTotal(total);
 		this.page.setPerPageNum(10);
-//		
-//		//闃叉鍔犺浇棰濆鏁版嵁
-//		for (int i=0; i<comments.size(); i++) {
-//			comments.get(i).setTEpisode(null);
-//			comments.get(i).setTUsers(null);
-//			comments.get(i).getTUser().setTComments(null);
-//			comments.get(i).getTUser().setTComments_1(null);
-//			comments.get(i).getTUser().setTEpisodes(null);
-//			comments.get(i).getTUser().setTEpisodes_1(null);
-//		}
-//		
+		
+		//防止额外数据加载
+		for (int i=0; i<episodes.size(); i++) {
+			episodes.get(i).setTComments(null);
+			episodes.get(i).setTUsers(null);
+			episodes.get(i).setTUsers_1(null);
+		}
+		
 //		//灏嗛厤缃ソ鐨勬暟鎹墦鍖�
 		Map<String, Object> data = new HashMap<>();
 		data.put("episodes", episodes);

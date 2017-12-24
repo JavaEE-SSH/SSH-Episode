@@ -37,4 +37,18 @@ public interface UserDao {
 	 * @param nickName
 	 */
 	public void upDateUserNicknameById(int userId,String nickName);
+	
+	/**
+	 * 更新用户性别
+	 * @param userId
+	 * @param gender
+	 */
+	public void upDateUserGenderById(int userId,int gender);
+	
+	/**
+	 * 更新用户密码
+	 * @param userId
+	 * @param password
+	 */
+	public void upDateUserPasswordById(int userId,String password);
 }

@@ -90,6 +90,7 @@
 .login-dialog .third-party-box .icon-weibo:hover,.login-mobile-dialog .third-party-box .icon-weibo:hover{color:#fb673b}
 .login-dialog .third-party-box .icon-weixin:hover,.login-mobile-dialog .third-party-box .icon-weixin:hover{color:#7ad324}
 .login-dialog .third-party-box .icon-mi:hover,.login-mobile-dialog .third-party-box .icon-mi:hover{color:#de6429}
+.no-more-episodes{display:none;width:664px;text-align:center;line-height:40px;font-size:14px;color:#999}
 .register-dialog{min-height:230px;margin-top:-174px;padding-bottom:25px}
 .register-dialog .logo{margin-top:30px}
 .register-dialog .input-email-box,.register-dialog .input-phone-box{margin-top:27px}

@@ -1,10 +1,15 @@
 package com.ads.action;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
@@ -26,6 +31,12 @@ public class UserAction extends ActionSupport implements ModelDriven<TUser>, Req
 	private Map<String, Object> requestMap;
 	private Map<String, Object> sessionMap;
 	private HttpServletRequest request;
+	
+	private File myFile;
+	private String myFileContentType;
+	private String myFileFileName;
+	private String destPath;
+	
 	@Resource
 	private UserService userSerivce;
 	private TUser user;
@@ -39,6 +50,39 @@ public class UserAction extends ActionSupport implements ModelDriven<TUser>, Req
 //		this.page = page;
 //	}
 
+	public File getMyFile() {
+		return myFile;
+	}
+
+	public void setMyFile(File myFile) {
+		this.myFile = myFile;
+	}
+
+	public String getMyFileContentType() {
+		return myFileContentType;
+	}
+
+	public void setMyFileContentType(String myFileContentType) {
+		this.myFileContentType = myFileContentType;
+	}
+
+	public String getMyFileFileName() {
+		return myFileFileName;
+	}
+
+	public void setMyFileFileName(String myFileFileName) {
+		this.myFileFileName = myFileFileName;
+	}
+
+	public String getDestPath() {
+		return destPath;
+	}
+
+	public void setDestPath(String destPath) {
+		this.destPath = destPath;
+	}
+	
+	
 	//实现接口方法
 	@Override
 	public TUser getModel() {
@@ -101,8 +145,40 @@ public class UserAction extends ActionSupport implements ModelDriven<TUser>, Req
 		if(type.equals("1")) {
 			this.userSerivce.upDateUserNicknameById(Integer.parseInt(user_id), user_info);
 			ActionContext.getContext().getValueStack().push(1);
+		}else if(type.equals("2")) {
+			this.userSerivce.upDateUserGenderById(Integer.parseInt(user_id), Integer.parseInt(user_info));
+			ActionContext.getContext().getValueStack().push(1);
+		}else if(type.equals("3")) {
+			this.userSerivce.upDateUserPasswordById(Integer.parseInt(user_id), user_info);
+			ActionContext.getContext().getValueStack().push(1);
 		}
 		
 		return SUCCESS;
 	}
+	
+	@Action(value="uploadImage",
+			results={
+					@Result(name=SUCCESS, type="json")
+			})
+	public String uploadImage() {
+		
+		this.request = ServletActionContext.getRequest();
+		String user_id = this.request.getParameter("user_id");
+		destPath = ServletActionContext.getServletContext().getRealPath("/images");
+
+		System.out.println("Src File name: " + myFile);
+		System.out.println("Dst File name: " + myFileFileName);
+		System.out.println("destPath: " + destPath);
+		File destFile = new File(destPath,myFileFileName);
+		try {
+			FileUtils.copyFile(myFile, destFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "error";
+		}
+		
+		return SUCCESS;
+	}
+	
 }

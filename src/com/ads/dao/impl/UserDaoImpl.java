@@ -60,4 +60,25 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
 		
 		session.merge(user);
 	}
+
+	@Override
+	public void upDateUserGenderById(int userId, int gender) {
+		Session session = this.getSessionFactory().getCurrentSession();
+		
+		TUser user = session.get(TUser.class, userId);
+		user.setUserGender(gender);
+		
+		session.merge(user);
+	}
+
+	@Override
+	public void upDateUserPasswordById(int userId, String password) {
+		Session session = this.getSessionFactory().getCurrentSession();
+		
+		TUser user = session.get(TUser.class, userId);
+		user.setUserPassword(password);
+		
+		session.merge(user);
+		
+	}
 }

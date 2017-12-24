@@ -29,4 +29,14 @@ public class UserServiceImpl implements UserService {
 	public void upDateUserNicknameById(int userId, String nickName) {
 		userDao.upDateUserNicknameById(userId, nickName);
 	}
+
+	@Override
+	public void upDateUserGenderById(int userId, int gender) {
+		userDao.upDateUserGenderById(userId, gender);
+	}
+
+	@Override
+	public void upDateUserPasswordById(int userId, String password) {
+		userDao.upDateUserPasswordById(userId, password);
+	}
 }

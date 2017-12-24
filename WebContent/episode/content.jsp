@@ -472,7 +472,7 @@
 			$(".login-dialog .error-msg").html('用户名或密码错误！');
 		}
 		else {
-			window.location.reload();
+			window.location.replace("episode/content.jsp");
 		}
 	}
 	//处理登录AJAX
