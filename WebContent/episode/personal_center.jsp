@@ -338,7 +338,7 @@
 		if (data.flag == 1) {
 			alert("修改成功！");
 			$("input[name='username']").val($("#user-id").html());
-			$("input[name='password']").val(""+<%= user.getUserPassword()%>);
+			$("input[name='password']").val("<%= user.getUserPassword()%>");
 			$(".login-form").submit();
 		}
 		else {

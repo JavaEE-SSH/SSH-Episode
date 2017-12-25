@@ -142,6 +142,10 @@ public class UserAction extends ActionSupport implements ModelDriven<TUser>, Req
 		String user_id = this.request.getParameter("user_id");
 		String user_info = this.request.getParameter("user_info");
 		
+		/*String type = (String) this.requestMap.get("type");
+		String user_id = (String) this.requestMap.get("user_id");
+		String user_info = (String) this.requestMap.get("user_info");*/
+		
 		if(type.equals("1")) {
 			this.userSerivce.upDateUserNicknameById(Integer.parseInt(user_id), user_info);
 			ActionContext.getContext().getValueStack().push(1);
