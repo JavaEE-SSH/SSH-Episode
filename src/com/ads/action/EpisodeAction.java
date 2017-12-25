@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
@@ -33,6 +35,7 @@ public class EpisodeAction extends ActionSupport implements ModelDriven<TEpisode
 	private Map<String, Object> sessionMap;
 	private int userId;
 	private Page page;
+	private HttpServletRequest request;
 	
 	//getter and setter
 	public int getUserId() {
@@ -150,6 +153,30 @@ public class EpisodeAction extends ActionSupport implements ModelDriven<TEpisode
 		data.put("page", page);
 		//灏嗘暟鎹帇鍏ユ爤椤�
 		ActionContext.getContext().getValueStack().push(data);
+		return SUCCESS;
+	}
+	
+	@Action(value="getEpisodeByUserId_ajax",
+			results={
+					@Result(name=SUCCESS, type="json")
+			})
+	public String getEpisodeByUserId_ajax() {
+		System.out.println(userId+"=============="+page.getPageNum());
+		List<TEpisode> episodes = episodeService
+				.getEpisodesByUserId(userId, page.getPageNum());
+		
+		long total = episodeService.getEpisodeNumByUserId(userId);
+		System.out.println(total+"==================================");
+		this.page.setHasNextPage(PageUtil.hasNextPage(page.getPageNum(), 10, total));
+		this.page.setTotal(total);
+		this.page.setPerPageNum(10);
+
+		Map<String, Object> data = new HashMap<>();
+		data.put("episodes", episodes);
+		data.put("page", page);
+		
+		ActionContext.getContext().getValueStack().push(data);
+		
 		return SUCCESS;
 	}
 }

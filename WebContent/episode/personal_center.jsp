@@ -241,8 +241,8 @@
 				type : "post",
 				url : "episode/getEpisodeByUserId_ajax",
 				data : {
-					"page_num" : 1,
-					"user_id" : <%= user.getUserId()%>
+					"page.pageNum" : 1,
+					"userId" : <%= user.getUserId()%>
 				},
 				dataType:"json",
 				success : function(data) {

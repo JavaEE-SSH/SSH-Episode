@@ -71,4 +71,37 @@ public class EpisodeDaoImpl extends HibernateDaoSupport implements EpisodeDao {
 		}
 		return 0;
 	}
+
+	@Override
+	public List<TEpisode> getEpisodeByUserId(int userId, int pageNum) {
+		
+		Session session = this.getSessionFactory().getCurrentSession();
+		String sql =  
+                "SELECT e.episode_id,e.episode_content,e.add_date,e.episode_good "  
+                    + "FROM t_episode e LEFT JOIN t_collect c ON e.episode_id=c.episode_id where c.user_id = "+userId;
+		Query query = session.createSQLQuery(sql);
+		query.setFirstResult((pageNum-1) * 10);
+		query.setMaxResults(10);
+				
+		@SuppressWarnings("unchecked")
+		List<TEpisode> TEpisodes = query.list();
+		return TEpisodes;
+	}
+
+	@Override
+	public long getEpisodeNumByUserId(int userId) {
+		
+		Session session = this.getSessionFactory().getCurrentSession();
+		String sql =  
+                "SELECT e.episode_id "  
+                    + "FROM t_episode e LEFT JOIN t_collect c ON e.episode_id=c.episode_id where c.user_id = "+userId;
+		Query query = session.createSQLQuery(sql);
+		@SuppressWarnings("unchecked")
+		List<TEpisode> TEpisodes = query.list();
+		Number count = TEpisodes.size();
+		if (count != null) {
+			return count.intValue();
+		}
+		return 0;
+	}
 }

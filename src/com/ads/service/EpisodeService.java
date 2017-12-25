@@ -14,13 +14,27 @@ public interface EpisodeService {
 	public List<TEpisode> getEpisodes(int pageNum);
 	
 	/**
+	 * 获取用户收藏的段子
+	 * @param pageNum
+	 * @return
+	 */
+	public List<TEpisode> getEpisodesByUserId(int userId,int pageNum);
+	
+	/**
 	 * 通过 episodeId 获取 Episode
 	 * @param episodeId 
 	 * @return Episode 
 	 */
 	public long getEpisodeNum();
+	
 	/**
-	 * ��ȡ��������
+	 * 获取用户收藏段子的总页数
+	 * @param userId
+	 * @return
+	 */
+	public long getEpisodeNumByUserId(int userId);
+	/**
+	 * ��ȡ��������
 	 */
 	public TEpisode getEpisodeById(int episodeId);
 	

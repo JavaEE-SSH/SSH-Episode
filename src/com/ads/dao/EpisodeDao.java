@@ -12,6 +12,13 @@ public interface EpisodeDao {
 	 */
 	public List<TEpisode> getEpisodes(int pageNum);
 	
+	/**
+	 * 获取用户收藏段子
+	 * @param pageNum
+	 * @return
+	 */
+	public List<TEpisode> getEpisodeByUserId(int userId,int pageNum);
+	
 	/**通
 	 * 閫氳繃 episodeId 鑾峰彇娈靛瓙
 	 * @param episodeId
@@ -37,5 +44,12 @@ public interface EpisodeDao {
 	 */
 	public void insertEpisode(String episodeContent);
 	public long getEpisodeNum();
+	
+	/**
+	 * 获取用户收藏段子总页数
+	 * @param userId
+	 * @return
+	 */
+	public long getEpisodeNumByUserId(int userId);
 
 }

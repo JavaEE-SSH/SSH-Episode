@@ -87,4 +87,16 @@ public class EpisodeServiceImpl implements EpisodeService {
 		// TODO Auto-generated method stub
 		return episodeDao.getEpisodeNum();
 	}
+
+	@Override
+	public List<TEpisode> getEpisodesByUserId(int userId, int pageNum) {
+		// TODO Auto-generated method stub
+		return episodeDao.getEpisodeByUserId(userId, pageNum);
+	}
+
+	@Override
+	public long getEpisodeNumByUserId(int userId) {
+		// TODO Auto-generated method stub
+		return episodeDao.getEpisodeNumByUserId(userId);
+	}
 }
