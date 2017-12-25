@@ -91,7 +91,7 @@
 						</div>
 					</div>
 					<div class="account-box">
-						<label>用户名</label>
+						<label>账号</label>
 						<div class="account-op">
 							<span id="user-id"><%= user.getUserId()==0?"":user.getUserId()%></span>
 						</div>
