@@ -1,5 +1,7 @@
 package com.ads.action;
 
+import com.ads.util.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -36,6 +38,7 @@ public class UserAction extends ActionSupport implements ModelDriven<TUser>, Req
 	private String myFileContentType;
 	private String myFileFileName;
 	private String destPath;
+	private ImageCutUtil imageCut;
 	
 	@Resource
 	private UserService userSerivce;
@@ -169,15 +172,32 @@ public class UserAction extends ActionSupport implements ModelDriven<TUser>, Req
 		
 		this.request = ServletActionContext.getRequest();
 		String user_id = this.request.getParameter("user_id");
+		double x1 = Double.parseDouble(this.request.getParameter("x1"));
+		double y1 = Double.parseDouble(this.request.getParameter("y1"));
+		double w = Double.parseDouble(this.request.getParameter("w"));
+		double h = Double.parseDouble(this.request.getParameter("h"));;
 		destPath = ServletActionContext.getServletContext().getRealPath("/images");
-
+		
 		System.out.println("Src File name: " + myFile);
 		System.out.println("Dst File name: " + myFileFileName);
 		System.out.println("destPath: " + destPath);
 		File destFile = new File(destPath,myFileFileName);
+		
+		Date date = new Date(System.currentTimeMillis());  
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");  
+        String fileName = dateFormat.format(date) + myFileFileName;
+        
+        File finalFile = new File(destPath,fileName);
 		try {
 			FileUtils.copyFile(myFile, destFile);
-			this.userSerivce.upDateUserImageById(Integer.parseInt(user_id), myFileFileName);
+			Boolean flag = imageCut.cutImage(destFile.getAbsolutePath(), finalFile.getAbsolutePath(), (int)x1, (int)y1, (int)w, (int)h);
+			if(flag) {
+				this.userSerivce.upDateUserImageById(Integer.parseInt(user_id), fileName);
+			}else {
+				System.out.println("剪切未成功");
+				this.userSerivce.upDateUserImageById(Integer.parseInt(user_id), myFileFileName);
+			}
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
