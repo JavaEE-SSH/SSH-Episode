@@ -1,7 +1,7 @@
 package com.ads.dao.impl;
 
+import java.math.BigInteger;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -9,14 +9,10 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import com.ads.dao.EpisodeDao;
-import com.ads.pojo.TComment;
 import com.ads.pojo.TEpisode;
 
 @Repository("episodeDao")
@@ -28,9 +24,7 @@ public class EpisodeDaoImpl extends HibernateDaoSupport implements EpisodeDao {
 	
 	@Override
 	public List<TEpisode> getEpisodes(int pageNum) {
-		//鑾峰彇褰撳墠 session
 		Session session = this.getSessionFactory().getCurrentSession();
-		//鍒涘缓 criteria 瀵硅薄
 		Criteria criteria = session.createCriteria(TEpisode.class);
 		criteria.setFirstResult((pageNum-1) * 10);
 		criteria.setMaxResults(10);
@@ -65,7 +59,7 @@ public class EpisodeDaoImpl extends HibernateDaoSupport implements EpisodeDao {
 		Session session = this.getSessionFactory().getCurrentSession();
 		String hql = "SELECT count(*) FROM TEpisode";
 		Query query = session.createQuery(hql);
-		Long count = (Long) query.list().get(0);
+		Long count = (Long) query.uniqueResult();
 		if (count != null) {
 			return count;
 		}
@@ -93,15 +87,11 @@ public class EpisodeDaoImpl extends HibernateDaoSupport implements EpisodeDao {
 		
 		Session session = this.getSessionFactory().getCurrentSession();
 		String sql =  
-                "SELECT e.episode_id "  
+                "SELECT count(*) "  
                     + "FROM t_episode e LEFT JOIN t_collect c ON e.episode_id=c.episode_id where c.user_id = "+userId;
 		Query query = session.createSQLQuery(sql);
-		@SuppressWarnings("unchecked")
-		List<TEpisode> TEpisodes = query.list();
-		Number count = TEpisodes.size();
-		if (count != null) {
-			return count.intValue();
-		}
-		return 0;
+		Long count = ((BigInteger) query.uniqueResult()).longValue();
+		
+		return count;
 	}
 }

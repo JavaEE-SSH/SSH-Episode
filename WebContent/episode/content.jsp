@@ -19,7 +19,6 @@
 	session.setAttribute("episodeId", episode.getEpisodeId());//保存段子id-给登录操作
 
 	//分解episode，获取相关信息
-	//Set<TComment> comments = (Set<TComment>)episode.getTComments();//评论
 	Set<TUser> usersOfCollect = (Set<TUser>)episode.getTUsers();//点赞的用户
 	Set<TUser> usersOfGood = (Set<TUser>)episode.getTUsers_1();//收藏的用户
 	int goodFlag = 0;
@@ -72,7 +71,7 @@
 			
 			<div class="comments">
 				<div class="hd-comment">
-					<a href="<%= flag==1?"episode/personalCenter.jsp":"javascript:void(0)"%>">
+					<a href="<%= flag==1?"episode/personal_center.jsp":"javascript:void(0)"%>">
 						<img src="images/<%= user.getUserImage()==null?"she.png":user.getUserImage()%>" />
 					</a>
 					<textarea placeholder="发表你的精彩评论，还可以输入200字" maxlength="140" class="comment-input"></textarea>
@@ -206,31 +205,8 @@
 			$(".article-report").html("已收藏");
 			$(".article-report").addClass("article-hasliked");
 		}
+		
 		//--处理点赞收藏评论
-		//----如果已经登录获取点赞段子数据
-		<%-- if (<%=flag%> == 1) {
-			$.ajax({
-				type : "post",
-				url : "episode/getGoodEpisodeAndCollect_ajax",
-				data : {
-					"episodeId" : "<%= episode.getEpisodeId()%>",
-					"userId" : "<%= user.getUserId()%>"
-				},
-				dataType:"json",
-				success : function(data) {
-					if (data.good == 1) {
-						$(".article-like").addClass("hasliked");
-					}
-					if (data.collect == 1) {
-						$(".article-report").html("已收藏");
-						$(".article-report").addClass("article-hasliked");
-					}
-				},
-				error : function(msg) {
-					alert("请求失败！");
-				}
-			});
-		} --%>
 		//----点赞段子ajax
 		$(".article-like").click(function () {
 			var flag = '<%= flag%>';

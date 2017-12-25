@@ -5,17 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
-import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.RequestAware;
-import org.apache.struts2.interceptor.SessionAware;
 
-import com.ads.pojo.TComment;
 import com.ads.pojo.TEpisode;
 import com.ads.service.EpisodeService;
 import com.ads.util.Page;
@@ -26,16 +22,15 @@ import com.opensymphony.xwork2.ModelDriven;
 
 @ParentPackage("json-default")
 @Namespace("/episode")
-public class EpisodeAction extends ActionSupport implements ModelDriven<TEpisode>, RequestAware, SessionAware{
+public class EpisodeAction extends ActionSupport implements ModelDriven<TEpisode>, RequestAware{
 	private static final long serialVersionUID = 1L;
 	@Resource
 	private EpisodeService episodeService;
-	private TEpisode episode;
 	private Map<String, Object> requestMap;
-	private Map<String, Object> sessionMap;
+	
+	private TEpisode episode;
 	private int userId;
 	private Page page;
-	private HttpServletRequest request;
 	
 	//getter and setter
 	public int getUserId() {
@@ -49,26 +44,21 @@ public class EpisodeAction extends ActionSupport implements ModelDriven<TEpisode
 	public void setPage(Page page) {
 		this.page = page;
 	}
-	//瀹炵幇鎺ュ彛鏂规硶
+	
+	//实现接口方法
 	@Override
 	public TEpisode getModel() {
 		this.episode = new TEpisode();
 		return episode;
 	}
-	
 	@Override
 	public void setRequest(Map<String, Object> arg0) {
 		this.requestMap = arg0;
 	}
 
-	@Override
-	public void setSession(Map<String, Object> arg0) {
-		this.sessionMap = arg0;
-	}
-
-	//action 寮�濮�
+	//action 开始
 	/**
-	 * 鏍规嵁 episodeId 鑾峰彇娈靛瓙淇℃伅
+	 * 通过 episodeId 获取段子信息
 	 * @return SUCCESS
 	 */
 	@Action(value="getEpisodeById",
@@ -84,7 +74,7 @@ public class EpisodeAction extends ActionSupport implements ModelDriven<TEpisode
 	}
 	
 	/**
-	 * 寮傛锛氱偣璧�
+	 * 异步：点赞段子
 	 */
 	@Action(value="goodEpisode_ajax",
 			results={
@@ -96,7 +86,7 @@ public class EpisodeAction extends ActionSupport implements ModelDriven<TEpisode
 	}
 	
 	/**
-	 * 寮傛锛氭坊鍔犳敹钘�
+	 * 异步：收藏段子
 	 */
 	@Action(value="insertCollectEpisode_ajax",
 			results={
@@ -108,7 +98,7 @@ public class EpisodeAction extends ActionSupport implements ModelDriven<TEpisode
 	}
 	
 	/**
-	 * 寮傛锛氬彇娑堟敹钘�
+	 * 异步：取消收藏
 	 */
 	@Action(value="removeCollectEpisode_ajax",
 			results={
@@ -118,24 +108,19 @@ public class EpisodeAction extends ActionSupport implements ModelDriven<TEpisode
 		episodeService.deleteCollectEpisode(userId, episode.getEpisodeId());
 		return SUCCESS;
 	}
+	
 	/**
-	 * 寮傛锛氬彇娑堟敹钘�
+	 * 异步：获取段子列表
 	 */
 	@Action(value="getEpisodes_ajax",
 			results={
 					@Result(name=SUCCESS, type="json")
 			})
 	public String getEpisodes_ajax() {
-		System.out.println("Action");
-		System.out.println(page.getPageNum());
 		List<TEpisode> episodes = episodeService
-				.getEpisodes(page.getPageNum());//璇勮s
-		for(int i =0;i < episodes.size();i++){
-			System.out.println(episodes.get(i).getEpisodeContent());
-		}
-		long total = episodeService.getEpisodeNum();//璇勮鎬绘暟
-		System.out.println(total);
-		//璁剧疆page灞炴��
+				.getEpisodes(page.getPageNum());//段子列表
+		long total = episodeService.getEpisodeNum();//段子总数
+		//设置分页数据
 		this.page.setHasNextPage(PageUtil.hasNextPage(page.getPageNum(), 10, total));
 		this.page.setTotal(total);
 		this.page.setPerPageNum(10);
@@ -147,30 +132,34 @@ public class EpisodeAction extends ActionSupport implements ModelDriven<TEpisode
 			episodes.get(i).setTUsers_1(null);
 		}
 		
-//		//灏嗛厤缃ソ鐨勬暟鎹墦鍖�
+		//把数据打包
 		Map<String, Object> data = new HashMap<>();
 		data.put("episodes", episodes);
 		data.put("page", page);
-		//灏嗘暟鎹帇鍏ユ爤椤�
+		//把数据传送到前端
 		ActionContext.getContext().getValueStack().push(data);
 		return SUCCESS;
 	}
 	
+	/**
+	 * 通过 userId 获取收藏的段子列表
+	 */
 	@Action(value="getEpisodeByUserId_ajax",
 			results={
 					@Result(name=SUCCESS, type="json")
 			})
 	public String getEpisodeByUserId_ajax() {
-		
+		//获取段子列表
 		List<TEpisode> episodes = episodeService
 				.getEpisodesByUserId(userId, page.getPageNum());
-		
+		//段子总数
 		long total = episodeService.getEpisodeNumByUserId(userId);
 		
+		//设置分页数据
 		this.page.setHasNextPage(PageUtil.hasNextPage(page.getPageNum(), 10, total));
 		this.page.setTotal(total);
 		this.page.setPerPageNum(10);
-
+		//打包数据
 		Map<String, Object> data = new HashMap<>();
 		data.put("episodes", episodes);
 		data.put("page", page);

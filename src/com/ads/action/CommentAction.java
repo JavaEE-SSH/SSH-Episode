@@ -67,6 +67,7 @@ public class CommentAction extends ActionSupport implements ModelDriven<Page> {
 	public void setCommentContent(String commentContent) {
 		this.commentContent = commentContent;
 	}
+	
 	//ModelDriven 
 	@Override
 	public Page getModel() {
@@ -176,7 +177,6 @@ public class CommentAction extends ActionSupport implements ModelDriven<Page> {
 	})
 	public String addComment_ajax() {
 		int commentId = commentService.insertComment(commentContent, userId, episodeId);
-		System.out.println("--------------新增评论id:"+commentId+"---------------");
 		ActionContext.getContext().getValueStack().push(commentId);
 		return SUCCESS;
 	}

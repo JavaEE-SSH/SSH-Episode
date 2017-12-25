@@ -1,13 +1,12 @@
 package com.ads.dao;
 
 import java.util.List;
-import java.util.Set;
 
 import com.ads.pojo.TEpisode;
 
 public interface EpisodeDao {
 	/**
-	 * 鑾峰彇娈靛瓙闆嗗悎
+	 * 获取指定 pageNum 的段子列表
 	 * @return Set<TEpisode>
 	 */
 	public List<TEpisode> getEpisodes(int pageNum);
@@ -19,30 +18,34 @@ public interface EpisodeDao {
 	 */
 	public List<TEpisode> getEpisodeByUserId(int userId,int pageNum);
 	
-	/**通
-	 * 閫氳繃 episodeId 鑾峰彇娈靛瓙
+	/**
+	 * 通过 episodeId 获取段子信息
 	 * @param episodeId
 	 * @return TEpisode
 	 */
 	public TEpisode getEpisodeById(int episodeId);
 	
-	/**通
-	 * 鏇存柊 episode
+	/**
+	 * 通过 episode 更新段子信息
 	 * @param episode
 	 */
 	public void updateEpisode(TEpisode episode);
 	
 	/**
-	 * 鏍规嵁娣诲姞鏃堕棿鍒犻櫎娈靛瓙
+	 * 按时间删除段子
 	 * @param addTime
 	 */
 	public void deleteEpisode(String addTime);
 	
 	/**
-	 * 鐢� episodeContent 鍚戞暟鎹簱娣诲姞涓�鏉¤褰�
+	 * 新增段子
 	 * @param episodeContent
 	 */
 	public void insertEpisode(String episodeContent);
+	
+	/**
+	 * 获取段子总数
+	 */
 	public long getEpisodeNum();
 	
 	/**

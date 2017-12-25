@@ -10,28 +10,9 @@
 	if (user != null) {
 		flag = 1;
 	}
-	/* int flag = session.getAttribute("flag")==null?0:(Integer)session.getAttribute("flag");
-	TUser user = new TUser();
-	if (flag == 1 && request.getAttribute("flag")==null) {
-		user = (TUser)session.getAttribute("user");
-		if (request.getAttribute("isUpload") != null) {
-			if ((Integer)request.getAttribute("isUpload") == 1) {
-				user.setUserImage(request.getAttribute("user_image").toString());
-			}
-			else {
-				out.println("<script>alert('上传失败');</script>");
-			}
-		}
-	}
 	else {
-		//登录操作获取用户数据
-		flag = request.getAttribute("flag")==null?0:1;
-		if (flag == 1) {
-			user = (TUser)request.getAttribute("user");
-			session.setAttribute("user", user);
-		}
-		session.setAttribute("flag", flag);
-	} */
+		user = new TUser();
+	}
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -58,9 +39,6 @@
 		<div class="content">
 			<a href="episode/index.jsp" class="logo float-left iconfont icon-logo"></a>
 
-			<%-- <div class="float-right header-links anim" style="display:<%= flag==0?"block":"none"%>;">
-				<button class="btn btn-login js-to-login">登录</button>
-			</div> --%>
 		</div>
 	</div>
 	
@@ -148,29 +126,11 @@
 			<div id="collect" class="nav-show">
 				<ul class="like-list" style="display:<%= flag==1?"block":"none"%>;"></ul>
 				<div style="display: <%= flag==0?"block":"none"%>" class="no-like">
-					<img src="images/no_collect.png" /><p>暂无收藏，赶紧去看看吧</p>
+					<img src="images/noCollect.png" /><p>暂无收藏，赶紧去看看吧</p>
 				</div>
 			</div>
 			
 		</div>
-	</div>
-	<!-- 登录 -->
-	<div class="dialog login-register-dialog login-dialog" style="display: none;">
-		<div class="close iconfont icon-close"></div>
-		<div class="logo iconfont icon-logo"></div>
-		<form name="login-form" class="login-form" action="user/userLogin" method="post">
-			<div class="input-box input-username-box">
-				<input type="text" class="input-username" name="username" placeholder="用户名" value="" />
-			</div>
-			<div class="input-box input-password-box">
-				<input type="password" class="input-password" name="password" placeholder="密码" value="" />
-			</div>
-			<div class="error-msg-inner">
-				<p class="error-msg"></p>
-			</div>
-			<input type="hidden" value="personal_center" name="page"/>
-			<button type="button" class="btn-login" id="click-to-login" style="pointer-events: auto;">登录</button>
-		</form>
 	</div>
 	<!-- 上传图片box -->
 	<div class="upload-box" style="display:none;">
@@ -206,7 +166,7 @@
 						<label>高度</label>
 						<input type="text" id="h" name="h" class="file-info" />
 					</div>
-					<input type="hidden" value="<%= user.getUserId()%>" name="user_id"/>
+					<input type="hidden" value="<%= user.getUserId()%>" name="userId"/>
 					<input type="submit" class="upload-btn" value="上传" />
 				</div>
 			</form>
@@ -233,7 +193,7 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		if (<%=flag%> == 1) {//若已经登录
-			var page_episodes = null;
+			var episodes = null;
 			var total = 0;
 			var loading = false;
 			//获取段子数据
@@ -266,14 +226,15 @@
 	            var totalheight = parseFloat($(window).height()) + parseFloat(srollPos);
 	            
 	            if(($(document).height()) <= totalheight) {//执行添加一页数据!!滚动过快重复加载数据
-	            	if (total != 0 && page_episodes.hasNextPage) {//有下一页
+	            	if (total != 0 && page.hasNextPage) {//有下一页
 	            		loading = true;
 	            		//获取下一页段子数据
 	            		$.ajax({
 	            			type : "post",
-	            			url : "episode/getEpisodes_ajax",
+	            			url : "episode/getEpisodeByUserId_ajax",
 	            			data : {
-	            				"page.pageNum" : page.pageNum+1
+	        					"page.pageNum" : page.pageNum+1,
+	        					"userId" : <%= user.getUserId()%>
 	            			},
 	            			dataType:"json",
 	            			success : function(data) {
@@ -293,21 +254,22 @@
 			//取消收藏--on()绑定click()事件
 			$(".like-list").on("click", ".like-remove", function() {
 				var text = $(this).parent().prev().attr("href");
-				var episode_id = text.substring(text.length-10, text.length);
+				var episodeId = text.substring(text.length-10, text.length);
 				$.ajax({
 					type : "post",
 					url : "episode/removeCollectEpisode_ajax",
 					data : {
 						"userId" : "<%= user.getUserId()%>",
-						"episodeId" : episode_id
+						"episodeId" : episodeId
 					},
 					dataType:"json",
 					success : function(data) {
         			},
         			error : function(msg) {
+        				alert("请求错误："+msg);
         			}
 				});
-				total -= 1;
+				total -= 1;//收藏减少
 				$(this).parents("li").slideUp("fast");
 				if (total == 0) {
 					$(".like-list").css("display", "none");
@@ -336,17 +298,6 @@
 	}
 
 
-	//回调函数
- 	function fnCallback(data) {
-		if (data.flag == 1) {
-			$("input[name='username']").val($("#user-id").html());
-			$("input[name='password']").val("<%= user.getUserPassword()%>");
-			$(".login-form").submit();
-		}
-		else {
-			alert("系统错误，请稍后重试！");
-		}
-	}
 	//处理修改昵称信息AJAX
  	$("#button-nickname").click(function() {
  		if ($("#input-nickname").val() == ''
@@ -361,8 +312,8 @@
 				url : "user/updateUserInfo_ajax",
 				data : {
 					"type" : "1",
-					"user_id" : $("#user-id").html(),
-					"user_info" : $("#input-nickname").val()
+					"userId" : $("#user-id").html(),
+					"userNickname" : $("#input-nickname").val()
 				},
 				dataType:"json",
 				success : function(data) {
@@ -382,8 +333,8 @@
 			url : "user/updateUserInfo_ajax",
 			data : {
 				"type" : "2",
-				"user_id" : $("#user-id").html(),
-				"user_info" : $("input[type=radio]:checked").val()
+				"userId" : $("#user-id").html(),
+				"userGender" : $("input[type=radio]:checked").val()
 			},
 			dataType:"json",
 			success : function(data) {
@@ -408,8 +359,8 @@
 				url : "user/updateUserInfo_ajax",
 				data : {
 					"type" : "3",
-					"user_id" : $("#user-id").html(),
-					"user_info" : $("#input-password").val()
+					"userId" : $("#user-id").html(),
+					"userPassword" : $("#input-password").val()
 				},
 				dataType:"json",
 				success : function(data) {

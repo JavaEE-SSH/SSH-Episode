@@ -28,14 +28,12 @@ public class CommentDaoImpl extends HibernateDaoSupport implements CommentDao {
 	
 	@Override
 	public List<TComment> getCommentsByEpisodeId(int pageNum, int episodeId) {
-		//鑾峰彇褰撳墠 session
 		Session session = this.getSessionFactory().getCurrentSession();
-		//鍒涘缓 criteria 瀵硅薄
 		Criteria criteria = session.createCriteria(TComment.class);
-		//璁剧疆鏌ヨ鏉′欢
+		//设置查询条件
 		Criterion criterion = Restrictions.eq("TEpisode.episodeId", episodeId);
 		criteria.add(criterion);
-		criteria.addOrder(Order.desc("commentGood"));//鎸夌偣璧為檷搴忔帓鍒�
+		criteria.addOrder(Order.desc("commentGood"));//设置点赞数降序
 		criteria.setFirstResult((pageNum-1) * 10);
 		criteria.setMaxResults(10);
 		
@@ -71,11 +69,9 @@ public class CommentDaoImpl extends HibernateDaoSupport implements CommentDao {
 	
 	@Override
 	public int getCommentIdByUserIdAndEpisodeId(int userId, int episodeId) {
-		//鑾峰彇褰撳墠 session
 		Session session = this.getSessionFactory().getCurrentSession();
-		//鍒涘缓 criteria 瀵硅薄
 		Criteria criteria = session.createCriteria(TComment.class);
-		//璁剧疆鏌ヨ鏉′欢
+		//设置查询条件
 		Criterion criterion1 = Restrictions.eq("TEpisode.episodeId", episodeId);
 		Criterion criterion2 = Restrictions.eq("TUser.userId", userId);
 		criteria.add(criterion1);
@@ -90,13 +86,13 @@ public class CommentDaoImpl extends HibernateDaoSupport implements CommentDao {
 	@Override
 	public void insertGoodComment(int commentId, int userId) {
 		Session session = this.getSessionFactory().getCurrentSession();
-		TUser user = session.get(TUser.class, userId);//鐢ㄦ埛
-		TComment comment = session.get(TComment.class, commentId);//璇勮
-		//璁剧疆鍏宠仈鍏崇郴
+		TUser user = session.get(TUser.class, userId);
+		TComment comment = session.get(TComment.class, commentId);
+		//设置关联
 		user.getTComments().add(comment);
 		comment.getTUsers().add(user);
 		comment.setCommentGood(comment.getCommentGood()+1);
-		//淇濆瓨鏁版嵁
+		//保存数据
 		session.update(comment);
 		session.update(user);
 	}

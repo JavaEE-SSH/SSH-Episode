@@ -18,30 +18,8 @@ public interface UserService {
 	public TUser getUserByCommentId(int commentId);
 	
 	/**
-	 * 更新用户昵称
-	 * @param userId
-	 * @param nickName
+	 * 修改 user
+	 * @param user
 	 */
-	public void upDateUserNicknameById(int userId,String nickName);
-	
-	/**
-	 * 更新用户性别
-	 * @param userId
-	 * @param gender
-	 */
-	public void upDateUserGenderById(int userId,int gender);
-	
-	/**
-	 * 更新用户密码
-	 * @param userId
-	 * @param password
-	 */
-	public void upDateUserPasswordById(int userId,String password);
-	
-	/**
-	 * 更新用户头像
-	 * @param userId
-	 * @param image
-	 */
-	public void upDateUserImageById(int userId,String image);
+	public void updateUserInfo(TUser user);
 }
