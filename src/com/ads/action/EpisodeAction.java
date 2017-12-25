@@ -161,12 +161,12 @@ public class EpisodeAction extends ActionSupport implements ModelDriven<TEpisode
 					@Result(name=SUCCESS, type="json")
 			})
 	public String getEpisodeByUserId_ajax() {
-		System.out.println(userId+"=============="+page.getPageNum());
+		
 		List<TEpisode> episodes = episodeService
 				.getEpisodesByUserId(userId, page.getPageNum());
 		
 		long total = episodeService.getEpisodeNumByUserId(userId);
-		System.out.println(total+"==================================");
+		
 		this.page.setHasNextPage(PageUtil.hasNextPage(page.getPageNum(), 10, total));
 		this.page.setTotal(total);
 		this.page.setPerPageNum(10);

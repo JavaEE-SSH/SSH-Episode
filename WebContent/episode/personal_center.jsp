@@ -246,14 +246,14 @@
 				},
 				dataType:"json",
 				success : function(data) {
-					if (data.page_episodes.total == 0) {
+					if (data.page.total == 0) {
 						$(".like-list").css("display", "none");
 						$(".no-like").css("display","block");
 					}
 					else {
-						page_episodes = data.page_episodes;
-						total = page_episodes.total;
-						fnCallback_collect(page_episodes);
+						page = data.page;
+						total = page.total;
+						fnCallback_collect(data);
 					}
 				},
 				error : function(msg) {
@@ -273,12 +273,12 @@
 	            			type : "post",
 	            			url : "episode/getEpisodes_ajax",
 	            			data : {
-	            				"page_num" : page_episodes.nextPage
+	            				"page.pageNum" : page.pageNum+1
 	            			},
 	            			dataType:"json",
 	            			success : function(data) {
-	            				page_episodes = data.page_episodes;//更新 page_episodes 数据
-	            				fnCallback_collect(page_episodes);
+	            				page = data.page;//更新 page 数据
+	            				fnCallback_collect(data);
 	            			},
 	            			error : function(msg) {
 	            				alert("请求失败！");
@@ -294,15 +294,18 @@
 			$(".like-list").on("click", ".like-remove", function() {
 				var text = $(this).parent().prev().attr("href");
 				var episode_id = text.substring(text.length-10, text.length);
-			
 				$.ajax({
 					type : "post",
 					url : "episode/removeCollectEpisode_ajax",
 					data : {
-						"user_id" : "<%= user.getUserId()%>",
-						"episode_id" : episode_id
+						"userId" : "<%= user.getUserId()%>",
+						"episodeId" : episode_id
 					},
-					dataType:"json"
+					dataType:"json",
+					success : function(data) {
+        			},
+        			error : function(msg) {
+        			}
 				});
 				total -= 1;
 				$(this).parents("li").slideUp("fast");
@@ -314,15 +317,15 @@
 		}
 	});
 
-	function fnCallback_collect(page_episodes) {
-		var list = page_episodes.list;//段子分页数据
+	function fnCallback_collect(data) {
+		var list = data.episodes;//段子分页数据
 		var content = $(".like-list");
 		
 		if (list != null) {
 			for (var i=0; i<list.length; i++) {
 				content.append('<li class="hasnoimg"><div class="doc-items-wrapper"><div class="doc-items">'
-						+'<a href="episode/getEpisodeById?episode_id='+list[i].episode_id+'">'
-						+'<h3>'+list[i].episode_content.substr(0,70)+'…</h3></a>'
+						+'<a href="episode/getEpisodeById?episodeId='+list[i][0]+'">'
+						+'<h3>'+list[i][1].substr(0,70)+'…</h3></a>'
 						+'<p><span class="like-remove">取消收藏<i class="iconfont icon-close-half"></i></span></p>'
 						+'</div></div></li>');
 			}
