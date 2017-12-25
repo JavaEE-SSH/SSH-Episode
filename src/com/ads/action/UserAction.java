@@ -156,13 +156,14 @@ public class UserAction extends ActionSupport implements ModelDriven<TUser>, Req
 			this.userSerivce.upDateUserPasswordById(Integer.parseInt(user_id), user_info);
 			ActionContext.getContext().getValueStack().push(1);
 		}
-		
+		TUser u = this.userSerivce.getUserById(Integer.parseInt(user_id));
+		this.sessionMap.put("user", u);//保存 user 到 session 中
 		return SUCCESS;
 	}
 	
 	@Action(value="uploadImage",
 			results={
-					@Result(name=SUCCESS, type="json")
+					@Result(name=SUCCESS,location="/episode/personal_center.jsp")
 			})
 	public String uploadImage() {
 		
@@ -176,12 +177,14 @@ public class UserAction extends ActionSupport implements ModelDriven<TUser>, Req
 		File destFile = new File(destPath,myFileFileName);
 		try {
 			FileUtils.copyFile(myFile, destFile);
+			this.userSerivce.upDateUserImageById(Integer.parseInt(user_id), myFileFileName);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return "error";
 		}
-		
+		TUser u = this.userSerivce.getUserById(Integer.parseInt(user_id));
+		this.sessionMap.put("user", u);//保存 user 到 session 中
 		return SUCCESS;
 	}
 	

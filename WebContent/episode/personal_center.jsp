@@ -336,7 +336,6 @@
 	//回调函数
  	function fnCallback(data) {
 		if (data.flag == 1) {
-			alert("修改成功！");
 			$("input[name='username']").val($("#user-id").html());
 			$("input[name='password']").val("<%= user.getUserPassword()%>");
 			$(".login-form").submit();
@@ -364,6 +363,7 @@
 				},
 				dataType:"json",
 				success : function(data) {
+					$("#p-nick").html($("#input-nickname").val());
 					alert("修改昵称成功！");
 				},
 				error : function(msg) {

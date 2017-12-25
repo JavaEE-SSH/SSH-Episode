@@ -39,4 +39,9 @@ public class UserServiceImpl implements UserService {
 	public void upDateUserPasswordById(int userId, String password) {
 		userDao.upDateUserPasswordById(userId, password);
 	}
+
+	@Override
+	public void upDateUserImageById(int userId, String image) {
+		userDao.upDateUserImageById(userId, image);
+	}
 }

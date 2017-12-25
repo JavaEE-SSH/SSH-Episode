@@ -81,4 +81,14 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
 		session.merge(user);
 		
 	}
+
+	@Override
+	public void upDateUserImageById(int userId, String image) {
+		Session session = this.getSessionFactory().getCurrentSession();
+		
+		TUser user = session.get(TUser.class, userId);
+		user.setUserImage(image);
+		
+		session.merge(user);
+	}
 }

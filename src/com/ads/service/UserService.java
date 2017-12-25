@@ -37,4 +37,11 @@ public interface UserService {
 	 * @param password
 	 */
 	public void upDateUserPasswordById(int userId,String password);
+	
+	/**
+	 * 更新用户头像
+	 * @param userId
+	 * @param image
+	 */
+	public void upDateUserImageById(int userId,String image);
 }
