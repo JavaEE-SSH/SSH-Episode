@@ -37,4 +37,5 @@ public interface UserDao {
 	 * @param nickName
 	 */
 	public void upDateUserNicknameById(int userId,String nickName);
+	public int getNewUserId();
 }

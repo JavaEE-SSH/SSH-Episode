@@ -2,6 +2,7 @@ package com.ads.action;
 
 import java.util.Map;
 
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -31,7 +32,7 @@ public class UserAction extends ActionSupport implements ModelDriven<TUser>, Req
 	private TUser user;
 //	private String[] page;
 //	
-//	//属性的 getter setter
+//	//灞炴�х殑 getter setter
 //	public String[] getPage() {
 //		return page;
 //	}
@@ -39,7 +40,7 @@ public class UserAction extends ActionSupport implements ModelDriven<TUser>, Req
 //		this.page = page;
 //	}
 
-	//实现接口方法
+	//瀹炵幇鎺ュ彛鏂规硶
 	@Override
 	public TUser getModel() {
 		this.user = new TUser();
@@ -56,9 +57,9 @@ public class UserAction extends ActionSupport implements ModelDriven<TUser>, Req
 		this.sessionMap = arg0;
 	}
 
-	//action 开始
+	//action 寮�濮�
 	/**
-	 * 异步登录
+	 * 寮傛鐧诲綍
 	 * 
 	 * @param userId
 	 * @param userPassword
@@ -69,18 +70,18 @@ public class UserAction extends ActionSupport implements ModelDriven<TUser>, Req
 					@Result(name=SUCCESS, type="json")
 			})
 	public String userLogin_ajax() {
-		int userId = this.user.getUserId();// 传递的用户id
-		String password = this.user.getUserPassword(); //  传递的用户密码
-		TUser u = this.userSerivce.getUserById(userId);// 从数据库中获取的用户信息
+		int userId = this.user.getUserId();// 浼犻�掔殑鐢ㄦ埛id
+		String password = this.user.getUserPassword(); //  浼犻�掔殑鐢ㄦ埛瀵嗙爜
+		TUser u = this.userSerivce.getUserById(userId);// 浠庢暟鎹簱涓幏鍙栫殑鐢ㄦ埛淇℃伅
 
 		if (u != null
-				&& password.equals(u.getUserPassword())) {//登录成功
-			//保存 u
-			this.sessionMap.put("user", u);//保存 user 到 session 中
+				&& password.equals(u.getUserPassword())) {//鐧诲綍鎴愬姛
+			//淇濆瓨 u
+			this.sessionMap.put("user", u);//淇濆瓨 user 鍒� session 涓�
 			ActionContext.getContext().getValueStack().push(1);
 		}
-		else {//登录失败
-			ActionContext.getContext().getValueStack().push(0);// 在栈顶放一个 0, 标志登录失败
+		else {//鐧诲綍澶辫触
+			ActionContext.getContext().getValueStack().push(0);// 鍦ㄦ爤椤舵斁涓�涓� 0, 鏍囧織鐧诲綍澶辫触
 		}
 		
 		return SUCCESS;
@@ -102,6 +103,21 @@ public class UserAction extends ActionSupport implements ModelDriven<TUser>, Req
 			this.userSerivce.upDateUserNicknameById(Integer.parseInt(user_id), user_info);
 			ActionContext.getContext().getValueStack().push(1);
 		}
+		
+		return SUCCESS;
+	}
+	@Action(value="userRegister",
+			results={
+					@Result(name=SUCCESS, type="json"),
+					@Result(name=SUCCESS, location="/episode/index.jsp")
+			})
+	public String userRegister() {
+		
+		this.request = ServletActionContext.getRequest();		
+		String userNickname = this.request.getParameter("userNickname");
+		String userPassword = this.request.getParameter("userPassword");
+		int userId = userSerivce.insertUser(userNickname, userPassword);
+		requestMap.put("user_id", userId);
 		
 		return SUCCESS;
 	}

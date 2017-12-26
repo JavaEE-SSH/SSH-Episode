@@ -23,4 +23,5 @@ public interface UserService {
 	 * @param nickName
 	 */
 	public void upDateUserNicknameById(int userId,String nickName);
+	public int insertUser(String user_nickname, String user_password);
 }

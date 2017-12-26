@@ -16,6 +16,9 @@
 	if (user != null) {
 		flag = 1;
 	}
+	if (user == null) {
+		user = new TUser();
+	}
 	//----注册处理
 	String user_id = null;
 	if (request.getAttribute("user_id") != null) {
@@ -48,11 +51,11 @@
 				<button class="btn btn-login js-to-login" style="display: <%=flag==0?"inline-block":"none"%>;">登录</button>
 				<!-- 登陆成功，个人信息 -->
 				<div class="user-info-box" style="display: <%=flag==1?"block":"none"%>;">
-<!-- 					<a class="user-info"> -->
-<%-- 						<img src="images/<%= user.getUserImage()==null?"she.png":user.getUserImage()%>" class="profile"/> --%>
-<%-- 						<span class="nickname"><%= user.getUserNickname()==null?"":user.getUserNickname()%></span> --%>
-<!-- 						<span class="iconfont icon-down"></span> -->
-<!-- 					</a> -->
+					<a class="user-info">
+						<img src="images/<%= user.getUserImage()==null?"she.png":user.getUserImage()%>" class="profile"/>
+						<span class="nickname"><%= user.getUserNickname()==null?"":user.getUserNickname()%></span>
+						<span class="iconfont icon-down"></span>
+					</a>
 					<div class="user-info-menu" style="display: none;">
 						<a href="episode/personal_center.jsp">个人中心</a>
 						<a class="logout-btn">退出</a>
@@ -65,17 +68,17 @@
 	<div class="main index-main">
 		<!-- 右侧广告 -->
 		<div class="aside">
-			<!-- <div class="normal-channel-info js-channel-subscribe-item">
+		 	 <div class="normal-channel-info js-channel-subscribe-item">
 				<img src="images/she.png" alt="icon" class="channel-image"/>
 				<p class="user-info"></p>
-			</div> -->
-<%-- 			<a href="<%= flag==1?"episode/personal_center.jsp":"episode/index.jsp"%>"> --%>
-<!-- 				<div class="profile-wrapper"> -->
-<%-- 					<img src="images/<%= user.getUserImage()==null?"she.png":user.getUserImage()%>" /> --%>
-<%-- 					<p id="p-nick" class="nickname"><%= user.getUserNickname()==null?"":user.getUserNickname()%></p> --%>
-<%-- 					<p><%= user.getUserId()==0?"":user.getUserId()%></p> --%>
-<!-- 				</div> -->
-<!-- 			</a> -->
+			</div>
+			<a href="<%= flag==1?"episode/personal_center.jsp":"episode/index.jsp"%>">
+				<div class="profile-wrapper">
+					<img src="images/<%= user.getUserImage()==null?"she.png":user.getUserImage()%>" />
+					<p id="p-nick" class="nickname"><%= user.getUserNickname()==null?"":user.getUserNickname()%></p>
+					<p><%= user.getUserId()==0?"":user.getUserId()%></p>
+				</div>
+			</a>
 			<div class="advertisement">
 				<p>老<br />板<br />，<br />打<br />广<br />告<br />吗<br />？</p>
 			</div>

@@ -1,5 +1,6 @@
 eclipse.preferences.version=1
 encoding//src/com/ads/action/EpisodeAction.java=UTF-8
+encoding//src/com/ads/action/UserAction.java=UTF-8
 encoding//src/com/ads/dao/EpisodeDao.java=UTF-8
 encoding//src/com/ads/dao/impl/CommentDaoImpl.java=UTF-8
 encoding//src/com/ads/dao/impl/EpisodeDaoImpl.java=UTF-8

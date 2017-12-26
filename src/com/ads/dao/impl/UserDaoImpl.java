@@ -1,7 +1,12 @@
 package com.ads.dao.impl;
 
+import java.util.Date;
+import java.util.List;
+
 import javax.annotation.Resource;
 
+import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
@@ -9,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ads.dao.UserDao;
 import com.ads.pojo.TComment;
+import com.ads.pojo.TEpisode;
 import com.ads.pojo.TUser;
 
 @Repository("userDao")
@@ -41,7 +47,15 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
 	
 	@Override
 	public void insertUser(int userId, String userNickname, String userPassword) {
-		
+		Session session = this.getSessionFactory().getCurrentSession();
+		TUser user = new TUser();
+		user.setUserId(userId);
+		user.setUserNickname(userNickname);
+		user.setUserPassword(userPassword);
+		user.setLoginTime(new Date());
+		user.setUserGender(1);
+		user.setUserImage("");
+		session.save(user);
 	}
 
 	@Override
@@ -59,5 +73,15 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
 		user.setUserNickname(nickName);
 		
 		session.merge(user);
+	}
+	@Override
+	public int getNewUserId(){
+		Session session = this.getSessionFactory().getCurrentSession();
+		//创建 criteria 对象
+		Criteria criteria = session.createCriteria(TUser.class);		
+		@SuppressWarnings("unchecked")
+		List<TUser> TUsers = criteria.list();
+		
+		return TUsers.get(TUsers.size()-1).getUserId()+1;
 	}
 }
