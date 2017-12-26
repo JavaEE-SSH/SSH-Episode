@@ -1,5 +1,7 @@
 package com.ads.service.impl;
 
+import java.util.Date;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -37,5 +39,10 @@ public class UserServiceImpl implements UserService {
 		userDao.insertUser(userId, user_nickname, user_password);
 		
 		return userId;
+	}
+
+	@Override
+	public void deleteUser(Date loginTime) {
+		userDao.deleteUser(loginTime);
 	}
 }

@@ -23,8 +23,8 @@
   <property generated="never" lazy="false" name="userPassword" type="string">
    <column length="20" name="user_password" not-null="true"/>
   </property>
-  <set cascade="save-update" fetch="select" inverse="true" lazy="true"
-   name="TEpisodes" sort="unsorted" table="t_collect">
+  <set cascade="all" fetch="select" lazy="true" name="TEpisodes"
+   sort="unsorted" table="t_collect">
    <key>
     <column name="user_id" not-null="true"/>
    </key>
@@ -32,8 +32,8 @@
     <column name="episode_id" not-null="true"/>
    </many-to-many>
   </set>
-  <set cascade="all" fetch="select" inverse="true" lazy="true"
-   name="TComments" sort="unsorted" table="t_good_comment">
+  <set cascade="all" fetch="select" lazy="true" name="TComments"
+   sort="unsorted" table="t_good_comment">
    <key>
     <column name="user_id" not-null="true"/>
    </key>
@@ -41,14 +41,15 @@
     <column name="comment_id" not-null="true"/>
    </many-to-many>
   </set>
-  <set fetch="select" inverse="true" lazy="true" name="TComments_1"
-   sort="unsorted" table="t_comment">
+  <set cascade="all" fetch="select" inverse="true" lazy="true"
+   name="TComments_1" sort="unsorted" table="t_comment">
    <key>
     <column name="user_id" not-null="true"/>
    </key>
    <one-to-many class="com.ads.pojo.TComment"/>
   </set>
-  <set fetch="select" lazy="true" name="TEpisodes_1" sort="unsorted" table="t_good_episode">
+  <set cascade="all" fetch="select" lazy="true" name="TEpisodes_1"
+   sort="unsorted" table="t_good_episode">
    <key>
     <column name="user_id" not-null="true"/>
    </key>

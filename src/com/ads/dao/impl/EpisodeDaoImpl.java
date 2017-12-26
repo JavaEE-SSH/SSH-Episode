@@ -1,6 +1,8 @@
 package com.ads.dao.impl;
 
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -47,14 +49,32 @@ public class EpisodeDaoImpl extends HibernateDaoSupport implements EpisodeDao {
 	}
 
 	@Override
-	public void deleteEpisode(String addTime) {
+	public void deleteEpisode(Date addTime) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
 		
+		Session session = this.getSessionFactory().getCurrentSession();
+		
+		String hql = "DELETE FROM TEpisode e WHERE e.addDate < ?";
+		
+		Query query2 = session.createQuery(hql);//删除段子
+		query2.setParameter(0, addTime);
+		int count = query2.executeUpdate();
+		
+		System.out.println(sdf.format(new Date())+" : 删除段子"+count+"条");
 	}
 
 	@Override
 	public void insertEpisode(String episodeContent) {
+		Session session = this.getSessionFactory().getCurrentSession();
 		
+		TEpisode episode = new TEpisode();
+		episode.setEpisodeContent(episodeContent);
+		episode.setEpisodeGood(0);
+		episode.setAddDate(new Date());
+		
+		session.merge(episode);
 	}
+	
 	public long getEpisodeNum(){
 		Session session = this.getSessionFactory().getCurrentSession();
 		String hql = "SELECT count(*) FROM TEpisode";

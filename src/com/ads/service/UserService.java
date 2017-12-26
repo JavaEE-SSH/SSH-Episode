@@ -1,5 +1,7 @@
 package com.ads.service;
 
+import java.util.Date;
+
 import com.ads.pojo.TUser;
 
 public interface UserService {
@@ -29,4 +31,10 @@ public interface UserService {
 	 * @param password
 	 */
 	public int insertUser(String user_nickname, String user_password);
+
+	/**
+	 * 删除用户
+	 * @param string
+	 */
+	public void deleteUser(Date string);
 }

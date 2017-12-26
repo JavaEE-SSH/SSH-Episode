@@ -1,5 +1,6 @@
 package com.ads.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.ads.pojo.TEpisode;
@@ -64,7 +65,7 @@ public interface EpisodeService {
 	 *删除段子
 	 * @param add_time
 	 */
-	public void deleteEpisode(String addTime);
+	public void deleteEpisode(Date addTime);
 	
 	/**
 	 * 添加段子

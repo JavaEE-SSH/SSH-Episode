@@ -1,5 +1,7 @@
 package com.ads.dao;
 
+import java.util.Date;
+
 import com.ads.pojo.TUser;
 
 public interface UserDao {
@@ -35,4 +37,10 @@ public interface UserDao {
 	 * @param user
 	 */
 	public void updateUser(TUser user);
+	
+	/**
+	 * 删除用户
+	 * @param loginTime
+	 */
+	public void deleteUser(Date loginTime);
 }

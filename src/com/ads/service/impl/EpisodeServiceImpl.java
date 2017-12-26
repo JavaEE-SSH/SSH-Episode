@@ -1,5 +1,6 @@
 package com.ads.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -73,13 +74,13 @@ public class EpisodeServiceImpl implements EpisodeService {
 	}
 
 	@Override
-	public void deleteEpisode(String addTime) {
-		
+	public void deleteEpisode(Date addTime) {
+		episodeDao.deleteEpisode(addTime);
 	}
 
 	@Override
 	public void insertEpisode(String episodeContent) {
-		
+		episodeDao.insertEpisode(episodeContent);
 	}
 
 	@Override

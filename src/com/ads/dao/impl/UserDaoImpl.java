@@ -1,10 +1,12 @@
 package com.ads.dao.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.annotation.Resource;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
@@ -72,5 +74,19 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
 		criteria.setMaxResults(1);//只返回一条数据
 		
 		return ((TUser) criteria.uniqueResult()).getUserId()+1;
+	}
+
+	@Override
+	public void deleteUser(Date loginTime) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Session session = this.getSessionFactory().getCurrentSession();
+		
+		String hql = "DELETE FROM TUser u WHERE u.loginTime < ?";
+		
+		Query query = session.createQuery(hql);
+		query.setParameter(0, loginTime);
+		int count = query.executeUpdate();
+		
+		System.out.println(sdf.format(new Date())+" : 删除用户"+count+"条");
 	}
 }

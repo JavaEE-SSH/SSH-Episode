@@ -212,7 +212,7 @@
 		
 		if (list != null) {
 			for (var i=0; i<list.length; i++) {
-				content.append('<a href="episode/getEpisodeById?episodeId='+list[i].episodeId+'" target="_blank" class="item doc doc-joke">'
+				content.append('<a href="episode/getEpisodeById?episodeId='+list[i].episodeId+'" class="item doc doc-joke">'
 						+'<div class="doc-title">'+list[i].episodeContent.substr(0,10)+'...</div>'
 						+'<h3 class="doc-summary">'+list[i].episodeContent+'</h3>'
 						+'<div class="doc-info"></div></a>');

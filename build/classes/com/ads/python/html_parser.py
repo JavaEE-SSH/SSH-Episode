@@ -42,7 +42,7 @@ class HtmlParser(object):
         res_data['url'] = page_url
         #class="j-r-list-c-desc"
         node = soup.find('div', class_='j-r-list-c-desc').find('h1')
-        if len(node.get_text()) * 3 < 1000: # 只要指定长度以内的数据
+        if len(node.get_text()) * 2 < 1000: # 只要指定长度以内的数据
             res_data['content'] = node.get_text()
         else:
             res_data['content'] = None;

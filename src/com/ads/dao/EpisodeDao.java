@@ -1,5 +1,6 @@
 package com.ads.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import com.ads.pojo.TEpisode;
@@ -35,7 +36,7 @@ public interface EpisodeDao {
 	 * 按时间删除段子
 	 * @param addTime
 	 */
-	public void deleteEpisode(String addTime);
+	public void deleteEpisode(Date addTime);
 	
 	/**
 	 * 新增段子
