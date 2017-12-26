@@ -18,10 +18,15 @@ public interface UserService {
 	public TUser getUserByCommentId(int commentId);
 	
 	/**
-	 * 更新用户昵称
-	 * @param userId
-	 * @param nickName
+	 * 修改 user
+	 * @param user
 	 */
-	public void upDateUserNicknameById(int userId,String nickName);
+	public void updateUserInfo(TUser user);
+	
+	/**
+	 * 新增用户
+	 * @param user_nickname
+	 * @param password
+	 */
 	public int insertUser(String user_nickname, String user_password);
 }

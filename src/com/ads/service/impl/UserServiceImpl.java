@@ -26,9 +26,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void upDateUserNicknameById(int userId, String nickName) {
-		userDao.upDateUserNicknameById(userId, nickName);
+	public void updateUserInfo(TUser user) {
+		userDao.updateUser(user);
 	}
+	
+	
 	@Override
 	public int insertUser(String user_nickname, String user_password){
 		int userId = userDao.getNewUserId();

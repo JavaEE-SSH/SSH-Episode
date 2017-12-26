@@ -26,16 +26,13 @@ public interface UserDao {
 	public void insertUser(int userId, String userNickname, String userPassword);
 	
 	/**
+	 * 获取新用户的id
+	 */
+	public int getNewUserId();
+	
+	/**
 	 * 修改 user
 	 * @param user
 	 */
 	public void updateUser(TUser user);
-	
-	/**
-	 * 更新用户昵称
-	 * @param userId
-	 * @param nickName
-	 */
-	public void upDateUserNicknameById(int userId,String nickName);
-	public int getNewUserId();
 }

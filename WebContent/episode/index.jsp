@@ -16,7 +16,7 @@
 	if (user != null) {
 		flag = 1;
 	}
-	if (user == null) {
+	else {
 		user = new TUser();
 	}
 	//----注册处理
@@ -68,10 +68,6 @@
 	<div class="main index-main">
 		<!-- 右侧广告 -->
 		<div class="aside">
-		 	 <div class="normal-channel-info js-channel-subscribe-item">
-				<img src="images/she.png" alt="icon" class="channel-image"/>
-				<p class="user-info"></p>
-			</div>
 			<a href="<%= flag==1?"episode/personal_center.jsp":"episode/index.jsp"%>">
 				<div class="profile-wrapper">
 					<img src="images/<%= user.getUserImage()==null?"she.png":user.getUserImage()%>" />
@@ -86,7 +82,7 @@
 		<!-- 左侧段子 -->
 		<div id="episode" class="channel-news channel-new-0">
 		</div>
-		<div class="no-more-episodes" style="display: inline-block;">已加载全部评论</div>
+		<div class="no-more-episodes" style="display: inline-block;">已加载全部段子</div>
 	</div>
 	
 	<div class="footer-mini-wrapper">
@@ -203,7 +199,7 @@
             			loading = false;
             		})
             	}
-            	else if (!data.hasNextPage) {//数据加载完成
+            	else if (!page.hasNextPage) {//数据加载完成
             		$(".no-more-episodes").html("已加载全部内容");
             	}
             }
@@ -235,7 +231,7 @@
 			$(".login-dialog .error-msg").html('用户名或密码错误！');
 		}
 		else {
-			window.location.reload();
+			window.location.replace("episode/index.jsp");
 		}
 	}
 	//处理登录AJAX
