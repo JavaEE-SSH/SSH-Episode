@@ -131,7 +131,7 @@
 				<input id="register-userPassword" type="password" class="input-password" name="userPassword" placeholder="在这里输入您的密码" value="">
 			</div>
 			<div class="input-box input-password-box">
-				<input id="register-userPassword2" type="password" class="input-password2" name="userPassword2" placeholder="请重新确认一遍密码" value="">
+				<input id="register-userPassword2" type="password" class="input-password2" placeholder="请重新确认一遍密码" value="">
 			</div>
 			<div class="error-msg-inner">
 				<p class="error-msg"></p>

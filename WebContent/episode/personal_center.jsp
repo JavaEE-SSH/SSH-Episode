@@ -166,7 +166,7 @@
 						<label>高度</label>
 						<input type="text" id="h" name="h" class="file-info" />
 					</div>
-					<input type="hidden" value="<%= user.getUserId()%>" name="userId"/>
+					<input type="hidden" name="userId" value="<%= user.getUserId()%>"/>
 					<input type="submit" class="upload-btn" value="上传" />
 				</div>
 			</form>

@@ -1,9 +1,13 @@
 package com.ads.dao.impl;
 
+import java.util.Date;
+
 import javax.annotation.Resource;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 
@@ -41,7 +45,15 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
 	
 	@Override
 	public void insertUser(int userId, String userNickname, String userPassword) {
-		
+		Session session = this.getSessionFactory().getCurrentSession();
+		TUser user = new TUser();
+		user.setUserId(userId);
+		user.setUserNickname(userNickname);
+		user.setUserPassword(userPassword);
+		user.setLoginTime(new Date());
+		user.setUserGender(1);
+		user.setUserImage("default.png");
+		session.save(user);
 	}
 
 	@Override
@@ -49,5 +61,16 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
 		Session session = this.getSessionFactory().getCurrentSession();
 		
 		session.merge(user);
+	}
+	
+	@Override
+	public int getNewUserId() {
+		Session session = this.getSessionFactory().getCurrentSession();
+		//创建 criteria 对象
+		Criteria criteria = session.createCriteria(TUser.class);		
+		criteria.addOrder(Order.desc("userId"));
+		criteria.setMaxResults(1);//只返回一条数据
+		
+		return ((TUser) criteria.uniqueResult()).getUserId()+1;
 	}
 }

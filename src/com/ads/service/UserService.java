@@ -22,4 +22,11 @@ public interface UserService {
 	 * @param user
 	 */
 	public void updateUserInfo(TUser user);
+	
+	/**
+	 * 新增用户
+	 * @param user_nickname
+	 * @param password
+	 */
+	public int insertUser(String user_nickname, String user_password);
 }

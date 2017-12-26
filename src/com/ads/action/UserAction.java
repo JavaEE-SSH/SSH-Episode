@@ -14,6 +14,7 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.interceptor.RequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 
 import com.ads.pojo.TUser;
@@ -25,11 +26,12 @@ import com.opensymphony.xwork2.ModelDriven;
 
 @Namespace("/user")
 @ParentPackage("json-default")
-public class UserAction extends ActionSupport implements ModelDriven<TUser>, SessionAware {
+public class UserAction extends ActionSupport implements ModelDriven<TUser>, SessionAware, RequestAware {
 	private static final long serialVersionUID = 1L;
 	@Resource
 	private UserService userSerivce;
 	private Map<String, Object> sessionMap;
+	private Map<String, Object> requestMap;
 	
 	//截图相关属性
 	private File myFile;
@@ -110,6 +112,10 @@ public class UserAction extends ActionSupport implements ModelDriven<TUser>, Ses
 	public void setSession(Map<String, Object> arg0) {
 		this.sessionMap = arg0;
 	}
+	@Override
+	public void setRequest(Map<String, Object> arg0) {
+		this.requestMap = arg0;
+	}
 
 	//action 开始
 	/**
@@ -171,11 +177,11 @@ public class UserAction extends ActionSupport implements ModelDriven<TUser>, Ses
 	@Action(value="uploadImage",
 			results={
 					@Result(name=SUCCESS, type="redirect", location="/episode/personal_center.jsp"),
-					@Result(name=ERROR, location="/episode/index.jsp")
+					@Result(name=ERROR, type="redirect", location="/episode/index.jsp")
 			})
 	public String uploadImage() {
 		//获取当前 user
-		TUser u = this.userSerivce.getUserById(this.user.getUserId());
+		TUser u = this.userSerivce.getUserById((int)this.requestMap.get("userId"));
 		destPath = ServletActionContext.getServletContext().getRealPath("/images");
 		
 		System.out.println("My file path: " + myFile);
@@ -209,4 +215,21 @@ public class UserAction extends ActionSupport implements ModelDriven<TUser>, Ses
 		return SUCCESS;
 	}
 	
+	/**
+	 * 注册
+	 * @return
+	 */
+	@Action(value="userRegister",
+			results={
+					@Result(name=SUCCESS, type="redirect", location="/episode/index.jsp")
+			})
+	public String userRegister() {
+		
+		String userNickname = this.user.getUserNickname();
+		String userPassword = this.user.getUserPassword();
+		int userId = userSerivce.insertUser(userNickname, userPassword);
+		requestMap.put("user_id", userId);
+		
+		return SUCCESS;
+	}
 }

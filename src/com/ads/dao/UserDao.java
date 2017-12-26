@@ -26,6 +26,11 @@ public interface UserDao {
 	public void insertUser(int userId, String userNickname, String userPassword);
 	
 	/**
+	 * 获取新用户的id
+	 */
+	public int getNewUserId();
+	
+	/**
 	 * 修改 user
 	 * @param user
 	 */

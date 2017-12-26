@@ -29,4 +29,13 @@ public class UserServiceImpl implements UserService {
 	public void updateUserInfo(TUser user) {
 		userDao.updateUser(user);
 	}
+	
+	
+	@Override
+	public int insertUser(String user_nickname, String user_password){
+		int userId = userDao.getNewUserId();
+		userDao.insertUser(userId, user_nickname, user_password);
+		
+		return userId;
+	}
 }
