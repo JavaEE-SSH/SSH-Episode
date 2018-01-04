@@ -16,8 +16,13 @@
 	}
 	//----获取段子信息
 	TEpisode episode = (TEpisode)request.getAttribute("episode");
-	session.setAttribute("episodeId", episode.getEpisodeId());//保存段子id-给登录操作
-
+	if (episode != null) {
+		session.setAttribute("episodeId", episode.getEpisodeId());//保存段子id-给登录操作
+	}
+	else {
+		response.sendRedirect("episode/getEpisodeById?episodeId="+session.getAttribute("episodeId"));
+	}
+	
 	//分解episode，获取相关信息
 	Set<TUser> usersOfCollect = (Set<TUser>)episode.getTUsers();//点赞的用户
 	Set<TUser> usersOfGood = (Set<TUser>)episode.getTUsers_1();//收藏的用户
@@ -290,6 +295,7 @@
 						dataType:"json",
 						success : function(data) {
 							alert("评论成功！");
+							var commentId = data;
 							total += 1;//新增一条评论
 							if ($(".no-comment").css("display") == "block") {//没有评论
 								$(".comments-list").css("display", "block");
@@ -300,7 +306,7 @@
 									+'<div class="comment-box">'
 									+'<span class="comment-nickname"><%= user.getUserNickname()%></span>'
 									+'<a class="float-right comment-delete">删除</a>'
-									+'<a class="float-right comment-like"><p style="display:none;">'+data+'</p>0赞</a>'
+									+'<a class="float-right comment-like"><p style="display:none;">'+commentId+'</p>0赞</a>'
 									+'</div><p>'+comment.commentContent+'</p></li>');
 						},
 						error : function() {
@@ -448,7 +454,7 @@
 			$(".login-dialog .error-msg").html('用户名或密码错误！');
 		}
 		else {
-			window.location.replace("episode/content.jsp");
+			window.location.reload();
 		}
 	}
 	//处理登录AJAX

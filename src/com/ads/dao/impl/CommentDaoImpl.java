@@ -67,21 +67,21 @@ public class CommentDaoImpl extends HibernateDaoSupport implements CommentDao {
 		return count;
 	}
 	
-	@Override
-	public int getCommentIdByUserIdAndEpisodeId(int userId, int episodeId) {
-		Session session = this.getSessionFactory().getCurrentSession();
-		Criteria criteria = session.createCriteria(TComment.class);
-		//设置查询条件
-		Criterion criterion1 = Restrictions.eq("TEpisode.episodeId", episodeId);
-		Criterion criterion2 = Restrictions.eq("TUser.userId", userId);
-		criteria.add(criterion1);
-		criteria.add(criterion2);
-		criteria.addOrder(Order.desc("commentId"));
-		criteria.setMaxResults(1);
-		@SuppressWarnings("unchecked")
-		List<TComment> comments = criteria.list();
-		return comments.get(0).getCommentId();
-	}
+//	@Override
+//	public int getCommentIdByUserIdAndEpisodeId(int userId, int episodeId) {
+//		Session session = this.getSessionFactory().getCurrentSession();
+//		Criteria criteria = session.createCriteria(TComment.class);
+//		//设置查询条件
+//		Criterion criterion1 = Restrictions.eq("TEpisode.episodeId", episodeId);
+//		Criterion criterion2 = Restrictions.eq("TUser.userId", userId);
+//		criteria.add(criterion1);
+//		criteria.add(criterion2);
+//		criteria.addOrder(Order.desc("commentId"));
+//		criteria.setMaxResults(1);
+//		@SuppressWarnings("unchecked")
+//		List<TComment> comments = criteria.list();
+//		return comments.get(0).getCommentId();
+//	}
 	
 	@Override
 	public void insertGoodComment(int commentId, int userId) {
@@ -101,6 +101,23 @@ public class CommentDaoImpl extends HibernateDaoSupport implements CommentDao {
 	public void insertComment(TComment comment) {
 		Session session = this.getSessionFactory().getCurrentSession();
 		session.save(comment);
+	}
+
+	@Override
+	public int getNewCommentId() {
+		Session session = this.getSessionFactory().getCurrentSession();
+		//创建 criteria 对象
+		Criteria criteria = session.createCriteria(TComment.class);		
+		criteria.addOrder(Order.desc("commentId"));
+		criteria.setMaxResults(1);//只返回一条数据
+		
+		TComment comment = (TComment) criteria.uniqueResult();
+		int commentId = 1000000000;
+		if (comment != null) {
+			commentId = comment.getCommentId() + 1;
+		}
+		
+		return commentId;
 	}
 	
 	@Override

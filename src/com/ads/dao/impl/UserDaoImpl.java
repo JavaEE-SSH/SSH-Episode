@@ -73,7 +73,13 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
 		criteria.addOrder(Order.desc("userId"));
 		criteria.setMaxResults(1);//只返回一条数据
 		
-		return ((TUser) criteria.uniqueResult()).getUserId()+1;
+		TUser user = (TUser) criteria.uniqueResult();
+		int userId = 10000000;
+		if (user != null) {
+			userId = user.getUserId() + 1;
+		}
+		
+		return userId;
 	}
 
 	@Override

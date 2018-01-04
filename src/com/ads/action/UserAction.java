@@ -228,7 +228,7 @@ public class UserAction extends ActionSupport implements ModelDriven<TUser>, Ses
 		String userNickname = this.user.getUserNickname();
 		String userPassword = this.user.getUserPassword();
 		int userId = userSerivce.insertUser(userNickname, userPassword);
-		requestMap.put("user_id", userId);
+		sessionMap.put("userId", userId);
 		
 		return SUCCESS;
 	}

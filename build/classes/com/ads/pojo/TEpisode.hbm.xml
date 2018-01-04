@@ -17,7 +17,7 @@
   <property generated="never" lazy="false" name="episodeGood" type="int">
    <column name="episode_good" not-null="true"/>
   </property>
-  <set cascade="all" fetch="select" lazy="true" name="TUsers"
+  <set cascade="delete" fetch="select" lazy="true" name="TUsers"
    sort="unsorted" table="t_collect">
    <key>
     <column name="episode_id" not-null="true"/>
@@ -26,14 +26,14 @@
     <column name="user_id" not-null="true"/>
    </many-to-many>
   </set>
-  <set cascade="all" fetch="select" inverse="true" lazy="true"
+  <set cascade="delete" fetch="select" inverse="true" lazy="true"
    name="TComments" sort="unsorted" table="t_comment">
    <key>
     <column name="episode_id" not-null="true"/>
    </key>
    <one-to-many class="com.ads.pojo.TComment"/>
   </set>
-  <set cascade="all" fetch="select" lazy="true" name="TUsers_1"
+  <set cascade="delete" fetch="select" lazy="true" name="TUsers_1"
    sort="unsorted" table="t_good_episode">
    <key>
     <column name="episode_id" not-null="true"/>

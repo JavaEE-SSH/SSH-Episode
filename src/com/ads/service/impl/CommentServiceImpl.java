@@ -55,10 +55,12 @@ public class CommentServiceImpl implements CommentService {
 	public int insertComment(String commentContent, int userId, int episodeId) {
 		TUser user = userDao.getUserById(userId);
 		TEpisode episode = episodeDao.getEpisodeById(episodeId);
+		int commentId = commentDao.getNewCommentId();
 		TComment comment = new TComment(episode, user, commentContent, 0);
+		comment.setCommentId(commentId);
 		commentDao.insertComment(comment);
 		
-		return commentDao.getCommentIdByUserIdAndEpisodeId(userId, episodeId);
+		return commentId;
 	}
 
 	@Override

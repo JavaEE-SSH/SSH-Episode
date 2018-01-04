@@ -6,7 +6,7 @@
  <class catalog="episode" name="com.ads.pojo.TComment" table="t_comment">
   <id name="commentId" type="java.lang.Integer">
    <column name="comment_id"/>
-   <generator class="identity"/>
+   <generator class="assigned"/>
   </id>
   <many-to-one class="com.ads.pojo.TEpisode" fetch="select" name="TEpisode">
    <column name="episode_id" not-null="true"/>
@@ -20,7 +20,7 @@
   <property generated="never" lazy="false" name="commentGood" type="int">
    <column name="comment_good" not-null="true"/>
   </property>
-  <set cascade="all" fetch="select" lazy="true" name="TUsers"
+  <set cascade="delete" fetch="select" lazy="true" name="TUsers"
    sort="unsorted" table="t_good_comment">
    <key>
     <column name="comment_id" not-null="true"/>

@@ -19,12 +19,10 @@
 	else {
 		user = new TUser();
 	}
-	//----注册处理
-	String user_id = null;
-	if (request.getAttribute("user_id") != null) {
-		user_id = request.getAttribute("user_id").toString();
-		System.out.println("1"+user_id);
-	}
+	
+	//注册处理
+	Integer userId = (Integer) session.getAttribute("userId");
+	session.removeAttribute("userId");
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -140,12 +138,12 @@
 		</form>
 	</div>
 	<!-- 注册成功界面 -->
-	<div class="dialog register-ok-dialog" style="display: <%= user_id==null?"none":"block"%>;">
+	<div class="dialog register-ok-dialog" style="display: <%= userId==null?"none":"block"%>;">
 		<div class="close iconfont icon-close"></div>
 		<div class="logo iconfont icon-logo"></div>
-		<p>注册成功！<br />您的账号为：<%= user_id%>,快用账号登录吧！</p>
+		<p>注册成功！<br />您的账号为：<%= userId%>,快用账号登录吧！</p>
 	</div>
-	<div class="mask" style="display: <%= user_id==null?"none":"block"%>;"></div>
+	<div class="mask" style="display: <%= userId==null?"none":"block"%>;"></div>
 	<div class="widget-tool">
 	 	<div class="item back-up icon iconfont icon-back-up anim" style="display:none;"></div>
 	 	<div class="item refresh icon iconfont icon-refresh anim"></div>

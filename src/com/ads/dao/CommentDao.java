@@ -29,13 +29,6 @@ public interface CommentDao {
 	public long getCommentNum(int episodeId);
 	
 	/**
-	 * 通过 userId 和 episodeId 获取评论id
-	 * @param userId
-	 * @param episodeId
-	 * @return int
-	 */
-	public int getCommentIdByUserIdAndEpisodeId(int userId, int episodeId);
-	/**
 	 * 点赞评论
 	 * @param commentId
 	 * @param userId
@@ -47,6 +40,12 @@ public interface CommentDao {
 	 * @param comment
 	 */
 	public void insertComment(TComment comment);
+	
+	/**
+	 * 获取最新的评论id
+	 * @return
+	 */
+	public int getNewCommentId();
 	
 	/**
 	 * 删除评论
