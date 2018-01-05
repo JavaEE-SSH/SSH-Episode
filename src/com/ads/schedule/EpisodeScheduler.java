@@ -111,8 +111,8 @@ public class EpisodeScheduler {
 			if (!destFile.exists()) {
 				destFile.createNewFile();
 			}
-			//获取输入流，Charset.forName("gbk")解决中文乱码问题
-			br = new BufferedReader(new InputStreamReader(new FileInputStream(destFile), Charset.forName("gbk")));
+			//获取输入流，Charset.forName("UTF-8")解决中文乱码问题
+			br = new BufferedReader(new InputStreamReader(new FileInputStream(destFile), Charset.forName("UTF-8")));
 			//读取数据，存入数据库
 			System.out.println("保存数据中...");
 			String line = "";
